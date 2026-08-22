@@ -1,0 +1,4 @@
+# Trained-policy registry (populated in M6b — dev doc §5.6, planner row M6b).
+# Maps a goal-condition key (and incident type) to a checkpoint path + metadata.
+# Empty scaffolding until then.
+policies: []

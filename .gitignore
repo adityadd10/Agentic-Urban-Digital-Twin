@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[oc]
+*.egg-info/
+build/
+dist/
+wheels/
+
+# Virtual environments
+.venv/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Secrets / local config
+.env
+
+# Runs & experiment artifacts (dev doc §12.2: structlog JSON + MLflow to runs/)
+runs/
+
+# Raw data is gitignored (dev doc §12.1); processed/ and scenarios/ ARE committed
+data/raw/*
+!data/raw/.gitkeep
+
+# OS cruft
+.DS_Store
+
+# Frontend (populated in M10c)
+frontend/node_modules/
+frontend/dist/

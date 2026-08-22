@@ -1,0 +1,36 @@
+services:
+  postgres:
+    # postgis/postgis publishes amd64-only images; imresamu/postgis is a
+    # multi-arch (amd64+arm64) build of the same PostGIS version, so this
+    # runs native on Apple Silicon instead of under QEMU emulation.
+    image: imresamu/postgis:16-3.4
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${UDT_POSTGRES_DB:-udt}
+      POSTGRES_USER: ${UDT_POSTGRES_USER:-udt}
+      POSTGRES_PASSWORD: ${UDT_POSTGRES_PASSWORD:-udt}
+    ports:
+      - "${UDT_POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${UDT_POSTGRES_USER:-udt} -d ${UDT_POSTGRES_DB:-udt}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # api:
+  #   Added in M10b (dev doc §11.2) once src/udt/api/main.py exists.
+  #   build: .
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   ports:
+  #     - "8000:8000"
+
+  # vllm:
+  #   Optional local LLM serving for M9b (dev doc §7.4). Only needed if not
+  #   using a hosted API for the planning layer.
+
+volumes:
+  postgres_data:

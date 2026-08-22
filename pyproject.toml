@@ -1,0 +1,88 @@
+[project]
+name = "mtp-udt"
+version = "0.1.0"
+description = "Agentic Urban Digital Twin — MTP"
+authors = [
+    { name = "Aditya Darshan Dewanjee", email = "adityadd2000@gmail.com" }
+]
+requires-python = ">=3.11,<3.13"
+readme = "README.md"
+dependencies = [
+    "pydantic>=2.9,<3",
+    "pydantic-settings>=2.5,<3",
+    "numpy>=1.26,<2",
+    "structlog>=24.4,<25",
+    "pyyaml>=6.0,<7",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3,<9",
+    "pytest-cov>=5.0,<6",
+    "ruff>=0.6,<0.7",
+    "mypy>=1.11,<2",
+    "types-pyyaml>=6.0,<7",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.5,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-root = "src"
+module-name = "udt"
+
+# --------------------------------------------------------------------------
+# ruff — lint + format
+# --------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts", "experiments"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["udt"]
+
+# --------------------------------------------------------------------------
+# mypy — strict on the core packages named in the dev doc (§12.2); other
+# packages join this list as they gain real code in later modules.
+# --------------------------------------------------------------------------
+[tool.mypy]
+python_version = "3.11"
+plugins = ["pydantic.mypy"]
+packages = ["udt.twin", "udt.envs", "udt.common", "udt.risk"]
+mypy_path = "src"
+strict = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "yaml.*"
+ignore_missing_imports = true
+
+# --------------------------------------------------------------------------
+# pytest — markers registered up front so `pytest -m phase<n>` never warns
+# about unregistered markers as later modules add their tests.
+# --------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "phase0: scaffolding",
+    "phase1: twin core",
+    "phase2: data pipeline",
+    "phase3: incidents + scenarios",
+    "phase4: rule-based baseline + harness",
+    "phase5: single-agent RL",
+    "phase6: MARL",
+    "phase7: constraint engine + constrained MARL",
+    "phase8: risk engine",
+    "phase9: LLM layer + router",
+    "phase10: full integration + UI",
+    "phase11: evaluation + ablations",
+    "slow: slow-running tests (e.g. learning smoke tests), excluded by default in CI fast lane",
+]
