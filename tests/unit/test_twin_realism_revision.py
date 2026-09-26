@@ -159,6 +159,12 @@ def test_substation_fragility_matches_lab_table() -> None:
     for depth, p in [(0.1, 0.333), (0.3, 0.67), (0.5, 0.968), (0.6, 1.0)]:
         assert fragility_probability(AssetType.SUBSTATION, depth) == pytest.approx(p)
     assert fragility_probability(AssetType.HOSPITAL, 0.6) == pytest.approx(0.5)
+    # twin-v2: no failures below the source's 0.1 m starting depth
+    assert fragility_probability(AssetType.SUBSTATION, 0.05) == 0.0
+    rng = np.random.default_rng(0)
+    draws = [sample_critical_depth(AssetType.SUBSTATION, rng) for _ in range(500)]
+    assert min(draws) == pytest.approx(0.1)
+    assert 0.25 < np.mean(np.isclose(draws, 0.1)) < 0.42  # ~1/3 fail right at 0.1 m
 
 
 @pytest.mark.phase3

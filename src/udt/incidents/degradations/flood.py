@@ -21,7 +21,9 @@ was a deterministic straight line of depth. Changes:
 3. **Fragility, not a straight line.** Each facility has a critical depth
    `d_c` drawn from an empirical fragility curve. Substation: Nukavarapu &
    Durbha 2020 (ISPRS IJGI 9(6):387, Table 1), used directly as a piecewise-
-   linear CDF. Hospital and water pump: the same shape rescaled so its median
+   linear CDF that is 0 below 0.1 m and jumps to 0.333 there, as the source
+   says flooding starts at 0.1 m (twin-v2 fix; twin-v1 wrongly interpolated
+   from 0 m). Hospital and water pump: the same shape rescaled so its median
    is 0.6 m, the level at which that paper's Hospital A floods (it treats the
    pumping station as flooding at the hospital's level). The rescaling is a
    disclosed assumption. A lognormal fit to the table was tried and rejected:
@@ -65,9 +67,15 @@ GROWTH_HOURS = 2.0  # defaults when incident.profile doesn't say
 HOLD_HOURS = 8.0
 RECEDE_HOURS = 6.0
 
-# Nukavarapu & Durbha 2020, Table 1 (Electrical Substation A), with (0 m, 0) prepended.
-_SUBSTATION_DEPTHS_M = np.array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
-_FRAGILITY_PROBS = np.array([0.0, 0.333, 0.475, 0.67, 0.84, 0.968, 1.0])
+# Nukavarapu & Durbha 2020, Table 1 (Electrical Substation A), used as given:
+# P(fail) = 0 below 0.1 m ("the flooding of the substation would start at
+# 0.1 m"), 0.333 at 0.1 m, then the table. twin-v2 fix (2026-09-27): twin-v1
+# prepended a (0 m, 0) point and interpolated, which let 42% of sampled
+# substations fail below 0.1 m and 22% below 5 cm, which the source doesn't
+# support (and the Indian Electricity Rules it cites put a substation's
+# formation level >= 600 mm above its surroundings).
+_SUBSTATION_DEPTHS_M = np.array([0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+_FRAGILITY_PROBS = np.array([0.333, 0.475, 0.67, 0.84, 0.968, 1.0])
 HOSPITAL_WATER_MEDIAN_DEPTH_M = 0.6  # same paper: Hospital A floods at ~0.6 m
 _SUBSTATION_MEDIAN_M = float(np.interp(0.5, _FRAGILITY_PROBS, _SUBSTATION_DEPTHS_M))
 _HOSPITAL_WATER_DEPTHS_M = _SUBSTATION_DEPTHS_M * (
@@ -202,13 +210,17 @@ def flood_depth_m(
 
 def fragility_probability(asset_type: AssetType, depth_m: float) -> float:
     """P(facility fails | depth), from the empirical curve."""
-    return float(np.interp(depth_m, FRAGILITY_DEPTHS_M[asset_type], _FRAGILITY_PROBS))
+    return float(
+        np.interp(depth_m, FRAGILITY_DEPTHS_M[asset_type], _FRAGILITY_PROBS, left=0.0, right=1.0)
+    )
 
 
 def sample_critical_depth(
     asset_type: AssetType, rng: np.random.Generator, survived_depth_m: float = 0.0
 ) -> float:
-    """Inverse-CDF sample of `d_c`, conditional on `d_c > survived_depth_m`."""
+    """Inverse-CDF sample of `d_c`, conditional on `d_c > survived_depth_m`.
+    The CDF jumps from 0 to 0.333 at the curve's first depth, so u < 0.333
+    maps to that depth (np.interp clamps below the first point)."""
     depths = FRAGILITY_DEPTHS_M[asset_type]
     u_min = fragility_probability(asset_type, survived_depth_m)
     if u_min >= 1.0:
