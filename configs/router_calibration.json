@@ -1,6 +1,6 @@
 {
   "incident_type": "flood",
-  "env_version": "udt_multi_env_v1",
+  "env_version": "udt_multi_env_v2",
   "training_features": [
     [
       0.5285421557122438,

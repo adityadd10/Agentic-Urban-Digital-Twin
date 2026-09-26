@@ -1,24 +1,24 @@
 normalisers:
-  unmet_patient_hours: 1.3273871527777779
-  patient_deaths: 0.2647569444444444
+  unmet_patient_hours: 1.091189236111111
+  patient_deaths: 0.21024305555555556
   unserved_energy_mwh: 0.21998209947402164
   ambulance_response_delay_hours: 0.1820023148148148
-  new_cascade_failures: 0.010763888888888889
+  new_cascade_failures: 0.009375
 raw_mean_abs_per_tick:
-  unmet_patient_hours: 1.3273871527777779
-  patient_deaths: 0.2647569444444444
+  unmet_patient_hours: 1.091189236111111
+  patient_deaths: 0.21024305555555556
   unserved_energy_mwh: 0.002575088038625174
   ambulance_response_delay_hours: 0.1820023148148148
-  new_cascade_failures: 0.010763888888888889
+  new_cascade_failures: 0.009375
 energy_floor_mwh: 0.21998209947402164
 fitted_on:
   agent: rule_based
-  suite_version: flood_suite_v1
+  suite_version: flood_suite_v2
   split: train
   n_scenarios: 20
   n_ticks_per_episode: 288
-  env_version: udt_multi_env_v1
-  created_at: '2026-09-26T19:45:02.966744+00:00'
+  env_version: udt_multi_env_v2
+  created_at: '2026-09-26T19:59:57.885251+00:00'
 note: "dev doc \xA75.4: frozen; never refit mid-experiment. Zero-mean terms get 1.0.\
   \ Deviation: unserved_energy_mwh floored at one tick of tier-1 shedding at base\
   \ load (see scripts/fit_reward_normalizers.py docstring)."

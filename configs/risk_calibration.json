@@ -1,6 +1,6 @@
 {
-  "p95_risk_raw": 138.14999999999992,
-  "p95_disagreement_raw": 63.96677950708478,
-  "conformal_threshold": 28.066666666666677,
-  "p95_interval_width": 56.133333333333354
+  "p95_risk_raw": 84.56999999999998,
+  "p95_disagreement_raw": 81.73182168269274,
+  "conformal_threshold": 42.45,
+  "p95_interval_width": 84.9
 }

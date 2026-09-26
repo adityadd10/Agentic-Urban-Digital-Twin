@@ -8,6 +8,7 @@ import pytest
 import yaml
 
 from udt.common.models import Asset, AssetType, TwinState
+from udt.common.versions import SUITE_VERSION
 from udt.envs.reward import (
     REWARD_CONFIG_PATH,
     TERMS,
@@ -47,7 +48,7 @@ def test_committed_normalisers_are_frozen_positive_and_from_train_split() -> Non
     assert set(normalisers) == set(TERMS)
     assert all(v > 0 for v in normalisers.values())
     meta = yaml.safe_load(REWARD_CONFIG_PATH.read_text())["fitted_on"]
-    assert meta["split"] == "train" and meta["suite_version"] == "flood_suite_v1"
+    assert meta["split"] == "train" and meta["suite_version"] == SUITE_VERSION
 
 
 @pytest.mark.phase5

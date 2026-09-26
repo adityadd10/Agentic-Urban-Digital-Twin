@@ -2,7 +2,7 @@
 # Changing anything here after the suite is generated means a NEW suite_version, never an
 # in-place regeneration (the script refuses to overwrite an existing manifest).
 
-suite_version: flood_suite_v1
+suite_version: flood_suite_v2
 incident_type: flood
 out_dir: data/scenarios/flood
 
