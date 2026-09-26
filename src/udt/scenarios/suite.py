@@ -20,6 +20,7 @@ from typing import Any
 
 import numpy as np
 
+from udt.common.config import REPO_ROOT
 from udt.common.models import Scenario
 from udt.common.versions import ENV_VERSION
 from udt.scenarios.generator import (
@@ -30,6 +31,7 @@ from udt.scenarios.generator import (
 )
 
 SPLITS = ("train", "val", "test")
+DEFAULT_FLOOD_SUITE_DIR = REPO_ROOT / "data" / "scenarios" / "flood"
 MANIFEST_NAME = "manifest.json"
 FEATURE_NAMES = ("severity", "sigma_m", "lon", "lat", "growth_h", "hold_h", "recede_h")
 

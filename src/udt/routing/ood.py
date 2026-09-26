@@ -102,7 +102,15 @@ def featurize_incident(
     empty (true for every flood scenario this codebase currently
     generates, see module docstring) — restricted to edges touching
     those specific assets when it isn't."""
-    footprint_area_km2 = _footprint_area_km2(incident.location)
+    # 2026-09-27: a flood's rainfall footprint (dev doc §4.2) is a Gaussian;
+    # its area is the 1-sigma disc, pi x sigma^2. Before scenarios had
+    # footprints, this was the ward polygon's area, identical for every flood.
+    fp = incident.profile.get("footprint")
+    footprint_area_km2 = (
+        math.pi * (float(fp["sigma_m"]) / 1000.0) ** 2
+        if fp
+        else _footprint_area_km2(incident.location)
+    )
     n_affected_assets = len(incident.directly_affected_assets)
     hour_angle = 2.0 * math.pi * onset_hour_of_day / 24.0
     onset_hour_sin = math.sin(hour_angle)

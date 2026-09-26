@@ -43,7 +43,11 @@ from udt.common.config import REPO_ROOT
 from udt.common.models import DependencyGraph, Incident, TwinState
 from udt.incidents.degradations.flood import make_flood_degradation_fn
 from udt.risk.human_model import HumanModel
-from udt.scenarios.generator import generate_flood_scenario
+from udt.scenarios.generator import (
+    apply_initial_conditions,
+    generate_flood_scenario,
+    onset_hour_of_day,
+)
 from udt.twin.simulator import Simulator
 
 router = APIRouter()
@@ -77,7 +81,10 @@ def create_episode(request: CreateEpisodeRequest, req: Request) -> CreateEpisode
     incident = scenario.incident
     degradation_fn = make_flood_degradation_fn(incident, ctx.raster)
     sim = Simulator(
-        ctx.dep_graph.model_copy(deep=True), seed=request.seed, road_network=ctx.road_network
+        apply_initial_conditions(ctx.dep_graph, scenario),
+        seed=request.seed,
+        road_network=ctx.road_network,
+        onset_hour_of_day=onset_hour_of_day(scenario),
     )
 
     session = EpisodeSession(

@@ -88,15 +88,17 @@ from udt.common.models import (
     TwinState,
 )
 from udt.constraints.engine import check
+from udt.envs.reward import load_reward_normalisers, tick_terms
 from udt.incidents.degradations.flood import SusceptibilityRaster, make_flood_degradation_fn
 from udt.scenarios.generator import (
     apply_initial_conditions,
     generate_flood_scenario,
     onset_hour_of_day,
 )
+from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_suite
 from udt.twin.ambulances import generate_requests, spawn_ambulances
 from udt.twin.graph import dependency_edges_of
-from udt.twin.power import SHED_FRACTION_BY_TIER, update_substation_load
+from udt.twin.power import update_substation_load
 from udt.twin.road_network import RoadNetwork
 from udt.twin.simulator import Simulator
 
@@ -129,6 +131,8 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
         processed_dir: str | Path,
         n_ticks: int = MAX_TICKS,
         base_seed: int = 0,
+        scenario_split: str | None = "train",
+        suite_dir: str | Path | None = None,
     ) -> None:
         processed_dir = Path(processed_dir)
         dep_graph_path = processed_dir / "dependency_graph.json"
@@ -154,6 +158,16 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
         self.n_ticks = n_ticks
         self.base_seed = base_seed
         self._episode_count = 0
+        # Dev doc §4.3 (2026-09-27): episodes draw from the frozen suite's
+        # `scenario_split` (train for training; val/test only for evaluation),
+        # verified on load. `None` = fresh random scenarios, for smoke tests only.
+        self._reward_normalisers = load_reward_normalisers()
+        self.scenario_split = scenario_split
+        self._scenarios = (
+            load_suite(suite_dir or DEFAULT_FLOOD_SUITE_DIR, scenario_split)
+            if scenario_split is not None
+            else []
+        )
         self._prev_patient_deaths = 0
 
         # Static counts, derived once from the loaded graph — fixed for
@@ -239,11 +253,16 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
         episode_seed = seed if seed is not None else self.base_seed + self._episode_count
         self._episode_count += 1
 
-        scenario = generate_flood_scenario(
-            scenario_id=f"single_env_ep{self._episode_count}",
-            ward_boundary_geojson=self._ward_boundary,
-            seed=episode_seed,
-        )
+        if self._scenarios:
+            index = (options or {}).get("scenario_index", episode_seed % len(self._scenarios))
+            scenario = self._scenarios[int(index)]
+        else:
+            scenario = generate_flood_scenario(
+                scenario_id=f"single_env_ep{self._episode_count}",
+                ward_boundary_geojson=self._ward_boundary,
+                seed=episode_seed,
+            )
+        self.scenario = scenario
         self.incident = scenario.incident
         self._degradation_fn = make_flood_degradation_fn(scenario.incident, self._raster)
 
@@ -389,38 +408,24 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
     # ------------------------------------------------------------------
     def _tick_reward(self, snapshot: TwinState, violations_attempted: int = 0) -> float:
         assert self.sim is not None
-        queued_this_tick = sum(
-            int(a.attributes.get("patient_queue", 0))
-            for a in snapshot.assets
-            if a.asset_type == AssetType.HOSPITAL
-        )
-        unmet_patient_hours = queued_this_tick * self.sim.dt_hours
-        patient_deaths_delta = snapshot.patient_deaths_cumulative - getattr(
-            self, "_prev_patient_deaths", 0
+        # Dev doc §5.4 (normalisers implemented 2026-09-27, `envs/reward.py`):
+        # each raw term is divided by its fitted normaliser before the
+        # §5.4 coefficients apply.
+        raw = tick_terms(
+            snapshot, self.sim.dt_hours, self._prev_patient_deaths, self._prev_cascading_count
         )
         self._prev_patient_deaths = snapshot.patient_deaths_cumulative
-
-        new_cascade_failures = max(0, snapshot.cascading_failure_count - self._prev_cascading_count)
         self._prev_cascading_count = snapshot.cascading_failure_count
-
-        unserved_energy_mwh = 0.0
-        for asset in snapshot.assets:
-            if asset.asset_type == AssetType.SUBSTATION:
-                shed_fraction = SHED_FRACTION_BY_TIER[int(asset.attributes.get("shed_tier", 0))]
-                unserved_energy_mwh += (
-                    float(asset.attributes.get("load_mw", 0.0)) * shed_fraction * self.sim.dt_hours
-                )
-
-        ambulance_response_delay_hours = sum(snapshot.ambulance_response_times_this_tick)
+        t = {k: v / self._reward_normalisers[k] for k, v in raw.items()}
 
         all_healthy = all(a.functional_level >= STABILIZATION_LEVEL for a in snapshot.assets)
         self._stable_streak = self._stable_streak + 1 if all_healthy else 0
 
         return -(
-            1.0 * (unmet_patient_hours + 10.0 * patient_deaths_delta)
-            + 1.0 * unserved_energy_mwh
-            + 1.0 * ambulance_response_delay_hours
-            + 5.0 * new_cascade_failures
+            1.0 * (t["unmet_patient_hours"] + 10.0 * t["patient_deaths"])
+            + 1.0 * t["unserved_energy_mwh"]
+            + 1.0 * t["ambulance_response_delay_hours"]
+            + 5.0 * t["new_cascade_failures"]
             + 20.0 * violations_attempted  # dev doc §5.4's exact coefficient (M7)
         )
 

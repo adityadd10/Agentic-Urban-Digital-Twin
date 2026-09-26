@@ -33,9 +33,14 @@ For each of `--n-scenarios` scenarios:
    levels) — real networks, real forward passes, just not the
    literal "5 training seeds" dev doc §9.2 asks for.
 
+**2026-09-27:** calibrates on the frozen suite's **val** split
+(`flood_suite_v1`, dev doc §4.3), one sample per val scenario, with each
+scenario's own initial conditions. This replaces the freshly generated
+stand-in scenarios described above. The disagreement stand-in (untrained
+critics) is unchanged until trained MAPPO critics exist.
+
 Usage:
-  uv run python scripts/calibrate_risk.py --config configs/data.yaml \\
-      --n-scenarios 5
+  uv run python scripts/calibrate_risk.py --config configs/data.yaml
 """
 
 from __future__ import annotations
@@ -56,14 +61,15 @@ from shapely.geometry import shape  # noqa: E402
 from _pipeline_common import configure_logging, load_config, resolve_path  # noqa: E402
 from udt.agents.marl.networks import CentralizedCritic  # noqa: E402
 from udt.agents.rule_based import RuleBasedAgent  # noqa: E402
-from udt.common.models import AssetType, DependencyGraph, RiskCalibration  # noqa: E402
+from udt.common.models import AssetType, DependencyGraph, RiskCalibration, Scenario  # noqa: E402
 from udt.incidents.degradations.flood import (  # noqa: E402
     SusceptibilityRaster,
     make_flood_degradation_fn,
 )
 from udt.risk.engine import calibrate_from_samples, compute_risk  # noqa: E402
 from udt.risk.ensemble import compute_disagreement  # noqa: E402
-from udt.scenarios.generator import generate_flood_scenario  # noqa: E402
+from udt.scenarios.generator import apply_initial_conditions, onset_hour_of_day  # noqa: E402
+from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_suite  # noqa: E402
 from udt.twin.counterfactual import (  # noqa: E402
     HORIZON_TICKS_DEFAULT,
     N_ROLLOUTS_DEFAULT,
@@ -72,7 +78,6 @@ from udt.twin.counterfactual import (  # noqa: E402
 from udt.twin.road_network import RoadNetwork  # noqa: E402
 from udt.twin.simulator import Simulator  # noqa: E402
 
-N_SCENARIOS_DEFAULT = 5
 WARMUP_TICKS = 12  # 1h at dt=5min - reach a live mid-incident state before calibrating
 N_CRITICS = 5  # dev doc §9.2's "K=5", see module docstring's disclosed stand-in
 CRITIC_INPUT_DIM = 8  # fixed-size feature vector, see _critic_feature_vector
@@ -125,20 +130,22 @@ def _collect_one_scenario(
     base_graph: DependencyGraph,
     raster: SusceptibilityRaster,
     road_network: RoadNetwork | None,
-    ward_boundary: dict[str, object],
+    scenario: Scenario,
     critics: list[CentralizedCritic],
-    seed: int,
 ) -> tuple[float, float, float]:
     """Returns `(risk_raw, disagreement_raw, nonconformity)` for one
     scenario."""
-    scenario = generate_flood_scenario(
-        scenario_id=f"calib_{seed}", ward_boundary_geojson=ward_boundary, seed=seed
-    )
+    seed = scenario.seed
     incident = scenario.incident
     degradation_fn = make_flood_degradation_fn(incident, raster)
     agent = RuleBasedAgent()
 
-    sim = Simulator(base_graph.model_copy(deep=True), seed=seed, road_network=road_network)
+    sim = Simulator(
+        apply_initial_conditions(base_graph, scenario),
+        seed=seed,
+        road_network=road_network,
+        onset_hour_of_day=onset_hour_of_day(scenario),
+    )
     for _ in range(WARMUP_TICKS):
         action = agent.act(
             sim.graph, sim.tick, road_network=road_network, edge_states=sim.edge_states
@@ -182,8 +189,7 @@ def _collect_one_scenario(
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="configs/data.yaml")
-    parser.add_argument("--n-scenarios", type=int, default=N_SCENARIOS_DEFAULT)
-    parser.add_argument("--base-seed", type=int, default=1000)
+    parser.add_argument("--split", default="val", help="frozen-suite split (dev doc §4.3)")
     parser.add_argument(
         "--output",
         default=str(REPO_ROOT / "configs" / "risk_calibration.json"),
@@ -217,10 +223,10 @@ def main() -> None:
         road_network = (
             RoadNetwork.load(roads_full_path, raster) if roads_full_path.exists() else None
         )
-        for i in range(args.n_scenarios):
-            seed = args.base_seed + i
+        for scenario in load_suite(DEFAULT_FLOOD_SUITE_DIR, args.split):
+            seed = scenario.seed
             risk_raw, disagreement_raw, nonconformity = _collect_one_scenario(
-                base_graph, raster, road_network, ward_boundary, critics, seed
+                base_graph, raster, road_network, scenario, critics
             )
             risk_raw_samples.append(risk_raw)
             disagreement_raw_samples.append(disagreement_raw)

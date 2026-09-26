@@ -1,0 +1,21 @@
+normalisers:
+  unmet_patient_hours: 1.3273871527777779
+  patient_deaths: 0.2647569444444444
+  unserved_energy_mwh: 0.002575088038625174
+  ambulance_response_delay_hours: 0.1820023148148148
+  new_cascade_failures: 0.010763888888888889
+raw_mean_abs_per_tick:
+  unmet_patient_hours: 1.3273871527777779
+  patient_deaths: 0.2647569444444444
+  unserved_energy_mwh: 0.002575088038625174
+  ambulance_response_delay_hours: 0.1820023148148148
+  new_cascade_failures: 0.010763888888888889
+fitted_on:
+  agent: rule_based
+  suite_version: flood_suite_v1
+  split: train
+  n_scenarios: 20
+  n_ticks_per_episode: 288
+  env_version: udt_multi_env_v1
+  created_at: '2026-09-26T19:39:14.550582+00:00'
+note: "dev doc \xA75.4: frozen; never refit mid-experiment. Zero-mean terms get 1.0."

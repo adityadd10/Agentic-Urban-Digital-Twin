@@ -22,9 +22,14 @@ calibration this script produces is real and internally consistent, but
 its discriminating power today rides almost entirely on `severity`
 alone.
 
+**2026-09-27:** now uses the frozen suite: training features = the 20
+train scenarios, calibration scores = the 10 val scenarios, each with its
+own onset hour. Footprint area now varies per scenario (Gaussian rainfall
+footprint), so 4 of 6 features vary (severity, footprint area, onset sin/cos);
+`n_affected_assets` and `mean_criticality_of_affected` are still constant.
+
 Usage:
-  uv run python scripts/calibrate_router.py --config configs/data.yaml \\
-      --incident-type flood --n-training 20 --n-calibration 20
+  uv run python scripts/calibrate_router.py --config configs/data.yaml
 """
 
 from __future__ import annotations
@@ -43,13 +48,8 @@ from _pipeline_common import configure_logging, load_config, resolve_path  # noq
 from udt.common.models import DependencyGraph, RouterCalibration  # noqa: E402
 from udt.common.versions import ENV_VERSION  # noqa: E402
 from udt.routing.ood import DEFAULT_K, featurize_incident, knn_novelty_score  # noqa: E402
-from udt.scenarios.generator import generate_flood_scenario  # noqa: E402
-
-N_TRAINING_DEFAULT = 20
-N_CALIBRATION_DEFAULT = 20
-# Kept clear of the training batch's own seed range, same convention
-# `scripts/train_mappo.py`'s `EVAL_SEED_OFFSET` already uses.
-CALIBRATION_SEED_OFFSET = 100_000
+from udt.scenarios.generator import onset_hour_of_day  # noqa: E402
+from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_suite  # noqa: E402
 
 
 def main() -> None:
@@ -57,9 +57,6 @@ def main() -> None:
     parser.add_argument("--config", default="configs/data.yaml")
     parser.add_argument("--incident-type", default="flood")
     parser.add_argument("--env-version", default=ENV_VERSION)
-    parser.add_argument("--n-training", type=int, default=N_TRAINING_DEFAULT)
-    parser.add_argument("--n-calibration", type=int, default=N_CALIBRATION_DEFAULT)
-    parser.add_argument("--base-seed", type=int, default=0)
     parser.add_argument("--k", type=int, default=DEFAULT_K)
     parser.add_argument(
         "--output",
@@ -73,31 +70,24 @@ def main() -> None:
 
     with (processed_dir / "dependency_graph.json").open() as f:
         dep_graph = DependencyGraph.model_validate(json.load(f))
-    with (processed_dir / "ward_boundary.geojson").open() as f:
-        ward_boundary = json.load(f)
 
-    training_features = []
-    for i in range(args.n_training):
-        scenario = generate_flood_scenario(
-            scenario_id=f"router_train_{i}",
-            ward_boundary_geojson=ward_boundary,
-            seed=args.base_seed + i,
-        )
-        x = featurize_incident(scenario.incident, dep_graph)
-        training_features.append(x.tolist())
+    # 2026-09-27: training features from the frozen suite's train split,
+    # calibration scores from its val split (dev doc §4.3, §6).
+    training_features = [
+        featurize_incident(sc.incident, dep_graph, onset_hour_of_day=onset_hour_of_day(sc)).tolist()
+        for sc in load_suite(DEFAULT_FLOOD_SUITE_DIR, "train")
+    ]
     log.info("router_training_features_built", n=len(training_features))
 
     training_array = np.array(training_features, dtype=np.float64)
-    calibration_scores = []
-    for i in range(args.n_calibration):
-        scenario = generate_flood_scenario(
-            scenario_id=f"router_calib_{i}",
-            ward_boundary_geojson=ward_boundary,
-            seed=args.base_seed + CALIBRATION_SEED_OFFSET + i,
+    calibration_scores = [
+        knn_novelty_score(
+            featurize_incident(sc.incident, dep_graph, onset_hour_of_day=onset_hour_of_day(sc)),
+            training_array,
+            k=args.k,
         )
-        x = featurize_incident(scenario.incident, dep_graph)
-        score = knn_novelty_score(x, training_array, k=args.k)
-        calibration_scores.append(score)
+        for sc in load_suite(DEFAULT_FLOOD_SUITE_DIR, "val")
+    ]
     log.info("router_calibration_scores_built", n=len(calibration_scores))
 
     calibration = RouterCalibration(

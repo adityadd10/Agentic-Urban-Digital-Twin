@@ -353,6 +353,7 @@ class EpisodeSession:
             env_version=self.env_version,
             registry_entries=self.registry_entries,
             calibration=self.router_calibration,
+            onset_hour_of_day=sim.onset_hour_of_day,
         )
 
         plans_summary: list[PlanSummary] = []
