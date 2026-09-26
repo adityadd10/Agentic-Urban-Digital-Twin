@@ -1,53 +1,94 @@
-"""Flood degradation (dev doc §4.2, S1 row, module M3 — flood-only scope).
+"""Flood degradation (dev doc §4.2, S1 row, and §3.8 — module M3, flood-only scope).
 
-    depth field = severity x susceptibility_raster, grows over 2h, holds
-    8h, recedes over 6h
-    Roads:                blockage = clip(depth / 0.6m)
-    Ground-floor facilities in footprint: intrinsic -= f(depth)
+    depth = severity x susceptibility(x) x footprint(x) x envelope(t) x MAX_DEPTH
+    Roads:      blockage = clip(depth / 0.6 m)       (reversible: drained road = passable)
+    Facilities: fragility-sampled critical depth d_c; depth >= d_c -> failed,
+                and the failure persists until repaired (dev doc §3.8 item 4)
 
-Two things the dev doc leaves for the implementation to pin down,
-disclosed here:
+**2026-09-26 revision (dev doc §3.8), replacing the original design.** The
+Stage 2 review measured that every flood took down the whole ward at every
+severity, that facilities healed themselves as water receded, and that damage
+was a deterministic straight line of depth. Changes:
 
-1. **"Footprint."** Rather than a separate discrete flood-extent polygon,
-   this uses the susceptibility raster itself as the spatial extent — a
-   near-zero susceptibility cell already produces a near-zero depth, so a
-   separate footprint concept would be redundant for a single ward-scale
-   incident. `location` on the `Incident` is still populated (the ward
-   boundary) for the schema's sake, just not consulted per-asset here.
-2. **f(depth) for facilities.** No formula is given beyond the name.
-   Uses the same linear clip as the road formula, at a different scale
-   (`FACILITY_DEPTH_SCALE_M`, both configurable at the call site):
-   `f(depth) = clip(depth / FACILITY_DEPTH_SCALE_M, 0, 1)`.
-3. **What "intrinsic_level -= degradation_fn(...)" means for a receding
-   hazard.** Read as a literal permanent per-tick subtraction, a facility
-   could never recover as floodwaters recede (intrinsic_level only ever
-   decreases). Depth-based damage should instead track *current* depth —
-   the same depth does the same damage whether it's tick 10 or tick 50,
-   and recession should let intrinsic_level recover. So `flood_degradation`
-   returns `current_intrinsic_level - target_intrinsic_level` (target =
-   `1 - f(depth)`), which is negative during recession — still literally
-   an `intrinsic_level -= degradation_fn(...)` per §3.5 step 1, just one
-   that can subtract a negative number and give some level back.
+1. **Spatial footprint.** `footprint_weight` is a Gaussian around a rainfall
+   centroid (`incident.profile["footprint"]`: `lon`, `lat`, `sigma_m`), so
+   different scenarios flood different parts of the ward. No footprint in the
+   profile -> weight 1 everywhere (the old whole-ward behaviour, kept for
+   hand-built incidents in tests).
+2. **Envelope timing from the scenario.** `incident_envelope` reads
+   `growth_hours`/`hold_hours`/`recede_hours` from `incident.profile`
+   (defaults 2/8/6 h, the original constants).
+3. **Fragility, not a straight line.** Each facility has a critical depth
+   `d_c` drawn from an empirical fragility curve. Substation: Nukavarapu &
+   Durbha 2020 (ISPRS IJGI 9(6):387, Table 1), used directly as a piecewise-
+   linear CDF. Hospital and water pump: the same shape rescaled so its median
+   is 0.6 m, the level at which that paper's Hospital A floods (it treats the
+   pumping station as flooding at the hospital's level). The rescaling is a
+   disclosed assumption. A lognormal fit to the table was tried and rejected:
+   it misses the steep top end (0.87 vs 0.968 at 0.5 m).
+4. **Persistent damage.** When `depth >= d_c` the facility drops to a per-type
+   residual (`FAILED_RESIDUAL`) and stays there; receding water no longer
+   restores it. Only the agent's repair action does, and a repair doesn't
+   hold while the facility is still under `depth >= d_c`. This replaces the
+   earlier "intrinsic tracks current depth" interpretation, which let the
+   flood repair things for free and made the repair action nearly pointless.
+5. **Reproducible randomness.** `d_c` comes from
+   `np.random.default_rng([fragility_seed, crc32(asset_id)])`, so it doesn't
+   depend on graph iteration order. `FloodDegradation.with_fragility_seed`
+   returns a copy that redraws `d_c` for not-yet-failed facilities,
+   conditional on `d_c` exceeding the deepest water each has already survived
+   (`attributes["max_flood_depth_m"]`). The counterfactual engine uses this so
+   each rollout samples the fragility it can't know (dev doc §3.8 item 5).
+
+Unchanged: roads, ambulances and the ECC take no intrinsic damage. Roads get
+`blockage`/`flood_depth_m` attributes instead, read by `cascade.py`.
 """
 
 from __future__ import annotations
 
+import math
+import zlib
 from pathlib import Path
 from typing import Any
 
 import networkx as nx
+import numpy as np
 import rasterio
 
 from udt.common.models import Asset, AssetType, Incident
 from udt.incidents.registry import register_incident
 
 ROAD_BLOCKAGE_DEPTH_SCALE_M = 0.6  # dev doc §4.2, exact
-FACILITY_DEPTH_SCALE_M = 1.2  # disclosed default, see module docstring point 2
-MAX_DEPTH_AT_SEVERITY_1_M = 2.0  # depth when severity=1, susceptibility=1, at temporal peak
+MAX_DEPTH_AT_SEVERITY_1_M = 2.0  # depth when severity=1, susceptibility=1, footprint=1, at peak
 
-GROWTH_HOURS = 2.0
+GROWTH_HOURS = 2.0  # defaults when incident.profile doesn't say
 HOLD_HOURS = 8.0
 RECEDE_HOURS = 6.0
+
+# Nukavarapu & Durbha 2020, Table 1 (Electrical Substation A), with (0 m, 0) prepended.
+_SUBSTATION_DEPTHS_M = np.array([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6])
+_FRAGILITY_PROBS = np.array([0.0, 0.333, 0.475, 0.67, 0.84, 0.968, 1.0])
+HOSPITAL_WATER_MEDIAN_DEPTH_M = 0.6  # same paper: Hospital A floods at ~0.6 m
+_SUBSTATION_MEDIAN_M = float(np.interp(0.5, _FRAGILITY_PROBS, _SUBSTATION_DEPTHS_M))
+_HOSPITAL_WATER_DEPTHS_M = _SUBSTATION_DEPTHS_M * (
+    HOSPITAL_WATER_MEDIAN_DEPTH_M / _SUBSTATION_MEDIAN_M
+)
+FRAGILITY_DEPTHS_M: dict[AssetType, np.ndarray[Any, np.dtype[np.float64]]] = {
+    AssetType.SUBSTATION: _SUBSTATION_DEPTHS_M,
+    AssetType.HOSPITAL: _HOSPITAL_WATER_DEPTHS_M,
+    AssetType.WATER: _HOSPITAL_WATER_DEPTHS_M,
+}
+# Intrinsic level a facility drops to once flooded (disclosed constants): a
+# flooded substation is switched off (JRC 2019), a flooded pump stops, a
+# flooded hospital loses its ground floor/basement but upper floors still work.
+FAILED_RESIDUAL: dict[AssetType, float] = {
+    AssetType.SUBSTATION: 0.0,
+    AssetType.WATER: 0.0,
+    AssetType.HOSPITAL: 0.3,
+}
+_NOT_FLOOD_DAMAGED = (AssetType.ROAD, AssetType.AMBULANCE, AssetType.ECC)
+_M_PER_DEG_LAT = 110_540.0
+_M_PER_DEG_LON_EQUATOR = 111_320.0
 
 
 class SusceptibilityRaster:
@@ -93,20 +134,47 @@ def _asset_lon_lat(asset: Asset) -> tuple[float, float]:
     raise ValueError(f"Unsupported geometry type for susceptibility sampling: {gtype!r}")
 
 
-def temporal_multiplier(hours_since_onset: float) -> float:
-    """Growth (0->1 over 2h) / hold (1 for 8h) / recede (1->0 over 6h)
-    envelope, dev doc §4.2 exactly. 0 before onset and after the incident
-    has fully receded."""
+def temporal_multiplier(
+    hours_since_onset: float,
+    growth_hours: float = GROWTH_HOURS,
+    hold_hours: float = HOLD_HOURS,
+    recede_hours: float = RECEDE_HOURS,
+) -> float:
+    """Growth (0->1) / hold (1) / recede (1->0) envelope. 0 before onset
+    and after the incident has fully receded."""
     if hours_since_onset < 0:
         return 0.0
-    if hours_since_onset < GROWTH_HOURS:
-        return hours_since_onset / GROWTH_HOURS
-    if hours_since_onset < GROWTH_HOURS + HOLD_HOURS:
+    if hours_since_onset < growth_hours:
+        return hours_since_onset / growth_hours
+    if hours_since_onset < growth_hours + hold_hours:
         return 1.0
-    recede_elapsed = hours_since_onset - GROWTH_HOURS - HOLD_HOURS
-    if recede_elapsed < RECEDE_HOURS:
-        return 1.0 - recede_elapsed / RECEDE_HOURS
+    recede_elapsed = hours_since_onset - growth_hours - hold_hours
+    if recede_elapsed < recede_hours:
+        return 1.0 - recede_elapsed / recede_hours
     return 0.0
+
+
+def incident_envelope(incident: Incident, hours_since_onset: float) -> float:
+    """`temporal_multiplier` with this incident's own durations (dev doc §4.3)."""
+    p = incident.profile
+    return temporal_multiplier(
+        hours_since_onset,
+        float(p.get("growth_hours", GROWTH_HOURS)),
+        float(p.get("hold_hours", HOLD_HOURS)),
+        float(p.get("recede_hours", RECEDE_HOURS)),
+    )
+
+
+def footprint_weight(incident: Incident, lon: float, lat: float) -> float:
+    """Gaussian rainfall footprint, `exp(-d^2 / 2 sigma^2)` (dev doc §4.2).
+    1.0 everywhere if the incident has no footprint."""
+    fp = incident.profile.get("footprint")
+    if not fp:
+        return 1.0
+    c_lon, c_lat, sigma = float(fp["lon"]), float(fp["lat"]), float(fp["sigma_m"])
+    dx = (lon - c_lon) * _M_PER_DEG_LON_EQUATOR * math.cos(math.radians(c_lat))
+    dy = (lat - c_lat) * _M_PER_DEG_LAT
+    return math.exp(-(dx * dx + dy * dy) / (2.0 * sigma * sigma))
 
 
 def flood_depth_m(
@@ -116,16 +184,41 @@ def flood_depth_m(
     susceptibility_raster: SusceptibilityRaster,
     dt_minutes: float = 5.0,
 ) -> float:
-    """`depth field = severity x susceptibility_raster x temporal_envelope
-    x MAX_DEPTH_AT_SEVERITY_1_M` (dev doc §4.2, with the temporal envelope
-    and max-depth scale spelled out — see module docstring)."""
+    """`depth = severity x susceptibility x footprint x envelope x MAX_DEPTH`."""
     hours_since_onset = (tick - incident.onset_tick) * dt_minutes / 60.0
-    envelope = temporal_multiplier(hours_since_onset)
+    envelope = incident_envelope(incident, hours_since_onset)
     if envelope <= 0.0:
         return 0.0
     lon, lat = _asset_lon_lat(asset)
     susceptibility = susceptibility_raster.value_at(lon, lat)
-    return incident.severity * susceptibility * envelope * MAX_DEPTH_AT_SEVERITY_1_M
+    return (
+        incident.severity
+        * susceptibility
+        * footprint_weight(incident, lon, lat)
+        * envelope
+        * MAX_DEPTH_AT_SEVERITY_1_M
+    )
+
+
+def fragility_probability(asset_type: AssetType, depth_m: float) -> float:
+    """P(facility fails | depth), from the empirical curve."""
+    return float(np.interp(depth_m, FRAGILITY_DEPTHS_M[asset_type], _FRAGILITY_PROBS))
+
+
+def sample_critical_depth(
+    asset_type: AssetType, rng: np.random.Generator, survived_depth_m: float = 0.0
+) -> float:
+    """Inverse-CDF sample of `d_c`, conditional on `d_c > survived_depth_m`."""
+    depths = FRAGILITY_DEPTHS_M[asset_type]
+    u_min = fragility_probability(asset_type, survived_depth_m)
+    if u_min >= 1.0:
+        return survived_depth_m + 1e-6  # survived past the curve's end: fails at any more water
+    u = float(rng.uniform(u_min, 1.0))
+    return max(float(np.interp(u, _FRAGILITY_PROBS, depths)), survived_depth_m + 1e-6)
+
+
+def median_critical_depth(asset_type: AssetType) -> float:
+    return float(np.interp(0.5, _FRAGILITY_PROBS, FRAGILITY_DEPTHS_M[asset_type]))
 
 
 @register_incident("flood")
@@ -135,32 +228,118 @@ def flood_degradation(
     tick: int,
     susceptibility_raster: SusceptibilityRaster,
     dt_minutes: float = 5.0,
+    critical_depth_m: float | None = None,
 ) -> float:
-    """Return the intrinsic-level reduction for `asset` at `tick` (dev doc
-    §4.2's exact signature — see module docstring point 3 for why this is
-    "current level minus depth-derived target", not a permanent
-    increment). For roads this returns 0 — roads are affected via
-    `blockage` (an attribute, mutated directly by
-    `make_flood_degradation_fn` below), not via intrinsic_level, per
-    `cascade.py`'s road handling.
-
-    **Bug found and fixed in M4's ambulance-dispatch slice:** ambulances
-    (added as regular graph nodes once `twin/ambulances.py` existed) were
-    silently taking real depth-based damage here — nothing about their
-    dispatch/movement (`twin/ambulances.py`'s `dispatch_ambulance`/
-    `advance_ambulances`) ever reads `intrinsic_level`/`functional_level`,
-    so the damage had no behavioral effect, it only inflated
-    `cascading_failure_count` with meaningless "failures". Excluded here,
-    same as roads — vehicles aren't a depth-damaged facility in this
-    model. `ECC` is excluded too, for the same reason dev doc §3.2 gives
-    it no physical attributes ("coordination bookkeeping only").
-    """
-    if asset.asset_type in (AssetType.ROAD, AssetType.AMBULANCE, AssetType.ECC):
+    """Intrinsic-level reduction for `asset` at `tick` (dev doc §4.2's
+    signature, plus `critical_depth_m`). Never negative: damage persists.
+    Without a sampled `critical_depth_m`, the curve's median is used.
+    Roads, ambulances and the ECC always return 0 (see module docstring)."""
+    if asset.asset_type in _NOT_FLOOD_DAMAGED:
         return 0.0
     depth = flood_depth_m(incident, asset, tick, susceptibility_raster, dt_minutes)
-    damage_fraction = max(0.0, min(1.0, depth / FACILITY_DEPTH_SCALE_M))
-    target_intrinsic_level = 1.0 - damage_fraction
-    return asset.intrinsic_level - target_intrinsic_level
+    d_c = (
+        critical_depth_m
+        if critical_depth_m is not None
+        else median_critical_depth(asset.asset_type)
+    )
+    if depth < d_c:
+        return 0.0
+    return max(0.0, asset.intrinsic_level - FAILED_RESIDUAL[asset.asset_type])
+
+
+class FloodDegradation:
+    """The `(tick, graph) -> {asset_id: reduction}` callable `Simulator.step`
+    expects. Also writes road `blockage`/`flood_depth_m` and each facility's
+    `max_flood_depth_m` attribute, and holds the per-facility critical depths."""
+
+    def __init__(
+        self,
+        incident: Incident,
+        susceptibility_raster: SusceptibilityRaster,
+        *,
+        dt_minutes: float = 5.0,
+        fragility_seed: int | None = None,
+        resample_after_survival: bool = False,
+    ) -> None:
+        self.incident = incident
+        self.raster = susceptibility_raster
+        self.dt_minutes = dt_minutes
+        self.fragility_seed = (
+            int(incident.profile.get("fragility_seed", 0))
+            if fragility_seed is None
+            else fragility_seed
+        )
+        self._resample_after_survival = resample_after_survival
+        self._critical_depth: dict[str, float] = {}
+        # susceptibility x footprint per asset: static for one incident, and
+        # sampling the raster every tick was ~60% of a rollout's runtime.
+        # Shared (not copied) with `with_fragility_seed` copies.
+        self._spatial_weight: dict[str, float] = {}
+
+    def with_fragility_seed(self, seed: int) -> FloodDegradation:
+        """A copy for one counterfactual rollout: critical depths redrawn
+        with `seed`, conditional on what each facility already survived."""
+        copy = FloodDegradation(
+            self.incident,
+            self.raster,
+            dt_minutes=self.dt_minutes,
+            fragility_seed=seed,
+            resample_after_survival=True,
+        )
+        copy._spatial_weight = self._spatial_weight
+        return copy
+
+    def depth_m(self, asset: Asset, tick: int) -> float:
+        """Same value as `flood_depth_m`, using the cached spatial weight."""
+        hours_since_onset = (tick - self.incident.onset_tick) * self.dt_minutes / 60.0
+        envelope = incident_envelope(self.incident, hours_since_onset)
+        if envelope <= 0.0:
+            return 0.0
+        weight = self._spatial_weight.get(asset.asset_id)
+        if weight is None:
+            lon, lat = _asset_lon_lat(asset)
+            weight = self.raster.value_at(lon, lat) * footprint_weight(self.incident, lon, lat)
+            self._spatial_weight[asset.asset_id] = weight
+        return self.incident.severity * weight * envelope * MAX_DEPTH_AT_SEVERITY_1_M
+
+    def critical_depth(self, asset: Asset) -> float:
+        d_c = self._critical_depth.get(asset.asset_id)
+        if d_c is None:
+            rng = np.random.default_rng([self.fragility_seed, zlib.crc32(asset.asset_id.encode())])
+            survived = (
+                float(asset.attributes.get("max_flood_depth_m", 0.0))
+                if self._resample_after_survival
+                else 0.0
+            )
+            d_c = sample_critical_depth(asset.asset_type, rng, survived)
+            self._critical_depth[asset.asset_id] = d_c
+        return d_c
+
+    def __call__(self, tick: int, graph: nx.DiGraph[str]) -> dict[str, float]:
+        reductions: dict[str, float] = {}
+        for asset_id in graph.nodes:
+            asset: Asset = graph.nodes[asset_id]["asset"]
+            if asset.asset_type == AssetType.ROAD:
+                depth = self.depth_m(asset, tick)
+                asset.attributes["flood_depth_m"] = depth
+                asset.attributes["blockage"] = max(
+                    0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M)
+                )
+            elif asset.asset_type in FAILED_RESIDUAL:
+                d_c = self.critical_depth(asset)  # drawn before this tick's depth is recorded
+                depth = self.depth_m(asset, tick)
+                # Same rule as `flood_degradation`, inlined to reuse the cached depth.
+                reduction = (
+                    max(0.0, asset.intrinsic_level - FAILED_RESIDUAL[asset.asset_type])
+                    if depth >= d_c
+                    else 0.0
+                )
+                asset.attributes["max_flood_depth_m"] = max(
+                    float(asset.attributes.get("max_flood_depth_m", 0.0)), depth
+                )
+                if reduction > 0:
+                    reductions[asset_id] = reduction
+        return reductions
 
 
 def make_flood_degradation_fn(
@@ -168,31 +347,7 @@ def make_flood_degradation_fn(
     susceptibility_raster: SusceptibilityRaster,
     *,
     dt_minutes: float = 5.0,
-) -> Any:
-    """Adapts `flood_degradation` (per-asset, dev doc §4.2 signature) into
-    the `(tick, graph) -> {asset_id: reduction}` shape `Simulator.step`
-    expects — also sets each road's `blockage` attribute directly (roads
-    don't lose intrinsic_level to flooding, they get blocked; see
-    `cascade.py`'s `_road_functional_level`)."""
-
-    def degradation_fn(tick: int, graph: nx.DiGraph[str]) -> dict[str, float]:
-        reductions: dict[str, float] = {}
-        for asset_id in graph.nodes:
-            asset: Asset = graph.nodes[asset_id]["asset"]
-            if asset.asset_type == AssetType.ROAD:
-                depth = flood_depth_m(incident, asset, tick, susceptibility_raster, dt_minutes)
-                asset.attributes["flood_depth_m"] = depth
-                asset.attributes["blockage"] = max(
-                    0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M)
-                )
-            else:
-                reduction = flood_degradation(
-                    incident, asset, tick, susceptibility_raster, dt_minutes
-                )
-                if (
-                    reduction != 0
-                ):  # can be negative during recession — see module docstring point 3
-                    reductions[asset_id] = reduction
-        return reductions
-
-    return degradation_fn
+) -> FloodDegradation:
+    """Builds the flood's degradation callable. Critical depths use
+    `incident.profile["fragility_seed"]` (default 0)."""
+    return FloodDegradation(incident, susceptibility_raster, dt_minutes=dt_minutes)

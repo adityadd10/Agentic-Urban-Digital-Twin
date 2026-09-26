@@ -35,6 +35,28 @@ doc doesn't pin them precisely enough to implement directly:
    blockage)` so blockage actually flows into upstream access edges
    through the same general mechanism, rather than a separate special-case
    read of `blockage` wherever access supply is needed.
+
+**2026-09-26 revision (dev doc §3.8 items 2-3):**
+
+3. **Consumers compete for limited supply.** Previously each edge compared
+   its supplier's functional level with its own `demand` independently, so
+   four consumers each asking for ~0.1 of a substation were all fully served
+   until the substation fell below ~10%. There was no competition, and power
+   cascades almost never fired on the real graph. Now `allocation_ratios`
+   sums a supplier's demands per edge kind, adding (substations only) the
+   **background non-critical load**
+   `max(0, load_mw/capacity_mw - Σ power demands) x (1 - shed fraction)`. If
+   the supplier's functional level covers the total, every consumer gets its
+   full demand; otherwise all get the same ratio `r = capacity/total`, and
+   `sat = clip(r, floor, 1)`. With a single consumer and no background load
+   this reduces exactly to the old `supply/demand`. Load shedding now frees
+   capacity for critical consumers.
+4. **Access only gates hospitals.** Dev doc §3.3 defines access floors only
+   for hospitals. Substations and water facilities also have access edges in
+   the graph, and multiplying them in meant flooded roads *next to* a
+   substation cut its power output. Their access edges are now ignored in the
+   functional-level product (kept in the graph for future repair-reachability
+   use).
 """
 
 from __future__ import annotations
@@ -45,6 +67,7 @@ import networkx as nx
 
 from udt.common.models import Asset, AssetType, DependencyEdge
 from udt.twin.graph import dependency_edges_of
+from udt.twin.power import SHED_FRACTION_BY_TIER
 
 MAX_FIXED_POINT_ITERATIONS = 20
 CONVERGENCE_TOLERANCE = 1e-6
@@ -86,6 +109,44 @@ def sat(edge: DependencyEdge, supply: float, buffer_remaining: float) -> float:
     return max(edge.floor, min(1.0, ratio))
 
 
+def _background_load_share(supplier: Asset, critical_power_demand: float) -> float:
+    """Substation's non-critical load as a fraction of capacity, after shedding."""
+    attrs = supplier.attributes
+    capacity = float(attrs.get("capacity_mw", 0.0))
+    if supplier.asset_type != AssetType.SUBSTATION or capacity <= 0:
+        return 0.0
+    load_share = float(attrs.get("load_mw", 0.0)) / capacity
+    shed = SHED_FRACTION_BY_TIER[int(attrs.get("shed_tier", 0))]
+    return max(0.0, load_share - critical_power_demand) * (1.0 - shed)
+
+
+def allocation_ratios(g: nx.DiGraph[str], levels: dict[str, float]) -> dict[str, float]:
+    """`{edge_id: r}` for every non-access edge: the fraction of its demand
+    the supplier can deliver when all its consumers compete (module
+    docstring point 3). `levels` = suppliers' functional levels."""
+    ratios: dict[str, float] = {}
+    for supplier_id in g.nodes:
+        supplier: Asset = g.nodes[supplier_id]["asset"]
+        by_kind: dict[str, list[DependencyEdge]] = {}
+        for _s, _c, data in g.out_edges(supplier_id, data=True):
+            edge: DependencyEdge = data["edge"]
+            if edge.kind != "access":
+                by_kind.setdefault(edge.kind, []).append(edge)
+        for kind, edges in by_kind.items():
+            demand = sum(e.demand for e in edges)
+            background = _background_load_share(supplier, demand) if kind == "power" else 0.0
+            total = demand + background
+            capacity = levels[supplier_id]
+            r = 1.0 if total <= 0 or capacity >= total else capacity / total
+            for e in edges:
+                ratios[e.edge_id] = r
+    return ratios
+
+
+def _current_levels(g: nx.DiGraph[str]) -> dict[str, float]:
+    return {a: compute_supply(g, a) for a in g.nodes}
+
+
 def update_buffers(
     g: nx.DiGraph[str],
     edge_states: dict[str, EdgeRuntimeState],
@@ -95,11 +156,14 @@ def update_buffers(
     restored -> buffer refills at half drain rate." Uses each supplier's
     functional_level as of the *start* of this tick (before this tick's
     fixed-point resolution), matching the algorithm's step ordering."""
+    ratios = allocation_ratios(g, _current_levels(g))
     for supplier_id, _consumer_id, data in g.edges(data=True):
         edge: DependencyEdge = data["edge"]
         state = edge_states[edge.edge_id]
-        supply = compute_supply(g, supplier_id)
-        sufficient = supply >= edge.demand
+        if edge.kind == "access":
+            sufficient = compute_supply(g, supplier_id) >= edge.demand
+        else:
+            sufficient = ratios[edge.edge_id] >= 1.0
         if sufficient:
             state.remaining_hours = min(
                 state.capacity_hours, state.remaining_hours + dt_hours / 2.0
@@ -125,6 +189,7 @@ def resolve_functional_levels(
     for _iteration in range(1, MAX_FIXED_POINT_ITERATIONS + 1):
         max_delta = 0.0
         new_levels = dict(levels)
+        ratios = allocation_ratios(g, levels)  # competition, from this iteration's levels
 
         for asset_id in g.nodes:
             asset: Asset = g.nodes[asset_id]["asset"]
@@ -146,14 +211,12 @@ def resolve_functional_levels(
             # distinction is what makes this a fixed-point iteration.
             product = 1.0
             for edge in other_edges:
-                supply = (
-                    levels[edge.supplier]
-                    if g.nodes[edge.supplier]["asset"].asset_type != AssetType.ROAD
-                    else _road_functional_level(g.nodes[edge.supplier]["asset"])
-                )
-                product *= sat(edge, supply, edge_states[edge.edge_id].remaining_hours)
+                # `sat` takes supply in demand units; r x demand is what this
+                # consumer actually receives under competition.
+                delivered = ratios[edge.edge_id] * edge.demand
+                product *= sat(edge, delivered, edge_states[edge.edge_id].remaining_hours)
 
-            if access_edges:
+            if access_edges and asset.asset_type == AssetType.HOSPITAL:
                 access_sats = [
                     sat(
                         e,

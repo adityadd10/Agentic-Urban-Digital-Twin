@@ -186,16 +186,13 @@ def test_new_cascading_failures_only_counts_this_rollouts_delta() -> None:
     `new_cascading_failures == 0`, not the pre-existing total."""
     sim = Simulator(_cascade_graph())
     # Cascade H1 once, for real, before ever calling simulate() - S1
-    # degrades hard enough that H1's functional_level drops under 0.5
-    # too (both count as "cascaded" here since this test doesn't pass
-    # `directly_affected_assets` to `step()` - same convention every
-    # other harness in this codebase already uses).
+    # degrades hard enough that H1's functional_level drops under 0.5.
+    # Only H1 counts (dev doc §3.5, revised 2026-09-26): S1 failed from
+    # its own damage (intrinsic < 0.5), H1 failed because of S1.
     sim.apply_degradation("S1", 0.95)
     sim.step()
     assert sim.asset("H1").functional_level < 0.5
-    assert (
-        len(sim._ever_cascaded) == 2
-    )  # confirms the test's own premise: some pre-existing history
+    assert sim._ever_cascaded == {"H1"}  # the test's premise: pre-existing history
 
     result = simulate(
         sim, AgentAction(), degradation_fn=_no_degradation, n_rollouts=3, horizon_ticks=3
@@ -215,10 +212,9 @@ def test_new_cascading_failures_counts_a_cascade_that_happens_during_the_rollout
     result = simulate(
         sim, AgentAction(), degradation_fn=degrade_substation_once, n_rollouts=1, horizon_ticks=3
     )
-    # Both S1 (directly degraded) and H1 (drags down as a real cascade)
-    # count here - this test doesn't pass `directly_affected_assets`,
-    # same convention every other harness in this codebase already uses.
-    assert result.rollouts[0].new_cascading_failures == 2
+    # Only H1 counts: S1 was damaged directly (intrinsic < 0.5), H1 failed
+    # because of S1 (dev doc §3.5, revised 2026-09-26).
+    assert result.rollouts[0].new_cascading_failures == 1
 
 
 @pytest.mark.phase8

@@ -24,6 +24,14 @@ dispatch action, module M4).
 - Response time (dev doc §5.4 `ambulance_response_delay_hours`) is
   measured request-creation to **pickup** (industry-standard "call to
   scene arrival"), not to hospital drop-off.
+- **Casualty delivery (2026-09-26, dev doc §3.8 item 6).** Previously the
+  patient simply vanished at pickup: the ambulance drove home empty and no
+  hospital ever saw the casualty, so the flood never added hospital demand.
+  Now a pickup sets `carrying_patient`, and when the return leg completes the
+  casualty joins the **home hospital's** queue (`queue_arrivals`/
+  `patient_queue`), subject to the same wait-deadline rule as walk-ins.
+  Delivering to the home hospital (not the best-placed one) is a disclosed
+  simplification: the return route is already computed to there.
 """
 
 from __future__ import annotations
@@ -142,6 +150,16 @@ def dispatch_ambulance(
     return True
 
 
+def _deliver_casualty(graph: nx.DiGraph[str], hospital_id: str, tick: int) -> None:
+    """Casualty joins the hospital's queue; `consume_demand` admits it (or,
+    past the deadline, counts it in the death proxy) like any walk-in."""
+    attrs = graph.nodes[hospital_id]["asset"].attributes
+    queue: list[int] = list(attrs.get("queue_arrivals", []))
+    queue.append(tick)
+    attrs["queue_arrivals"] = queue
+    attrs["patient_queue"] = len(queue)
+
+
 def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> list[float]:
     """dev doc §3.5 step 4's "ambulances advance along routes". Returns
     the response times (hours) of every request picked up this tick, for
@@ -170,9 +188,13 @@ def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> 
             if request is not None:
                 response_times_hours.append((tick - request["requested_at_tick"]) * dt_hours)
                 pending.remove(request)
+                attrs["carrying_patient"] = True
             attrs["status"] = "returning"
             attrs["remaining_travel_min"] = float(attrs.get("return_travel_min", 0.0))
         else:  # "returning" leg just completed -> back home, idle again
+            if attrs.get("carrying_patient"):
+                _deliver_casualty(graph, str(attrs["home_hospital_id"]), tick)
+                attrs["carrying_patient"] = False
             attrs["status"] = "idle"
             attrs["assigned_request_id"] = None
             attrs["remaining_travel_min"] = 0.0

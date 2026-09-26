@@ -22,6 +22,16 @@ slow. This keeps a single dispatch decision's routing query cheap (an
 O(edges) scalar multiply, then Dijkstra) — it hasn't been load-tested
 against an RL training loop's call volume, since no RL agent exists yet
 to generate that volume; revisit if/when one does.
+
+**2026-09-26 (dev doc §3.8 / §4.2):** routing now uses the same depth field
+as `degradations/flood.py`, including the incident's rainfall footprint and
+its own grow/hold/recede durations. Each edge's footprint weight is static
+within one incident, so it's computed once per incident (the first
+`update_for_tick` call that sees a new `incident_id`) and cached on the edge
+as `data["footprint"]`, like `susceptibility`. Caveat: one `RoadNetwork` is
+shared across concurrently running API episodes, so two concurrent
+incidents would overwrite each other's cache. The API is demo-only; the
+training/evaluation harnesses run one incident at a time.
 """
 
 from __future__ import annotations
@@ -36,7 +46,8 @@ from udt.common.models import Incident
 from udt.incidents.degradations.flood import (
     MAX_DEPTH_AT_SEVERITY_1_M,
     SusceptibilityRaster,
-    temporal_multiplier,
+    footprint_weight,
+    incident_envelope,
 )
 
 # Same constants `06_build_dependency_graph.py`/`flood.py` already use for
@@ -44,6 +55,12 @@ from udt.incidents.degradations.flood import (
 ASSUMED_SPEED_KMPH = 30.0
 ROAD_BLOCKAGE_DEPTH_SCALE_M = 0.6
 IMPASSABLE_BLOCKAGE = 0.95  # this blocked or worse -> routing treats it as closed
+
+
+def _edge_depth(scale: float, data: dict[str, Any]) -> float:
+    """Flood depth (m) on one edge: the tick's scale x the edge's cached
+    susceptibility x this incident's footprint weight."""
+    return scale * float(data.get("susceptibility", 0.0)) * float(data.get("footprint", 1.0))
 
 
 class RoadNetwork:
@@ -62,6 +79,7 @@ class RoadNetwork:
         # `travel_time_minutes` call until the next update — see module
         # docstring's performance note.
         self._current_depth_scale = 0.0
+        self._footprint_incident_id: str | None = None
 
     @classmethod
     def load(cls, path: str | Path, raster: SusceptibilityRaster) -> RoadNetwork:
@@ -69,6 +87,8 @@ class RoadNetwork:
         for u, _v, data in g.edges(data=True):
             lon, lat = float(g.nodes[u]["x"]), float(g.nodes[u]["y"])
             data["susceptibility"] = raster.value_at(lon, lat)
+            data["lon"], data["lat"] = lon, lat
+            data["footprint"] = 1.0
 
         node_ids = list(g.nodes)
         node_xy = np.array([[float(g.nodes[n]["x"]), float(g.nodes[n]["y"])] for n in node_ids])
@@ -90,8 +110,16 @@ class RoadNetwork:
         max_depth` term so `travel_time_minutes` doesn't need to know
         about `Incident` at all — keeps this class's public query
         surface to pure graph queries."""
+        if incident.incident_id != self._footprint_incident_id:
+            for _u, _v, data in self.graph.edges(data=True):
+                # Hand-built test graphs have no cached lon/lat: weight 1.
+                has_xy = "lon" in data and "lat" in data
+                data["footprint"] = (
+                    footprint_weight(incident, data["lon"], data["lat"]) if has_xy else 1.0
+                )
+            self._footprint_incident_id = incident.incident_id
         hours_since_onset = (tick - incident.onset_tick) * dt_minutes / 60.0
-        envelope = temporal_multiplier(hours_since_onset)
+        envelope = incident_envelope(incident, hours_since_onset)
         self._current_depth_scale = incident.severity * envelope * MAX_DEPTH_AT_SEVERITY_1_M
 
     def travel_time_minutes(self, source: str, target: str) -> float | None:
@@ -106,7 +134,7 @@ class RoadNetwork:
         scale = self._current_depth_scale
 
         def weight(u: str, v: str, data: dict[str, Any]) -> float:
-            depth = scale * float(data.get("susceptibility", 0.0))
+            depth = _edge_depth(scale, data)
             blockage = max(0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M))
             if blockage >= IMPASSABLE_BLOCKAGE:
                 return float("inf")
@@ -140,7 +168,7 @@ class RoadNetwork:
         scale = self._current_depth_scale
 
         def weight(u: str, v: str, data: dict[str, Any]) -> float:
-            depth = scale * float(data.get("susceptibility", 0.0))
+            depth = _edge_depth(scale, data)
             blockage = max(0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M))
             if blockage >= IMPASSABLE_BLOCKAGE:
                 return float("inf")
@@ -156,7 +184,7 @@ class RoadNetwork:
         max_depth = 0.0
         for u, v in zip(path[:-1], path[1:], strict=True):
             data = self.graph[u][v]
-            depth = scale * float(data.get("susceptibility", 0.0))
+            depth = _edge_depth(scale, data)
             # Same quirk `travel_time_minutes` already guards against:
             # `dijkstra_path` can still return a path built entirely of
             # infinite-weight (impassable) edges when that's the only

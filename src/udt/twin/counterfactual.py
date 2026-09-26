@@ -35,6 +35,14 @@ supposed to be about *this* decision's consequences. `update_substation_
 load` (the incident-driven power-surge model) and the core cascade/
 demand/repair/shed dynamics (`Simulator.step` itself) DO run every
 tick — those are the twin's actual physics, not new exogenous events.
+
+**Fragility is resampled per rollout (2026-09-26, dev doc §3.8 item 5).**
+Unlike ambulance calls, a facility's critical flood depth is something the
+decision-maker genuinely doesn't know. If the degradation callable supports
+`with_fragility_seed` (the flood's `FloodDegradation` does), each rollout uses
+a copy that redraws critical depths for facilities that haven't failed yet,
+conditional on the depth they've already survived. Before this, the flood
+was deterministic and every rollout agreed, so P(failure) was always 0 or 1.
 """
 
 from __future__ import annotations
@@ -69,6 +77,9 @@ def _run_one_rollout(
     seed: int,
 ) -> RolloutOutcome:
     clone = sim.clone_for_counterfactual(seed=seed)
+    with_seed = getattr(degradation_fn, "with_fragility_seed", None)
+    if with_seed is not None:
+        degradation_fn = with_seed(seed)
     # `_ever_cascaded`'s length is exactly what each tick's `TwinState.
     # cascading_failure_count` reports (`Simulator.step` sets it that
     # way) — read once here, before the rollout, as the baseline the

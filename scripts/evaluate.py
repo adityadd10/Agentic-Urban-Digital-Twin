@@ -57,7 +57,11 @@ from udt.incidents.degradations.flood import (  # noqa: E402
     make_flood_degradation_fn,
 )
 from udt.logging.metrics import compute_episode_metrics  # noqa: E402
-from udt.scenarios.generator import generate_flood_scenario  # noqa: E402
+from udt.scenarios.generator import (  # noqa: E402
+    apply_initial_conditions,
+    generate_flood_scenario,
+    onset_hour_of_day,
+)
 from udt.twin.road_network import RoadNetwork  # noqa: E402
 
 
@@ -120,7 +124,7 @@ def main() -> None:
         degradation_fn = make_flood_degradation_fn(scenario.incident, raster)
         road_network = RoadNetwork.load(processed_dir / "roads_full.graphml", raster)
         for agent in (DoNothingAgent(), RuleBasedAgent()):
-            graph_copy = base_graph.model_copy(deep=True)
+            graph_copy = apply_initial_conditions(base_graph, scenario)
             trace = run_episode(
                 graph_copy,
                 agent,
@@ -130,6 +134,7 @@ def main() -> None:
                 road_network=road_network,
                 incident=scenario.incident,
                 ward_polygon=ward_polygon,
+                onset_hour=onset_hour_of_day(scenario),
             )
             metrics = compute_episode_metrics(scenario.scenario_id, agent.name, trace)
             results.append(metrics)

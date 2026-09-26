@@ -61,6 +61,19 @@ seeded rollouts from the *same* starting state without them stepping on
 each other's mutable graph/buffer state; this method is that clone,
 deliberately cheaper than a full `copy.deepcopy(simulator)` would be
 (see its own docstring for what it does and doesn't copy).
+
+2026-09-26 revision (dev doc §3.8 items 1 and 7):
+- **Cascade metric.** An asset counts as a cascading failure only if it's a
+  facility (hospital/substation/water) whose functional level fell below 0.5
+  while its own intrinsic level was still >= 0.5, i.e. it failed because a
+  supplier did. Before this, a spatial flood (which never lists
+  `directly_affected_assets`) had every asset counted, roads included: 174 of
+  174 on the real Kurla graph at every severity, so the metric couldn't
+  distinguish agents.
+- **Defensive copy.** `__init__` deep-copies the `DependencyGraph` it's given.
+  It used to keep the caller's `Asset` objects, so two simulators built from
+  one graph object shared damage. Every existing caller already copied first;
+  this closes the trap for new ones.
 """
 
 from __future__ import annotations
@@ -71,7 +84,7 @@ from collections.abc import Callable
 import networkx as nx
 import numpy as np
 
-from udt.common.models import Asset, DependencyGraph, TwinState
+from udt.common.models import Asset, AssetType, DependencyGraph, TwinState
 from udt.twin.ambulances import advance_ambulances, dispatch_ambulance
 from udt.twin.cascade import EdgeRuntimeState, resolve_functional_levels, update_buffers
 from udt.twin.demand import apply_patient_transfer, consume_demand
@@ -92,6 +105,11 @@ flood degradation function (dev doc §4.2)."""
 # (=1) in 20 ticks of continuous repair = 100 simulated minutes.
 DEFAULT_REPAIR_RATE_PER_TICK = 0.05
 
+# Dev doc §3.5 (revised 2026-09-26): only facilities can "cascade", and only
+# when their functional drop isn't explained by their own physical damage.
+CASCADE_THRESHOLD = 0.5
+CASCADE_ELIGIBLE_TYPES = frozenset({AssetType.HOSPITAL, AssetType.SUBSTATION, AssetType.WATER})
+
 
 class Simulator:
     """Owns one twin run's mutable state: the asset graph, each edge's
@@ -108,6 +126,7 @@ class Simulator:
         onset_hour_of_day: float = 0.0,
         road_network: RoadNetwork | None = None,
     ) -> None:
+        dep_graph = dep_graph.model_copy(deep=True)  # see module docstring, 2026-09-26
         self.graph: nx.DiGraph[str] = build_networkx_graph(dep_graph)
         self.edge_states: dict[str, EdgeRuntimeState] = {
             edge.edge_id: EdgeRuntimeState.initial(edge) for edge in dep_graph.edges
@@ -123,9 +142,9 @@ class Simulator:
         # M4: the twin's own rng for patient-arrival/discharge sampling
         # (dev doc §3.6 — explicit, seeded, no bare np.random calls).
         self.rng = np.random.default_rng(seed)
-        # Cascading failure count (dev doc §3.5): assets whose functional
-        # level dropped below 0.5 at any point, EXCLUDING those directly
-        # hit by the incident — tracked across the whole run, not per tick.
+        # Cascading failure count (dev doc §3.5, revised 2026-09-26): facilities
+        # whose functional level dropped below 0.5 while still physically
+        # intact (intrinsic >= 0.5) — tracked across the whole run, not per tick.
         self._ever_cascaded: set[str] = set()
         # Patient deaths (dev doc §5.4's patient_deaths' proxy, M4
         # addition) — cumulative across the run, same convention.
@@ -227,7 +246,13 @@ class Simulator:
             self.asset(asset_id).functional_level = level
 
         for asset_id, level in levels.items():
-            if level < 0.5 and asset_id not in directly_affected_assets:
+            asset = self.asset(asset_id)
+            if (
+                asset.asset_type in CASCADE_ELIGIBLE_TYPES
+                and level < CASCADE_THRESHOLD
+                and asset.intrinsic_level >= CASCADE_THRESHOLD
+                and asset_id not in directly_affected_assets
+            ):
                 self._ever_cascaded.add(asset_id)
 
         if patient_transfer is not None:

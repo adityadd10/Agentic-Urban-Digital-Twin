@@ -40,7 +40,7 @@ from __future__ import annotations
 import networkx as nx
 
 from udt.common.models import AssetType, Incident
-from udt.incidents.degradations.flood import temporal_multiplier
+from udt.incidents.degradations.flood import incident_envelope
 
 LOAD_SURGE_FACTOR = 0.5  # load can rise up to 50% above baseline at peak severity x envelope
 OVERLOAD_THRESHOLD = 0.95  # dev doc §5.6 exact
@@ -67,7 +67,7 @@ def update_substation_load(
     same reason (the agent needs this tick's current state, not last
     tick's, to decide whether to escalate/de-escalate shedding)."""
     hours_since_onset = (tick - incident.onset_tick) * dt_minutes / 60.0
-    envelope = temporal_multiplier(hours_since_onset)
+    envelope = incident_envelope(incident, hours_since_onset)
     surge = 1.0 + LOAD_SURGE_FACTOR * incident.severity * envelope
 
     for asset_id in graph.nodes:

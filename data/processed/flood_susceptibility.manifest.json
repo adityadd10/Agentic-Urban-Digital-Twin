@@ -1,6 +1,6 @@
 {
   "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/flood_susceptibility.tif",
-  "generated_at": "2026-09-19T14:33:06.834145+00:00",
+  "generated_at": "2026-09-26T18:14:52.733826+00:00",
   "inputs": {
     "dem": {
       "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/dem.tif",
@@ -14,7 +14,16 @@
       "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/landuse.geojson",
       "sha256": "44b50833574ff381bc5d518e0df6923bc9e112b0ce0c8ae0a18e81d051dbd6c6"
     },
-    "formula": "inv_norm_elevation * inv_norm_distance_to_real_drainage * land_cover_factor",
+    "boundary": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+      "sha256": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288"
+    },
+    "formula": "W_ELEV*quantile5(elevation) + W_DRAIN*quantile5(distance_to_real_drainage) + W_LANDCOVER*land_cover_factor (weights: Mann & Gupta 2023, renormalised)",
+    "weights": {
+      "elevation": 0.34114583333333337,
+      "drainage": 0.3736979166666667,
+      "land_cover": 0.28515625
+    },
     "pervious_dampening": 0.7
   },
   "row_count": 84912,
@@ -23,8 +32,8 @@
     "n_drainage_cells": 750,
     "n_impervious_features": 3161,
     "n_impervious_cells": 13935,
-    "min": 0.0,
-    "max": 0.963111762036678,
-    "mean": 0.4603002150528391
+    "min": 0.342578125,
+    "max": 1.0,
+    "mean": 0.520606638772592
   }
 }

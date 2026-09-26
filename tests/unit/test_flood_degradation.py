@@ -1,6 +1,6 @@
 """Phase 3 acceptance tests (dev doc §4.2, flood-only scope): temporal
-envelope shape, depth formula, road blockage, and the recession-recovery
-interpretation documented in `degradations/flood.py`."""
+envelope shape, depth formula, road blockage, and persistent fragility-based
+facility damage (dev doc §3.8, revised 2026-09-26)."""
 
 from __future__ import annotations
 
@@ -8,6 +8,7 @@ import pytest
 
 from udt.common.models import Asset, AssetType, Incident
 from udt.incidents.degradations.flood import (
+    FAILED_RESIDUAL,
     MAX_DEPTH_AT_SEVERITY_1_M,
     ROAD_BLOCKAGE_DEPTH_SCALE_M,
     flood_degradation,
@@ -93,10 +94,10 @@ def test_flood_degradation_returns_zero_for_roads() -> None:
 
 
 @pytest.mark.phase3
-def test_flood_degradation_tracks_target_and_recovers_on_recession() -> None:
-    """Module docstring point 3: the returned delta should let
-    intrinsic_level recover (negative delta) as the flood recedes, not
-    only ever decrease."""
+def test_flood_damage_persists_after_recession() -> None:
+    """Dev doc §3.8 item 4 (2026-09-26): a flooded facility drops to its
+    residual and does NOT recover when the water recedes. This replaces
+    the old recession-recovery behaviour, which repaired facilities for free."""
     hospital = Asset(
         asset_id="H1",
         asset_type=AssetType.HOSPITAL,
@@ -107,19 +108,33 @@ def test_flood_degradation_tracks_target_and_recovers_on_recession() -> None:
     raster = _FakeRaster(1.0)
     incident = _incident(severity=1.0)
 
-    # At peak: full damage -> target intrinsic = 0, so reduction = current(1.0) - 0 = 1.0
-    peak_tick = int(5 * 60 / 5)  # 5h since onset, well within the 2-10h hold window
-    reduction = flood_degradation(incident, hospital, peak_tick, raster)
-    assert reduction == pytest.approx(1.0)
+    peak_tick = int(5 * 60 / 5)  # 5h since onset, inside the 2-10h hold window; depth = 2.0 m
+    reduction = flood_degradation(incident, hospital, peak_tick, raster, critical_depth_m=0.6)
+    assert reduction == pytest.approx(1.0 - FAILED_RESIDUAL[AssetType.HOSPITAL])
     hospital.intrinsic_level -= reduction
-    assert hospital.intrinsic_level == pytest.approx(0.0)
 
-    # Long after recession: target intrinsic = 1.0 again, reduction should be negative (recovery)
-    late_tick = int(20 * 60 / 5)  # 20h since onset, past the 16h full-recede point
-    reduction_late = flood_degradation(incident, hospital, late_tick, raster)
-    assert reduction_late < 0
-    hospital.intrinsic_level = max(0.0, min(1.0, hospital.intrinsic_level - reduction_late))
-    assert hospital.intrinsic_level == pytest.approx(1.0)
+    late_tick = int(20 * 60 / 5)  # fully receded
+    assert flood_degradation(incident, hospital, late_tick, raster, critical_depth_m=0.6) == 0.0
+    assert hospital.intrinsic_level == pytest.approx(FAILED_RESIDUAL[AssetType.HOSPITAL])
+
+
+@pytest.mark.phase3
+def test_flood_degradation_no_damage_below_critical_depth() -> None:
+    hospital = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry=POINT,
+        intrinsic_level=1.0,
+        functional_level=1.0,
+    )
+    peak_tick = int(5 * 60 / 5)
+    # depth = 1.0 x 0.2 x 2.0 = 0.4 m, below a 0.6 m critical depth
+    assert (
+        flood_degradation(
+            _incident(severity=1.0), hospital, peak_tick, _FakeRaster(0.2), critical_depth_m=0.6
+        )
+        == 0.0
+    )
 
 
 @pytest.mark.phase3
@@ -155,7 +170,8 @@ def test_make_flood_degradation_fn_sets_road_blockage_not_intrinsic_reduction() 
         min(1.0, MAX_DEPTH_AT_SEVERITY_1_M / ROAD_BLOCKAGE_DEPTH_SCALE_M)
     )
     assert "H1" in reductions
-    assert reductions["H1"] == pytest.approx(1.0)  # full damage at peak, per the test above
+    # 2.0 m at peak exceeds any hospital critical depth -> drops to its residual
+    assert reductions["H1"] == pytest.approx(1.0 - FAILED_RESIDUAL[AssetType.HOSPITAL])
 
 
 @pytest.mark.phase4

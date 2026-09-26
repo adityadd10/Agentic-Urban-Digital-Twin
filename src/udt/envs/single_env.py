@@ -89,7 +89,11 @@ from udt.common.models import (
 )
 from udt.constraints.engine import check
 from udt.incidents.degradations.flood import SusceptibilityRaster, make_flood_degradation_fn
-from udt.scenarios.generator import generate_flood_scenario
+from udt.scenarios.generator import (
+    apply_initial_conditions,
+    generate_flood_scenario,
+    onset_hour_of_day,
+)
 from udt.twin.ambulances import generate_requests, spawn_ambulances
 from udt.twin.graph import dependency_edges_of
 from udt.twin.power import SHED_FRACTION_BY_TIER, update_substation_load
@@ -243,8 +247,14 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
         self.incident = scenario.incident
         self._degradation_fn = make_flood_degradation_fn(scenario.incident, self._raster)
 
-        graph_copy = self._base_graph.model_copy(deep=True)
-        self.sim = Simulator(graph_copy, seed=episode_seed, road_network=self._road_network)
+        # Dev doc §4.3 (2026-09-26): scenario's bed occupancy + onset hour.
+        graph_copy = apply_initial_conditions(self._base_graph, scenario)
+        self.sim = Simulator(
+            graph_copy,
+            seed=episode_seed,
+            road_network=self._road_network,
+            onset_hour_of_day=onset_hour_of_day(scenario),
+        )
         spawn_ambulances(self.sim.graph, self._road_network, N_AMBULANCES_PER_HOSPITAL)
 
         self._stable_streak = 0
