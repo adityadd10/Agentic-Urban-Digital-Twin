@@ -1,0 +1,28 @@
+# Frozen scenario suite config (dev doc §4.3). Consumed by scripts/generate_scenarios.py.
+# Changing anything here after the suite is generated means a NEW suite_version, never an
+# in-place regeneration (the script refuses to overwrite an existing manifest).
+
+suite_version: flood_suite_v1
+incident_type: flood
+out_dir: data/scenarios/flood
+
+# 20 / 10 / 10 per incident type (dev doc §4.3).
+splits:
+  train: { n: 20, seed_start: 1000000 }
+  val: { n: 10, seed_start: 2000000 }
+  test: { n: 10, seed_start: 3000000 }
+# Seed ranges are disjoint by construction (each split scans upward from its own start and
+# never gets near the next split's start), so no scenario can appear in two splits.
+
+# Stratification: every split must cover every cell of severity band x ward half, so a
+# 10-scenario split can't miss the low-severity or the southern-rainfall region by chance.
+# Accept-by-cell: scan seeds upward and keep a scenario only if its cell still has room.
+# Cells per split = len(severity_bands) x 2 halves = 10; train holds 2 per cell, val/test 1.
+stratify:
+  severity_bands: [[0.2, 0.36], [0.36, 0.52], [0.52, 0.68], [0.68, 0.84], [0.84, 1.0]]
+  ward_halves: north_south  # split at the ward bounding box's mid-latitude
+
+# Leakage check: minimum allowed normalised Euclidean distance between any val/test
+# scenario and its nearest train scenario, over (severity, sigma, centroid lon/lat,
+# growth, hold, recede) each scaled to [0, 1] by its sampling range.
+leakage_min_distance: 0.05

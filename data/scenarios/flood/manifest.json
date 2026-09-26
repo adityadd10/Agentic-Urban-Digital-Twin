@@ -1,0 +1,471 @@
+{
+  "suite_version": "flood_suite_v1",
+  "incident_type": "flood",
+  "env_version": "udt_multi_env_v1",
+  "twin_git_tag": "twin-v1",
+  "twin_git_commit": "5e2b434a78774c8b175d186b07333dfd8dfffc0e",
+  "created_at": "2026-09-26T19:07:45.144144+00:00",
+  "config": {
+    "suite_version": "flood_suite_v1",
+    "incident_type": "flood",
+    "out_dir": "data/scenarios/flood",
+    "splits": {
+      "train": {
+        "n": 20,
+        "seed_start": 1000000
+      },
+      "val": {
+        "n": 10,
+        "seed_start": 2000000
+      },
+      "test": {
+        "n": 10,
+        "seed_start": 3000000
+      }
+    },
+    "stratify": {
+      "severity_bands": [
+        [
+          0.2,
+          0.36
+        ],
+        [
+          0.36,
+          0.52
+        ],
+        [
+          0.52,
+          0.68
+        ],
+        [
+          0.68,
+          0.84
+        ],
+        [
+          0.84,
+          1.0
+        ]
+      ],
+      "ward_halves": "north_south"
+    },
+    "leakage_min_distance": 0.05
+  },
+  "splits": {
+    "train": {
+      "n": 20,
+      "seeds": [
+        1000000,
+        1000001,
+        1000002,
+        1000003,
+        1000004,
+        1000005,
+        1000006,
+        1000007,
+        1000008,
+        1000010,
+        1000012,
+        1000013,
+        1000017,
+        1000018,
+        1000019,
+        1000022,
+        1000026,
+        1000028,
+        1000029,
+        1000049
+      ]
+    },
+    "val": {
+      "n": 10,
+      "seeds": [
+        2000000,
+        2000001,
+        2000002,
+        2000003,
+        2000004,
+        2000008,
+        2000012,
+        2000027,
+        2000030,
+        2000034
+      ]
+    },
+    "test": {
+      "n": 10,
+      "seeds": [
+        3000000,
+        3000001,
+        3000002,
+        3000003,
+        3000005,
+        3000006,
+        3000007,
+        3000011,
+        3000018,
+        3000019
+      ]
+    }
+  },
+  "strata_covered": {
+    "train": [
+      "band0_north",
+      "band0_south",
+      "band1_north",
+      "band1_south",
+      "band2_north",
+      "band2_south",
+      "band3_north",
+      "band3_south",
+      "band4_north",
+      "band4_south"
+    ],
+    "val": [
+      "band0_north",
+      "band0_south",
+      "band1_north",
+      "band1_south",
+      "band2_north",
+      "band2_south",
+      "band3_north",
+      "band3_south",
+      "band4_north",
+      "band4_south"
+    ],
+    "test": [
+      "band0_north",
+      "band0_south",
+      "band1_north",
+      "band1_south",
+      "band2_north",
+      "band2_south",
+      "band3_north",
+      "band3_south",
+      "band4_north",
+      "band4_south"
+    ]
+  },
+  "parameter_ranges_per_split": {
+    "train": {
+      "severity": [
+        0.2878,
+        0.9978
+      ],
+      "sigma_m": [
+        1011.191,
+        2489.9572
+      ],
+      "lon": [
+        72.8712,
+        72.9047
+      ],
+      "lat": [
+        19.0506,
+        19.1231
+      ],
+      "growth_h": [
+        1.003,
+        2.8841
+      ],
+      "hold_h": [
+        4.1695,
+        9.9999
+      ],
+      "recede_h": [
+        4.0529,
+        7.8666
+      ]
+    },
+    "val": {
+      "severity": [
+        0.3223,
+        0.9725
+      ],
+      "sigma_m": [
+        862.1453,
+        2455.9893
+      ],
+      "lon": [
+        72.871,
+        72.8974
+      ],
+      "lat": [
+        19.0534,
+        19.1198
+      ],
+      "growth_h": [
+        1.0762,
+        2.3385
+      ],
+      "hold_h": [
+        4.4027,
+        9.9154
+      ],
+      "recede_h": [
+        4.6722,
+        7.244
+      ]
+    },
+    "test": {
+      "severity": [
+        0.2498,
+        0.9869
+      ],
+      "sigma_m": [
+        884.5191,
+        2481.4829
+      ],
+      "lon": [
+        72.8814,
+        72.8962
+      ],
+      "lat": [
+        19.0691,
+        19.1146
+      ],
+      "growth_h": [
+        1.2921,
+        2.9571
+      ],
+      "hold_h": [
+        4.1866,
+        8.8377
+      ],
+      "recede_h": [
+        4.1443,
+        7.9326
+      ]
+    }
+  },
+  "checks": {
+    "seeds_disjoint_across_splits": true,
+    "fragility_seeds_unique": true,
+    "bed_occupancy_seeds_unique": true,
+    "no_duplicate_parameter_vectors": true,
+    "min_normalised_distance": {
+      "val": 0.2667,
+      "test": 0.3251,
+      "test_to_val": 0.4196
+    },
+    "no_near_duplicates": true,
+    "all_strata_covered": true,
+    "ks_pvalues_train_vs_holdout": {
+      "severity_train_vs_val": 0.998,
+      "severity_train_vs_test": 0.949,
+      "sigma_m_train_vs_val": 0.221,
+      "sigma_m_train_vs_test": 0.784,
+      "lon_train_vs_val": 0.949,
+      "lon_train_vs_test": 0.369,
+      "lat_train_vs_val": 0.949,
+      "lat_train_vs_test": 0.949,
+      "growth_h_train_vs_val": 0.569,
+      "growth_h_train_vs_test": 0.122,
+      "hold_h_train_vs_val": 0.784,
+      "hold_h_train_vs_test": 0.569,
+      "recede_h_train_vs_val": 0.569,
+      "recede_h_train_vs_test": 0.998
+    }
+  },
+  "files": [
+    {
+      "path": "train/flood_train_00.json",
+      "sha256": "054a3274be16ad5191492ae4ff20bc68baec2836da5bdc3b5c35afc8ffaf52ca",
+      "seed": 1000000
+    },
+    {
+      "path": "train/flood_train_01.json",
+      "sha256": "b70c7e70654610c1086914c1c19a1414c6359b5ea64aed20e9601b2383d11074",
+      "seed": 1000001
+    },
+    {
+      "path": "train/flood_train_02.json",
+      "sha256": "214af8bbe32c6238f27256bfdaa5015cd1541e32f87bc0635b2bd88899a4e587",
+      "seed": 1000002
+    },
+    {
+      "path": "train/flood_train_03.json",
+      "sha256": "9b6a0adbf6926e9a0119a06a68d90a3e35dba4432b63bd044a79ecf7b7de01e6",
+      "seed": 1000003
+    },
+    {
+      "path": "train/flood_train_04.json",
+      "sha256": "66d9af943420dae834a4b493d5435dac61ba30b9dbfbf841cb4927c283b7fd66",
+      "seed": 1000004
+    },
+    {
+      "path": "train/flood_train_05.json",
+      "sha256": "1a5158dbbb1c091b63fff25f55fc715722e8f9ad45b9105ba4420c4313c434e7",
+      "seed": 1000005
+    },
+    {
+      "path": "train/flood_train_06.json",
+      "sha256": "faf1a96532ef4d123e574d70c60a74bd5ad4112ffe01aee8f6bfa2ede048ecc0",
+      "seed": 1000006
+    },
+    {
+      "path": "train/flood_train_07.json",
+      "sha256": "4a877b9f39019b5c75df5b5198ff1236de7ad65ba7d5b6de942e9dcaaaf3a799",
+      "seed": 1000007
+    },
+    {
+      "path": "train/flood_train_08.json",
+      "sha256": "abe64e43c525a83fa0c5266685862c4f0c0b5fa1922f15e9040c54fa90462e54",
+      "seed": 1000008
+    },
+    {
+      "path": "train/flood_train_09.json",
+      "sha256": "ce89832a898103b9ca2d3471832c3280ca27cc4585d25604199d8f63487f03d8",
+      "seed": 1000010
+    },
+    {
+      "path": "train/flood_train_10.json",
+      "sha256": "09b0768f53d4bda018d2d9109c7e5478505d41e1c17dececcdcb857086745100",
+      "seed": 1000012
+    },
+    {
+      "path": "train/flood_train_11.json",
+      "sha256": "4b8bf2818021b04b4d254d6b19dea2a7f449315886ee0644ec56d7d3ce6cd991",
+      "seed": 1000013
+    },
+    {
+      "path": "train/flood_train_12.json",
+      "sha256": "e4c3ad8873490db8d1b6fa2ba46ab7b4f65aa25230bb547f7643fcaad97153f4",
+      "seed": 1000017
+    },
+    {
+      "path": "train/flood_train_13.json",
+      "sha256": "c17699bd8dc9368a78c477800e8ba98d47b02eae5b58d0802a91a1504b44ae86",
+      "seed": 1000018
+    },
+    {
+      "path": "train/flood_train_14.json",
+      "sha256": "a62a2d37cc7079cf44b68ead0f368ca07b8bfc95938906d7bc9f93df35fd30c2",
+      "seed": 1000019
+    },
+    {
+      "path": "train/flood_train_15.json",
+      "sha256": "c17491928673eaab82bfd81f712ef1b6eeb8306454d5e164ab342f8ea4c7ca75",
+      "seed": 1000022
+    },
+    {
+      "path": "train/flood_train_16.json",
+      "sha256": "2dcf7e16aa00cbed1b3e7f8b8d8830d2242d46e2c983b8c7d29ef71015505437",
+      "seed": 1000026
+    },
+    {
+      "path": "train/flood_train_17.json",
+      "sha256": "28ce37d7cd620ccb3fcdd0207851b9ee2c041caf54ab25b7d938d25ce284dae8",
+      "seed": 1000028
+    },
+    {
+      "path": "train/flood_train_18.json",
+      "sha256": "83bd69af13da2ebfc1bd6f576c9d23c5f63a8c6f5dae49adfbd232b04a000e70",
+      "seed": 1000029
+    },
+    {
+      "path": "train/flood_train_19.json",
+      "sha256": "ffb630dbb6a4673ac61451fa4066ab975298ef6a3e14c6f77826ece9d606ba9f",
+      "seed": 1000049
+    },
+    {
+      "path": "val/flood_val_00.json",
+      "sha256": "0f15a193d4681a9804c337eeba3b2cd30ee255077593a835d72cf626a6a31250",
+      "seed": 2000000
+    },
+    {
+      "path": "val/flood_val_01.json",
+      "sha256": "5c3a4478e559528f5915adbc45944b400085847d7694b3247a0bc15565396ad7",
+      "seed": 2000001
+    },
+    {
+      "path": "val/flood_val_02.json",
+      "sha256": "b277fbf266e5d2801add1241135240458843928fb3ee53ca0b330859f3173576",
+      "seed": 2000002
+    },
+    {
+      "path": "val/flood_val_03.json",
+      "sha256": "b54a6aa4d6a9ebdb1ea0f86cdb982f43cc5855b8c062109951815c58125d826d",
+      "seed": 2000003
+    },
+    {
+      "path": "val/flood_val_04.json",
+      "sha256": "fe6f06fe22f9a1828f799134c414c266438f88ec02b5497cd5c41348c43a0182",
+      "seed": 2000004
+    },
+    {
+      "path": "val/flood_val_05.json",
+      "sha256": "c272fe4590efa158326e7a2900dede045a563afca223c86bb8e6acfc7124e162",
+      "seed": 2000008
+    },
+    {
+      "path": "val/flood_val_06.json",
+      "sha256": "3d6a14ffc890430cbaf93329cd7094eab2719e819adc6e8525dc3f7def98245f",
+      "seed": 2000012
+    },
+    {
+      "path": "val/flood_val_07.json",
+      "sha256": "f72ef24d41c31aa42f71831cbe40c459dbc45eb5f085d9c35e9b50d2a6f1e6b6",
+      "seed": 2000027
+    },
+    {
+      "path": "val/flood_val_08.json",
+      "sha256": "15d9304d08daacb1108972c6b695bfe16d1acd5a1ec3425a050519f095b0881b",
+      "seed": 2000030
+    },
+    {
+      "path": "val/flood_val_09.json",
+      "sha256": "35915226831f1d9da9293c38b629e9958f58d11860657d4eb85e616b46b86a16",
+      "seed": 2000034
+    },
+    {
+      "path": "test/flood_test_00.json",
+      "sha256": "dd5dda0f14d281c4f6c95618f0bdf1ff430eaf5851d28e5fd1cdc4fa1c30bb9b",
+      "seed": 3000000
+    },
+    {
+      "path": "test/flood_test_01.json",
+      "sha256": "42e8e747916a6c247483fcec2f2255f4a88786d63113126a5462143bc829135c",
+      "seed": 3000001
+    },
+    {
+      "path": "test/flood_test_02.json",
+      "sha256": "239222a2c882bbcb8f8a71adda597f0cdde4c644ce4033d90ff840c33c4ccc9a",
+      "seed": 3000002
+    },
+    {
+      "path": "test/flood_test_03.json",
+      "sha256": "5b173346fb21dc562fd59636ecf8cd89fea17c0b877020f24d14e635b2dd8482",
+      "seed": 3000003
+    },
+    {
+      "path": "test/flood_test_04.json",
+      "sha256": "637535c992f5a114ff8447060d59f146046aaea75fc8a111d4ca962dbc8f303d",
+      "seed": 3000005
+    },
+    {
+      "path": "test/flood_test_05.json",
+      "sha256": "4d6727cb57f0773ca9cf6c2fe33f812a87c715c4290c881ce36ea549c0111588",
+      "seed": 3000006
+    },
+    {
+      "path": "test/flood_test_06.json",
+      "sha256": "1eae9c6ef2a61104c1c234977114eb476ef8b357478ea48261b31c75eb2ad3d7",
+      "seed": 3000007
+    },
+    {
+      "path": "test/flood_test_07.json",
+      "sha256": "7936484222dc227548f67bd368d5d99d528fb19c5fd6f9f5621dd4ac9e429024",
+      "seed": 3000011
+    },
+    {
+      "path": "test/flood_test_08.json",
+      "sha256": "962cdeb3e3510025ec63f1a1babc15c6aa8be6e33b7150b276eb39680f9fc896",
+      "seed": 3000018
+    },
+    {
+      "path": "test/flood_test_09.json",
+      "sha256": "239105284a3d557b837bedb053ae4e6fad8a76ef3a3acfdd2ab975d0067db873",
+      "seed": 3000019
+    }
+  ]
+}
