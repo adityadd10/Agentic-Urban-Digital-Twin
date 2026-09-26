@@ -36,12 +36,12 @@ from udt.common.models import (
     RiskCalibration,
     RouterCalibration,
 )
+from udt.common.versions import ENV_VERSION
 from udt.incidents.degradations.flood import SusceptibilityRaster
 from udt.twin.road_network import RoadNetwork
 
 log = structlog.get_logger()
 
-ENV_VERSION = "udt_multi_env_v0"  # matches every other module's own constant of the same value
 
 _ZERO_RISK_CALIBRATION = RiskCalibration(
     p95_risk_raw=0.0, p95_disagreement_raw=0.0, conformal_threshold=0.0, p95_interval_width=0.0

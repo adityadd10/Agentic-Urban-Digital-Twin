@@ -41,6 +41,7 @@ import numpy as np  # noqa: E402
 
 from _pipeline_common import configure_logging, load_config, resolve_path  # noqa: E402
 from udt.common.models import DependencyGraph, RouterCalibration  # noqa: E402
+from udt.common.versions import ENV_VERSION  # noqa: E402
 from udt.routing.ood import DEFAULT_K, featurize_incident, knn_novelty_score  # noqa: E402
 from udt.scenarios.generator import generate_flood_scenario  # noqa: E402
 
@@ -55,7 +56,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--config", default="configs/data.yaml")
     parser.add_argument("--incident-type", default="flood")
-    parser.add_argument("--env-version", default="udt_multi_env_v0")
+    parser.add_argument("--env-version", default=ENV_VERSION)
     parser.add_argument("--n-training", type=int, default=N_TRAINING_DEFAULT)
     parser.add_argument("--n-calibration", type=int, default=N_CALIBRATION_DEFAULT)
     parser.add_argument("--base-seed", type=int, default=0)

@@ -43,6 +43,7 @@ from udt.agents.marl.registry import load_registry  # noqa: E402
 from udt.agents.rule_based import RuleBasedAgent  # noqa: E402
 from udt.common.config import get_settings  # noqa: E402
 from udt.common.models import DependencyGraph, RouterCalibration  # noqa: E402
+from udt.common.versions import ENV_VERSION  # noqa: E402
 from udt.incidents.degradations.flood import (  # noqa: E402
     SusceptibilityRaster,
     make_flood_degradation_fn,
@@ -129,7 +130,7 @@ def main() -> None:
         decision = route(
             incident,
             base_graph,
-            env_version="udt_multi_env_v0",
+            env_version=ENV_VERSION,
             registry_entries=registry_entries,
             calibration=calibration,
         )

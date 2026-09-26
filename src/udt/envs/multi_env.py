@@ -101,6 +101,7 @@ from pettingzoo import ParallelEnv
 from shapely.geometry import shape
 
 from udt.common.models import AgentAction, AssetType, DependencyGraph, Incident, TwinState
+from udt.common.versions import ENV_VERSION
 from udt.constraints.engine import check
 from udt.incidents.degradations.flood import SusceptibilityRaster, make_flood_degradation_fn
 from udt.scenarios.generator import (
@@ -146,7 +147,7 @@ class UDTMultiAgentEnv(
     the road network once, same reasoning as `single_env.py`); call
     `reset()` per episode."""
 
-    metadata: dict[str, Any] = {"name": "udt_multi_env_v0", "render_modes": []}
+    metadata: dict[str, Any] = {"name": ENV_VERSION, "render_modes": []}
 
     def __init__(
         self,
