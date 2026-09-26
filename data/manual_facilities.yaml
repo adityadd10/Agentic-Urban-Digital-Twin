@@ -1,0 +1,60 @@
+# Manual facility overrides/additions (dev doc §2.2 stage 3, "manual-override
+# YAML ... to add/correct assets; manual entries flagged source: manual").
+#
+# Session note (MTP_Module_Planner.md M2 revision, 2026-09-13): added to close
+# a real credibility gap, not a data-collection convenience. The real Kurla
+# (L Ward) graph had **zero** water facilities — confirmed two ways before
+# reaching for this file, not assumed:
+#   1. `03_extract_facilities.py`'s own OSM query
+#      (man_made=water_works|water_tower|pumping_station) returns nothing for
+#      this ward's bounding box (re-verified live against overpass.osm.ch).
+#   2. BMC's own City Development Plan 2005-2025 (fetched directly) names only
+#      two citywide treated-water reservoirs (Bhandup Complex 246 ML, Yewai
+#      123 ML) feeding "28 service reservoirs" — it never says which one
+#      covers Kurla, and nothing public geocodes that. The one "Kurla pumping
+#      station" the document does name (built 1955) is explicitly *sewerage*
+#      (§13.2), not water supply — wrong asset semantics to reuse here.
+#      A real, ward-local, precisely-geocoded water-supply facility for
+#      Kurla is genuinely not publicly obtainable, same conclusion the dev
+#      doc §2.4 already reached for the power grid.
+#
+# User's explicit decision (given both findings above): rather than (a) wire
+# in the real-but-15km-away Bhandup Complex MBR, which would be geographically
+# real but functionally inert for this ward's flood (outside the
+# susceptibility raster's coverage, not fed by the local Kurla substation, so
+# it would never degrade during a local incident and the
+# substation->water->hospital cascade chain the dev doc names as "the main
+# cascade chain" (§2.2) would stay silent for a *different* reason than
+# before), or (b) leave the gap and scope the real-data cascade claim to
+# power+access only — add a **flagged-synthetic** local water facility near
+# each real hospital instead, so the named cascade mechanic actually fires
+# and is observable on the real Kurla graph. Same disclosure tier as this
+# project's other labeled placeholders (hospital bed counts, substation
+# capacity_mw, ambulance fleet size — all `06_build_dependency_graph.py`
+# randoms, all disclosed there): a fabricated location and capacity, not a
+# corrected/added real-world record, hence `provenance: synthetic_placeholder`
+# on every entry here (on top of the loader's own `source: manual` tag) so it
+# reads unambiguously as invented, not sourced.
+#
+# Placement: one facility close to each real hospital (small offset, still
+# within `dependency_rules.facility_road_buffer_m` so it also gets a real
+# access edge like any other facility) — a small local pumping station
+# feeding that hospital's water main is a plausible real-world shape for
+# this asset, it just isn't a specific verified one.
+
+facilities:
+  - asset_id: "W_synth_0"
+    asset_type: "water"
+    name: "Synthetic local pumping station (near K B Bhabha Hospital) — NOT a verified real facility"
+    provenance: "synthetic_placeholder"
+    geometry:
+      type: "Point"
+      coordinates: [72.867544, 19.054965]  # ~50m NE of H_peripheral_0
+
+  - asset_id: "W_synth_1"
+    asset_type: "water"
+    name: "Synthetic local pumping station (near polyclinic) — NOT a verified real facility"
+    provenance: "synthetic_placeholder"
+    geometry:
+      type: "Point"
+      coordinates: [72.892611, 19.098583]  # ~50m NE of H_polyclinic_0

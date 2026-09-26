@@ -1,0 +1,19 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/dependency_graph.json",
+  "generated_at": "2026-09-13T07:53:56.490293+00:00",
+  "inputs": {
+    "facilities": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/facilities.geojson",
+      "sha256": "6e8638ae915e3eb7600617cac9c8dc3069e04c28f0024c67b98dcfad8e9dc1f4"
+    },
+    "roads": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/roads_full.graphml",
+      "sha256": "8d69d625f4ea97890e9552344b83cde8046b4cf51326158c6c340e247c47bc8c"
+    }
+  },
+  "row_count": 174,
+  "extra": {
+    "n_assets": 174,
+    "n_edges": 251
+  }
+}

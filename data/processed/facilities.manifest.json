@@ -1,0 +1,17 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/facilities.geojson",
+  "generated_at": "2026-09-13T07:53:51.277048+00:00",
+  "inputs": {
+    "hospitals_source": "BMC ArcGIS REST (Health_Facilities)",
+    "substations_source": "OSM official REST API, power=substation",
+    "water_source": "OSM official API, man_made=water_works|water_tower|pumping_station",
+    "manual_overrides": "data/manual_facilities.yaml"
+  },
+  "row_count": 5,
+  "extra": {
+    "n_hospitals": 2,
+    "n_substations": 1,
+    "n_water": 0,
+    "n_manual": 2
+  }
+}

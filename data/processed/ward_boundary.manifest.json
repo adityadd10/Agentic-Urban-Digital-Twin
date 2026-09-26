@@ -1,0 +1,14 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+  "generated_at": "2026-08-30T19:33:24.438468+00:00",
+  "inputs": {
+    "source": "BMC ArcGIS REST",
+    "service": "BMC_Ward",
+    "layer_id": 0,
+    "where": "NAME='L'"
+  },
+  "row_count": 1,
+  "extra": {
+    "ward_code": "L"
+  }
+}

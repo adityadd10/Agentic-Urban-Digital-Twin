@@ -1,0 +1,21 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/transit.geojson",
+  "generated_at": "2026-09-19T14:32:05.492892+00:00",
+  "inputs": {
+    "source": "BMC ArcGIS REST (Existing_Suburban_Stations/_Line, Metro_Stations/_Lines)",
+    "boundary": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+      "sha256": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288"
+    },
+    "filter": "spatial intersect with ward polygon (no ward attribute on these layers)"
+  },
+  "row_count": 11,
+  "extra": {
+    "by_type": {
+      "suburban_station": 3,
+      "suburban_line": 5,
+      "metro_station": 2,
+      "metro_line": 1
+    }
+  }
+}

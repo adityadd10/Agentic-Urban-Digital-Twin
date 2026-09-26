@@ -1,0 +1,37 @@
+# Experiment D — dev doc §14 Phase 9 names "Experiments D-F wired" as
+# an acceptance criterion but never spells out what D/E/F individually
+# are (only A, B, C, and G get an explicit definition anywhere in the
+# dev doc). **Disclosed interpretation, not a dev-doc-literal
+# assignment:** D/E/F are read here as the natural intermediate rungs
+# of dev doc §15's own "ablation ladder" between C (bare MAPPO) and G
+# (the full pipeline), following §15's stated philosophy ("start from
+# G_full.yaml, flip one field per run") applied in the other direction,
+# building back up from C. Each step flips one field, except one
+# deliberate, disclosed exception (E -> F, below — router and risk_gate
+# flip together, since one without the other is an awkward half-
+# configuration, not a meaningfully separate ablation point):
+#
+#   C -> D: add the LLM planner, in its cheapest mode (planner: none -> llm_direct)
+#   D -> E: upgrade the planner to use counterfactual simulation (llm_direct -> llm_counterfactual)
+#   E -> F: turn on the ID/OOD router AND the risk gate together (both disabled -> enabled)
+#   F -> G: swap in the constrained MARL policy (mappo -> mappo_constrained)
+#
+# D itself: MAPPO policy, LLM planner active but NOT using
+# `simulate_plan`'s counterfactual rollouts to rank candidate plans
+# (`llm/graph.py`'s `planner=llm_direct` would mean "take the LLM's
+# first/only plan directly" — a simpler planner mode than `llm_
+# counterfactual`'s current `generate_plans -> simulate_each ->
+# rank_by_outcome` — not yet implemented as a distinct code path in
+# `llm/graph.py`, which currently only builds the `llm_counterfactual`
+# behavior; this config documents the intended ablation slot, not a
+# claim that `llm_direct` mode already exists in code).
+experiment: D
+policy: mappo
+planner: llm_direct
+router: disabled
+risk_gate: disabled
+human_model: {}
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

@@ -1,0 +1,23 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/dem.tif",
+  "generated_at": "2026-08-30T19:33:43.758282+00:00",
+  "inputs": {
+    "source": "Copernicus GLO-30 DEM (AWS Open Data)",
+    "tile_url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N19_00_E072_00_DEM/Copernicus_DSM_COG_10_N19_00_E072_00_DEM.tif"
+  },
+  "row_count": 84912,
+  "extra": {
+    "bounds": [
+      72.8535584747941,
+      19.037554089927198,
+      72.9180099959495,
+      19.139178410485002
+    ],
+    "shape": [
+      366,
+      232
+    ],
+    "min_elev_m": -8.313203811645508,
+    "max_elev_m": 208.02218627929688
+  }
+}

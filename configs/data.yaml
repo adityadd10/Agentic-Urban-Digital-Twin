@@ -1,0 +1,83 @@
+# Data pipeline config (dev doc §2.2: "All scripts take --config configs/data.yaml").
+# Prototype 1 scope: flood-only, one Mumbai ward, sourced from BMC's public ArcGIS
+# REST feature services + OpenStreetMap. See MTP_Module_Planner.md M2 row and
+# MTP_Development_Document.md §2 for the pipeline spec this config drives.
+
+seed: 0
+
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  manual_facilities: "data/manual_facilities.yaml"
+
+# BMC's public ArcGIS Online feature services (no auth/API key needed — confirmed
+# reachable directly over HTTPS). Ward codes ("L", "H/E", ...) match the dev doc's
+# §2.1 candidate list exactly, confirmed against the live BMC_Ward layer.
+bmc_arcgis:
+  base_url: "https://services8.arcgis.com/r6MmJtuWAzMawmJ8/ArcGIS/rest/services"
+  ward_service: "BMC_Ward"
+  ward_layer_id: 0
+  ward_name_field: "NAME"
+  health_service: "Health_Facilities"
+  # Layers counted toward the dev doc's "≥2 hospitals" ward-selection criterion —
+  # Main/Special/Peripheral/Polyclinic read as "hospital", not dispensaries/
+  # maternity homes/health posts/blood banks/veterinary/yoga/funeral sites, which
+  # exist in the same service but aren't hospitals in the dev doc's sense.
+  hospital_layers:
+    - { id: 0, hospital_type: "main" }
+    - { id: 1, hospital_type: "special" }
+    - { id: 2, hospital_type: "peripheral" }
+    - { id: 4, hospital_type: "polyclinic" }
+  ward_field: "Ward"
+  name_field: "Hospital_Name"
+
+# Active ward for 01/03/06 (pass as --ward to those scripts). Back to L
+# (Kurla) — the dev doc §2.1 scoring's own pick. Briefly switched to S
+# (Powai) mid-session by direct user instruction, then switched back; see
+# MTP_Module_Planner.md's session log if the history of that matters later.
+active_ward:
+  id: "L"
+  label: "L Ward (Kurla)"
+  bmc_ward_code: "L"
+
+# Ward candidates per dev doc §2.1 (Mithi-belt, flood-prone) — the set
+# `00_score_wards.py` evaluates; matches `active_ward` above again.
+ward_candidates:
+  - id: "L"
+    label: "L Ward (Kurla)"
+    bmc_ward_code: "L"
+  - id: "H_E"
+    label: "H/E Ward (Bandra East)"
+    bmc_ward_code: "H/E"
+
+osm:
+  # overpass.osm.ch confirmed reachable (200 OK) from the user's own machine
+  # on 2026-08-31 when overpass-api.de/kumi.systems/openstreetmap.fr all
+  # failed from this project's build sandbox (dev doc §2.4) — kept primary
+  # here since it's the one actually verified working end-to-end. The
+  # others stay as fallbacks: overpass-api.de is the canonical general-use
+  # instance; overpass.kumi.systems returned 502 in the same check.
+  # overpass.openstreetmap.fr is deliberately excluded — it 403s
+  # programmatic clients ("only available to white-listed usages") once a
+  # real User-Agent is set, so it's not usable for an unattended pipeline
+  # even though ad hoc curl against it worked.
+  overpass_urls:
+    - "https://overpass.osm.ch/api/interpreter"
+    - "https://overpass-api.de/api/interpreter"
+    - "https://overpass.kumi.systems/api/interpreter"
+  timeout_s: 40
+  retries: 3
+
+dem:
+  # Copernicus GLO-30 DEM, public AWS Open Data COG (keyless). Mumbai falls in
+  # tile N19_00_E072_00 — confirmed reachable directly over HTTPS.
+  base_url: "https://copernicus-dem-30m.s3.amazonaws.com"
+  tile: "Copernicus_DSM_COG_10_N19_00_E072_00_DEM"
+
+roads:
+  network_type: "drive"
+  segment_cap_max: 100
+  segment_cap_min: 20
+
+dependency_rules:
+  facility_road_buffer_m: 100

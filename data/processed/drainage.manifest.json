@@ -1,0 +1,33 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/drainage.geojson",
+  "generated_at": "2026-09-18T17:13:04.632819+00:00",
+  "inputs": {
+    "source": "OSM official REST API (api.openstreetmap.org/api/0.6/map)",
+    "boundary": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+      "sha256": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288"
+    },
+    "waterway_types": [
+      "canal",
+      "ditch",
+      "drain",
+      "river",
+      "stream"
+    ],
+    "bbox": [
+      72.8635584747941,
+      19.0475540899272,
+      72.9080099959495,
+      19.129178410485
+    ]
+  },
+  "row_count": 53,
+  "extra": {
+    "by_waterway_type": {
+      "drain": 42,
+      "stream": 5,
+      "river": 4,
+      "canal": 2
+    }
+  }
+}

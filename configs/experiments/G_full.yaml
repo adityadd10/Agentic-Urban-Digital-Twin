@@ -1,0 +1,26 @@
+# Experiment G — dev doc §15's own literal example, reproduced as
+# closely as possible. Two small, disclosed deviations from the dev
+# doc's exact text:
+#   - `policy: marl_constrained` in the dev doc's own example doesn't
+#     match its own adjacent comment listing valid values (`rule |
+#     ppo_single | mappo | mappo_constrained`) - read as a typo for
+#     `mappo_constrained`, used here.
+#   - `suite.types: [flood, substation_failure]` narrowed to `[flood]`
+#     only - `substation_failure` is spec'd in the dev doc (§4's
+#     incident-type table) but was never built this session (M3 stayed
+#     flood-only throughout); listing it here would claim a suite that
+#     doesn't exist.
+# The full pipeline: constrained MARL policy (M7) + counterfactual LLM
+# planner (M9a) + ID/OOD router (M9b) + risk/autonomy gate (M8) all
+# active together.
+experiment: G
+policy: mappo_constrained
+planner: llm_counterfactual
+router: enabled
+risk_gate: enabled
+human_model:
+  approve_if_pfail_lt: 0.5
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

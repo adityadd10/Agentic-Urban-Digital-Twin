@@ -1,0 +1,28 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/roads.graphml",
+  "generated_at": "2026-08-31T10:23:15.346035+00:00",
+  "inputs": {
+    "source": "OSM official REST API (api.openstreetmap.org/api/0.6/map)",
+    "boundary": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+      "sha256": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288"
+    },
+    "bbox": [
+      72.8635584747941,
+      19.0475540899272,
+      72.9080099959495,
+      19.129178410485
+    ]
+  },
+  "row_count": 100,
+  "extra": {
+    "osm_nodes_fetched": 139352,
+    "osm_ways_fetched": 18390,
+    "full_graph_nodes": 11816,
+    "full_graph_edges": 22948,
+    "scc_nodes": 10933,
+    "scc_edges": 21547,
+    "testbed_nodes": 80,
+    "testbed_edges": 100
+  }
+}

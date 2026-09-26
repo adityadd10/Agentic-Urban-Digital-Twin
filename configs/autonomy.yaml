@@ -1,0 +1,20 @@
+# Autonomy gate thresholds (dev doc §9.3) — config, not hardcoded,
+# "because experiments sweep them" (dev doc's own words). Read by
+# `udt.risk.gate.load_autonomy_config`; `decide_tier`'s own keyword
+# defaults match these values exactly, so code and config agree.
+
+autonomous:
+  risk_max: 0.2
+  confidence_min: 0.8
+
+execute_and_flag:
+  risk_max: 0.5
+  confidence_min: 0.5
+
+# dev doc §9.3: "Timeout (default 10 simulated min)" at dt=5min/tick.
+approval_timeout_ticks: 2
+
+# dev doc §9.3: "a scripted HumanModel stands in (default: approve-if-
+# P_failure<0.5) [...] its behavior is config".
+human_model:
+  approve_if_pfail_lt: 0.5

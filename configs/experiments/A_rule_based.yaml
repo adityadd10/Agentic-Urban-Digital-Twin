@@ -1,0 +1,15 @@
+# Experiment A (dev doc §5.6/§14 Phase 4: "must be credible, not a
+# strawman") — the rule-based baseline vs. do-nothing control.
+# `experiments/runner.py`'s `run_episode`/`main()` already implements
+# this experiment directly (module M4); this file documents it in dev
+# doc §15's frozen config format alongside B-G, not a new code path.
+experiment: A
+policy: rule
+planner: none
+router: disabled
+risk_gate: disabled
+human_model: {}
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

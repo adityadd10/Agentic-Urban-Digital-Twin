@@ -1,0 +1,19 @@
+# Experiment E — see `D_llm_direct.yaml`'s header for the disclosed
+# ablation-ladder interpretation this session assigns to D/E/F (the dev
+# doc names none of them individually). E adds counterfactual-informed
+# planning on top of D: the LLM proposes candidate plans, each is
+# actually rolled forward via `twin/counterfactual.py`'s `simulate()`
+# (`llm/graph.py`'s `generate_plans -> simulate_each -> rank_by_
+# outcome` path, module M9a — this IS the mode already built and
+# tested), and the best-scoring one is selected. Still no router, still
+# no risk gate — everything the LLM proposes executes directly.
+experiment: E
+policy: mappo
+planner: llm_counterfactual
+router: disabled
+risk_gate: disabled
+human_model: {}
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

@@ -1,6 +1,9 @@
-"""udt.logging — empty scaffolding (Phase 0).
+"""udt.logging
 
-Populated in module M4: decision_log.py, metrics.py — dev doc §10, §5.6
+M4 added `metrics.py` (dev doc §5.4, reduced scope — see its docstring).
+M10a added `decision_log.py` (dev doc §10) — `DecisionRecord`/
+`DecisionLogWriter`, the log format `experiments/decision_loop.py`'s
+headless full decision loop writes to `runs/<run_id>/decisions.jsonl`.
 
 See MTP_Module_Planner.md for module status and MTP_Development_Document.md
 for the referenced spec section.

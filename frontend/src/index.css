@@ -1,0 +1,273 @@
+:root {
+  --bg: #0f1420;
+  --panel: #171d2c;
+  --border: #2a3346;
+  --text: #e6e9f0;
+  --text-dim: #96a1b8;
+  --accent: #4fd1c0;
+  --good: #3ba55c;
+  --warn: #d9a441;
+  --bad: #d9534f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+.app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  color: var(--text-dim);
+  margin: 0.25rem 0 1.25rem;
+  font-size: 0.85rem;
+}
+
+.error-banner {
+  background: #3a1f1f;
+  border: 1px solid var(--bad);
+  color: #ffb3b0;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+}
+
+.control-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+button:hover:not(:disabled) {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.episode-id {
+  font-family: monospace;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+}
+
+.episode-ended-badge {
+  color: var(--warn);
+  font-size: 0.8rem;
+}
+
+.edge-toggle {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-bottom: 1rem;
+}
+
+.metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.metric {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-label {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.main-panes {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1rem;
+  min-height: 480px;
+}
+
+.map-pane {
+  height: 480px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+
+.timeline {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem;
+  overflow-y: auto;
+  max-height: 480px;
+}
+
+.timeline h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+.timeline ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.empty-hint {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.decision-card {
+  border: 1px solid var(--border);
+  border-left-width: 4px;
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.decision-card:hover {
+  border-color: var(--accent);
+}
+
+.decision-card.tier-autonomous {
+  border-left-color: var(--good);
+}
+
+.decision-card.tier-flag {
+  border-left-color: var(--warn);
+}
+
+.decision-card.tier-approval {
+  border-left-color: var(--bad);
+}
+
+.decision-card-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-dim);
+  margin-bottom: 0.25rem;
+}
+
+.tier-badge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 560px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal h2 {
+  margin-top: 0;
+}
+
+.modal-subtitle {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+}
+
+.modal section {
+  margin: 1rem 0;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.modal h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--accent);
+}
+
+.modal .rationale {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.modal-close {
+  margin-top: 0.5rem;
+}
+
+pre {
+  background: var(--bg);
+  padding: 0.5rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.75rem;
+}

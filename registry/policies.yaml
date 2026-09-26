@@ -1,4 +1,22 @@
-# Trained-policy registry (populated in M6b — dev doc §5.6, planner row M6b).
-# Maps a goal-condition key (and incident type) to a checkpoint path + metadata.
-# Empty scaffolding until then.
-policies: []
+policies:
+- incident_type: flood
+  policy_path: /Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/runs/20260911T103316Z_783d7d7f/mappo_final.pt
+  env_version: udt_multi_env_v0
+  suite_version: none-n1-scenario
+  val_score: -990.2393620809253
+  val_score_is_true_holdout: false
+  trained_date: '2026-09-11T10:33:34.955379+00:00'
+- incident_type: flood
+  policy_path: /Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/runs/20260911T150448Z_dd16f368/mappo_final.pt
+  env_version: udt_multi_env_v0
+  suite_version: none-n1-scenario
+  val_score: -837.3910644929919
+  val_score_is_true_holdout: false
+  trained_date: '2026-09-11T15:04:58.766290+00:00'
+- incident_type: flood
+  policy_path: /Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/runs/20260911T150517Z_1adf0fff/mappo_final.pt
+  env_version: udt_multi_env_v0
+  suite_version: none-n1-scenario
+  val_score: -1101.6666666666667
+  val_score_is_true_holdout: false
+  trained_date: '2026-09-11T15:05:22.179345+00:00'

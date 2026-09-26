@@ -1,0 +1,13 @@
+# Experiment B (dev doc §5.5: "PPO (Stable-Baselines3) on single_env") —
+# `scripts/train.py` + `scripts/evaluate.py` already implement this
+# directly (module M5); documented here in dev doc §15's frozen format.
+experiment: B
+policy: ppo_single
+planner: none
+router: disabled
+risk_gate: disabled
+human_model: {}
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

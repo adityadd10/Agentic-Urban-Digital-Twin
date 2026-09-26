@@ -59,6 +59,15 @@ class Settings(BaseSettings):
     # Determinism (dev doc §0.4 — every seeded run starts from this)
     default_seed: int = 0
 
+    # LLM planning layer (dev doc §7.4, module M9b). `llm_api_key=None`
+    # (the `.env.example` default, "leave unset until then") means
+    # `llm/anthropic_client.py`'s `AnthropicLLMClient` can't be
+    # constructed — every M9a graph test uses a scripted `LLMClient`
+    # instead and never needs this at all.
+    llm_api_key: str | None = None
+    llm_model: str = "claude-sonnet-5"  # dev doc §7.4: "Prototyping: Claude Sonnet"
+    llm_max_tokens_per_decision: int = 20_000  # dev doc §7.4's exact budget-guard cap
+
     @property
     def postgres_dsn(self) -> str:
         """SQLAlchemy/psycopg-style DSN for the docker-compose Postgres service."""

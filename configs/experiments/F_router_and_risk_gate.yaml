@@ -1,0 +1,19 @@
+# Experiment F — see `D_llm_direct.yaml`'s header for the disclosed
+# ablation-ladder interpretation. F adds dev doc §6's ID/OOD router
+# (`routing/ood.py`, built this session) and §9's risk/autonomy gate
+# (`risk/gate.py`, built earlier this session) on top of E — every
+# decision now gets routed (ID -> autonomous planning continues, OOD ->
+# mandatory human approval per dev doc §7.2/§7.3) and gated by
+# `risk/gate.py`'s tier before executing. Still the unconstrained MAPPO
+# policy (mappo, not mappo_constrained) — that swap is G's own addition.
+experiment: F
+policy: mappo
+planner: llm_counterfactual
+router: enabled
+risk_gate: enabled
+human_model:
+  approve_if_pfail_lt: 0.5
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

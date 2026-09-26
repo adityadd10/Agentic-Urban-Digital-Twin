@@ -1,0 +1,6842 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "asset_id": "H_peripheral_0",
+      "asset_type": "hospital",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.86704420022,
+          19.054465199631196
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "beds_total": 264,
+        "beds_occupied": 208,
+        "icu_total": 26,
+        "icu_occupied": 13,
+        "backup_gen_hours": 8.0,
+        "water_reserve_hours": 6.0,
+        "patient_queue": 0
+      }
+    },
+    {
+      "asset_id": "H_polyclinic_0",
+      "asset_type": "hospital",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8921111100031,
+          19.0980833302163
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "beds_total": 124,
+        "beds_occupied": 85,
+        "icu_total": 12,
+        "icu_occupied": 0,
+        "backup_gen_hours": 8.0,
+        "water_reserve_hours": 6.0,
+        "patient_queue": 0
+      }
+    },
+    {
+      "asset_id": "S0",
+      "asset_type": "substation",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.88692212,
+          19.07916164
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "capacity_mw": 20.495829065855872,
+        "load_mw": 13.198925968441298,
+        "shed_tier": 0
+      }
+    },
+    {
+      "asset_id": "W_synth_0",
+      "asset_type": "water",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867544,
+          19.054964999999996
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "output_lps": 140.99536636507696,
+        "reservoir_hours": 4.0,
+        "pump_power_mw": 1.8691333659165825,
+        "provenance": "synthetic_placeholder"
+      }
+    },
+    {
+      "asset_id": "W_synth_1",
+      "asset_type": "water",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.892611,
+          19.098582999999998
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "output_lps": 131.54374871981344,
+        "reservoir_hours": 4.0,
+        "pump_power_mw": 1.5942448414759975,
+        "provenance": "synthetic_placeholder"
+      }
+    },
+    {
+      "asset_id": "RF_4352245899_4352245912",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8679341,
+            19.054816399999996
+          ],
+          [
+            72.867675,
+            19.05473329999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 28.788124796862824,
+        "base_travel_min": 0.05757624959372565,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245912_4352245899",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.867675,
+            19.05473329999999
+          ],
+          [
+            72.8679341,
+            19.054816399999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 28.788124796862824,
+        "base_travel_min": 0.05757624959372565,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245912_4352245900",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.867675,
+            19.05473329999999
+          ],
+          [
+            72.8674998,
+            19.054635099999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 21.41113097899471,
+        "base_travel_min": 0.04282226195798942,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245912_4352245911",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.867675,
+            19.05473329999999
+          ],
+          [
+            72.8675105,
+            19.054979600000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 32.30438475824024,
+        "base_travel_min": 0.06460876951648048,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245900_4352245912",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8674998,
+            19.054635099999995
+          ],
+          [
+            72.867675,
+            19.05473329999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 21.41113097899471,
+        "base_travel_min": 0.04282226195798942,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245900_4352245908",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8674998,
+            19.054635099999995
+          ],
+          [
+            72.8673691,
+            19.054755299999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.142955014139964,
+        "base_travel_min": 0.038285910028279926,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245900_7374085598",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8674998,
+            19.054635099999995
+          ],
+          [
+            72.8673953,
+            19.0545389
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.312909011032366,
+        "base_travel_min": 0.03062581802206473,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245910_7374085592",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8678257,
+            19.0552602
+          ],
+          [
+            72.8675258,
+            19.055065100000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 38.25569689044812,
+        "base_travel_min": 0.07651139378089625,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085592_4352245910",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8675258,
+            19.055065100000004
+          ],
+          [
+            72.8678257,
+            19.0552602
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 38.25569689044812,
+        "base_travel_min": 0.07651139378089625,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085592_7374085593",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8675258,
+            19.055065100000004
+          ],
+          [
+            72.86751,
+            19.055029499999993
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.278170523079539,
+        "base_travel_min": 0.008556341046159079,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085593_7374085592",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.86751,
+            19.055029499999993
+          ],
+          [
+            72.8675258,
+            19.055065100000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.278170523079539,
+        "base_travel_min": 0.008556341046159079,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085593_4352245911",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.86751,
+            19.055029499999993
+          ],
+          [
+            72.8675105,
+            19.054979600000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 5.5250473121344506,
+        "base_travel_min": 0.0110500946242689,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245911_7374085593",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8675105,
+            19.054979600000003
+          ],
+          [
+            72.86751,
+            19.055029499999993
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 5.5250473121344506,
+        "base_travel_min": 0.0110500946242689,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245911_4352245912",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8675105,
+            19.054979600000003
+          ],
+          [
+            72.867675,
+            19.05473329999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 32.30438475824024,
+        "base_travel_min": 0.06460876951648048,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374685556_7374085585",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8668206,
+            19.0535369
+          ],
+          [
+            72.8670613,
+            19.0538975
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 47.288073428621324,
+        "base_travel_min": 0.09457614685724265,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085585_7374685556",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8670613,
+            19.0538975
+          ],
+          [
+            72.8668206,
+            19.0535369
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 47.288073428621324,
+        "base_travel_min": 0.09457614685724265,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085596_4352245905",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669761,
+            19.054649800000004
+          ],
+          [
+            72.8670808,
+            19.05473269999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 14.343959361432441,
+        "base_travel_min": 0.028687918722864882,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085596_4352245904",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669761,
+            19.054649800000004
+          ],
+          [
+            72.8669577,
+            19.054614999999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.312537046506334,
+        "base_travel_min": 0.008625074093012667,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245905_7374085596",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8670808,
+            19.05473269999999
+          ],
+          [
+            72.8669761,
+            19.054649800000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 14.343959361432441,
+        "base_travel_min": 0.028687918722864882,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245905_4352245906",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8670808,
+            19.05473269999999
+          ],
+          [
+            72.8671949,
+            19.05483329999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 16.381707299146477,
+        "base_travel_min": 0.032763414598292954,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245906_4352245905",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8671949,
+            19.05483329999999
+          ],
+          [
+            72.8670808,
+            19.05473269999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 16.381707299146477,
+        "base_travel_min": 0.032763414598292954,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245906_7374085595",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8671949,
+            19.05483329999999
+          ],
+          [
+            72.8672365,
+            19.0548466
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.620608936836596,
+        "base_travel_min": 0.00924121787367319,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085595_4352245906",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672365,
+            19.0548466
+          ],
+          [
+            72.8671949,
+            19.05483329999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.620608936836596,
+        "base_travel_min": 0.00924121787367319,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085595_4352245907",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672365,
+            19.0548466
+          ],
+          [
+            72.8672829,
+            19.0548292
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 5.251180312187676,
+        "base_travel_min": 0.010502360624375352,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245907_7374085595",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672829,
+            19.0548292
+          ],
+          [
+            72.8672365,
+            19.0548466
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 5.251180312187676,
+        "base_travel_min": 0.010502360624375352,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245907_4352245908",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672829,
+            19.0548292
+          ],
+          [
+            72.8673691,
+            19.054755299999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 12.21903892118467,
+        "base_travel_min": 0.02443807784236934,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245908_4352245907",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673691,
+            19.054755299999997
+          ],
+          [
+            72.8672829,
+            19.0548292
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 12.21903892118467,
+        "base_travel_min": 0.02443807784236934,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245908_4352245900",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673691,
+            19.054755299999997
+          ],
+          [
+            72.8674998,
+            19.054635099999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.142955014139964,
+        "base_travel_min": 0.038285910028279926,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085598_4352245900",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673953,
+            19.0545389
+          ],
+          [
+            72.8674998,
+            19.054635099999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.312909011032366,
+        "base_travel_min": 0.03062581802206473,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085598_7374085599",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673953,
+            19.0545389
+          ],
+          [
+            72.8673237,
+            19.054492200000002
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.140976284215387,
+        "base_travel_min": 0.018281952568430775,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085599_7374085598",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673237,
+            19.054492200000002
+          ],
+          [
+            72.8673953,
+            19.0545389
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.140976284215387,
+        "base_travel_min": 0.018281952568430775,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085599_4352245901",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8673237,
+            19.054492200000002
+          ],
+          [
+            72.8672132,
+            19.054409299999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 14.818374289094585,
+        "base_travel_min": 0.02963674857818917,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245901_7374085599",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672132,
+            19.054409299999996
+          ],
+          [
+            72.8673237,
+            19.054492200000002
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 14.818374289094585,
+        "base_travel_min": 0.02963674857818917,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245901_4352245902",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672132,
+            19.054409299999996
+          ],
+          [
+            72.8671137,
+            19.0544587
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.817375818921745,
+        "base_travel_min": 0.02363475163784349,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245902_4352245901",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8671137,
+            19.0544587
+          ],
+          [
+            72.8672132,
+            19.054409299999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.817375818921745,
+        "base_travel_min": 0.02363475163784349,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245902_4352245903",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8671137,
+            19.0544587
+          ],
+          [
+            72.8669696,
+            19.054571799999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.671387261587018,
+        "base_travel_min": 0.039342774523174036,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245903_4352245902",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669696,
+            19.054571799999998
+          ],
+          [
+            72.8671137,
+            19.0544587
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.671387261587018,
+        "base_travel_min": 0.039342774523174036,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245903_4352245904",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669696,
+            19.054571799999998
+          ],
+          [
+            72.8669577,
+            19.054614999999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.944353166027918,
+        "base_travel_min": 0.009888706332055837,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245904_4352245903",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669577,
+            19.054614999999995
+          ],
+          [
+            72.8669696,
+            19.054571799999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.944353166027918,
+        "base_travel_min": 0.009888706332055837,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245904_7374085596",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8669577,
+            19.054614999999995
+          ],
+          [
+            72.8669761,
+            19.054649800000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.312537046506334,
+        "base_travel_min": 0.008625074093012667,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085600_2629436052",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.866385,
+            19.0533108
+          ],
+          [
+            72.8665611,
+            19.0537239
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 49.35223109411292,
+        "base_travel_min": 0.09870446218822584,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2629436052_7374085600",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8665611,
+            19.0537239
+          ],
+          [
+            72.866385,
+            19.0533108
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 49.35223109411292,
+        "base_travel_min": 0.09870446218822584,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_12399619675_12399619678",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8671512,
+            19.053435399999998
+          ],
+          [
+            72.8672463,
+            19.053660000000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 26.807083353782367,
+        "base_travel_min": 0.053614166707564734,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_12399619678_12399619675",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8672463,
+            19.053660000000004
+          ],
+          [
+            72.8671512,
+            19.053435399999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 26.807083353782367,
+        "base_travel_min": 0.053614166707564734,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961978_2244961993",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.893319,
+            19.097377600000005
+          ],
+          [
+            72.8928466,
+            19.097867500000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 73.58096527839875,
+        "base_travel_min": 0.1471619305567975,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961986_2244961982",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925727,
+            19.0976695
+          ],
+          [
+            72.8925993,
+            19.097532
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.478784764822484,
+        "base_travel_min": 0.030957569529644964,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961986_2244961983",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925727,
+            19.0976695
+          ],
+          [
+            72.8924714,
+            19.097568599999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.442692259169284,
+        "base_travel_min": 0.030885384518338572,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961986_2244961993",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925727,
+            19.0976695
+          ],
+          [
+            72.8928466,
+            19.097867500000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 36.21674886763515,
+        "base_travel_min": 0.07243349773527029,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961982_2244961986",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925993,
+            19.097532
+          ],
+          [
+            72.8925727,
+            19.0976695
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.478784764822484,
+        "base_travel_min": 0.030957569529644964,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961982_2244961954",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925993,
+            19.097532
+          ],
+          [
+            72.8927448,
+            19.096802800000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 82.17389011809176,
+        "base_travel_min": 0.16434778023618352,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961954_2244961982",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8927448,
+            19.096802800000003
+          ],
+          [
+            72.8925993,
+            19.097532
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 82.17389011809176,
+        "base_travel_min": 0.16434778023618352,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_9872637080_2244961974",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8921883,
+            19.0970781
+          ],
+          [
+            72.8922732,
+            19.097272199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.27385369635386,
+        "base_travel_min": 0.04654770739270772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961974_9872637080",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8922732,
+            19.097272199999995
+          ],
+          [
+            72.8921883,
+            19.0970781
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.27385369635386,
+        "base_travel_min": 0.04654770739270772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961974_11068673775",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8922732,
+            19.097272199999995
+          ],
+          [
+            72.8924218,
+            19.0974945
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 29.161399296536786,
+        "base_travel_min": 0.05832279859307357,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673775_2244961974",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8924218,
+            19.0974945
+          ],
+          [
+            72.8922732,
+            19.097272199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 29.161399296536786,
+        "base_travel_min": 0.05832279859307357,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673775_2244961983",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8924218,
+            19.0974945
+          ],
+          [
+            72.8924714,
+            19.097568599999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.724228715740438,
+        "base_travel_min": 0.019448457431480874,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673775_11068673777",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8924218,
+            19.0974945
+          ],
+          [
+            72.892429,
+            19.0974641
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.4500318020838057,
+        "base_travel_min": 0.0069000636041676115,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961983_11068673775",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8924714,
+            19.097568599999995
+          ],
+          [
+            72.8924218,
+            19.0974945
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.724228715740438,
+        "base_travel_min": 0.019448457431480874,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961983_2244961986",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8924714,
+            19.097568599999995
+          ],
+          [
+            72.8925727,
+            19.0976695
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 15.442692259169284,
+        "base_travel_min": 0.030885384518338572,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961993_2244961986",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8928466,
+            19.097867500000003
+          ],
+          [
+            72.8925727,
+            19.0976695
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 36.21674886763515,
+        "base_travel_min": 0.07243349773527029,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961993_8711628032",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8928466,
+            19.097867500000003
+          ],
+          [
+            72.8926794,
+            19.0981267
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 33.66377171810246,
+        "base_travel_min": 0.06732754343620492,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2244961993_10279704586",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8928466,
+            19.097867500000003
+          ],
+          [
+            72.8930451,
+            19.0979749
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 24.039390573773858,
+        "base_travel_min": 0.04807878114754772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628032_7396544190",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8926794,
+            19.0981267
+          ],
+          [
+            72.8925935,
+            19.098259799999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 17.288773565792305,
+        "base_travel_min": 0.03457754713158461,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628032_8711628033",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8926794,
+            19.0981267
+          ],
+          [
+            72.8926055,
+            19.098068500000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 10.100508565994641,
+        "base_travel_min": 0.020201017131989282,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544190_620011904",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925935,
+            19.098259799999997
+          ],
+          [
+            72.892549,
+            19.0983288
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 8.96090810091016,
+        "base_travel_min": 0.01792181620182032,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544190_11135373489",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925935,
+            19.098259799999997
+          ],
+          [
+            72.8925247,
+            19.098253199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 7.278107108173687,
+        "base_travel_min": 0.014556214216347374,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_620011904_6552277710",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892549,
+            19.0983288
+          ],
+          [
+            72.8922645,
+            19.098837399999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 63.776940605991285,
+        "base_travel_min": 0.12755388121198258,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277710_6552277713",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8922645,
+            19.098837399999997
+          ],
+          [
+            72.892061,
+            19.099201699999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 45.668216554924186,
+        "base_travel_min": 0.09133643310984838,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277710_6552277709",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8922645,
+            19.098837399999997
+          ],
+          [
+            72.8919431,
+            19.098796100000005
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 34.135502673661996,
+        "base_travel_min": 0.068271005347324,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7097850903_5242233613",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8921474,
+            19.0994222
+          ],
+          [
+            72.8926778,
+            19.098523399999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 114.10111891285871,
+        "base_travel_min": 0.2282022378257174,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_5242233613_5242233614",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8926778,
+            19.098523399999998
+          ],
+          [
+            72.8929943,
+            19.0980343
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 63.57725770843908,
+        "base_travel_min": 0.12715451541687817,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_5242233614_10279704586",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8929943,
+            19.0980343
+          ],
+          [
+            72.8930451,
+            19.0979749
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 8.475802234549583,
+        "base_travel_min": 0.016951604469099168,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_10279704586_5242233615",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8930451,
+            19.0979749
+          ],
+          [
+            72.8932545,
+            19.097730099999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 34.93340566788923,
+        "base_travel_min": 0.06986681133577846,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_10279704586_2244961993",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8930451,
+            19.0979749
+          ],
+          [
+            72.8928466,
+            19.097867500000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 24.039390573773858,
+        "base_travel_min": 0.04807878114754772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277709_6552277710",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8919431,
+            19.098796100000005
+          ],
+          [
+            72.8922645,
+            19.098837399999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 34.135502673661996,
+        "base_travel_min": 0.068271005347324,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277709_6552277708",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8919431,
+            19.098796100000005
+          ],
+          [
+            72.8915191,
+            19.098804799999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 44.637079375699024,
+        "base_travel_min": 0.08927415875139805,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277708_6552277709",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8915191,
+            19.098804799999996
+          ],
+          [
+            72.8919431,
+            19.098796100000005
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 44.637079375699024,
+        "base_travel_min": 0.08927415875139805,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277708_6552277707",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8915191,
+            19.098804799999996
+          ],
+          [
+            72.8913199,
+            19.098356799999994
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 53.85006763226454,
+        "base_travel_min": 0.10770013526452908,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277707_6552277708",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8913199,
+            19.098356799999994
+          ],
+          [
+            72.8915191,
+            19.098804799999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 53.85006763226454,
+        "base_travel_min": 0.10770013526452908,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277707_6552277706",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8913199,
+            19.098356799999994
+          ],
+          [
+            72.89110270000002,
+            19.0983783
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 22.98431443918796,
+        "base_travel_min": 0.04596862887837592,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277706_6552277707",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.89110270000002,
+            19.0983783
+          ],
+          [
+            72.8913199,
+            19.098356799999994
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 22.98431443918796,
+        "base_travel_min": 0.04596862887837592,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544194_7396544193",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8915486,
+            19.098411899999995
+          ],
+          [
+            72.8917444,
+            19.0983663
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 21.21772348064029,
+        "base_travel_min": 0.042435446961280585,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544193_7396544194",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8917444,
+            19.0983663
+          ],
+          [
+            72.8915486,
+            19.098411899999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 21.21772348064029,
+        "base_travel_min": 0.042435446961280585,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544193_7396544192",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8917444,
+            19.0983663
+          ],
+          [
+            72.8921226,
+            19.098282600000005
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 40.870717968919465,
+        "base_travel_min": 0.08174143593783893,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544192_7396544193",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8921226,
+            19.098282600000005
+          ],
+          [
+            72.8917444,
+            19.0983663
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 40.870717968919465,
+        "base_travel_min": 0.08174143593783893,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544192_7396544191",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8921226,
+            19.098282600000005
+          ],
+          [
+            72.892305,
+            19.098232
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.998662254295393,
+        "base_travel_min": 0.03999732450859079,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544191_7396544192",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892305,
+            19.098232
+          ],
+          [
+            72.8921226,
+            19.098282600000005
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 19.998662254295393,
+        "base_travel_min": 0.03999732450859079,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7396544191_11135373489",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892305,
+            19.098232
+          ],
+          [
+            72.8925247,
+            19.098253199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.242668663591544,
+        "base_travel_min": 0.04648533732718309,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11135373489_7396544191",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925247,
+            19.098253199999995
+          ],
+          [
+            72.892305,
+            19.098232
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.242668663591544,
+        "base_travel_min": 0.04648533732718309,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11135373489_7396544190",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925247,
+            19.098253199999995
+          ],
+          [
+            72.8925935,
+            19.098259799999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 7.278107108173687,
+        "base_travel_min": 0.014556214216347374,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628033_8711628032",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8926055,
+            19.098068500000004
+          ],
+          [
+            72.8926794,
+            19.0981267
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 10.100508565994641,
+        "base_travel_min": 0.020201017131989282,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628033_8711628034",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8926055,
+            19.098068500000004
+          ],
+          [
+            72.892591,
+            19.097968899999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.132443892546716,
+        "base_travel_min": 0.022264887785093432,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628034_8711628033",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892591,
+            19.097968899999998
+          ],
+          [
+            72.8926055,
+            19.098068500000004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.132443892546716,
+        "base_travel_min": 0.022264887785093432,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628034_8711628035",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892591,
+            19.097968899999998
+          ],
+          [
+            72.8925578,
+            19.0979744
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.5470303629003532,
+        "base_travel_min": 0.007094060725800706,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628035_8711628034",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925578,
+            19.0979744
+          ],
+          [
+            72.892591,
+            19.097968899999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.5470303629003532,
+        "base_travel_min": 0.007094060725800706,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628035_8711628036",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8925578,
+            19.0979744
+          ],
+          [
+            72.8920252,
+            19.098017999999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 56.26472220954152,
+        "base_travel_min": 0.11252944441908304,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628036_8711628035",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8920252,
+            19.098017999999996
+          ],
+          [
+            72.8925578,
+            19.0979744
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 56.26472220954152,
+        "base_travel_min": 0.11252944441908304,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628036_8711628037",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8920252,
+            19.098017999999996
+          ],
+          [
+            72.8917741,
+            19.098082099999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 27.365078482956687,
+        "base_travel_min": 0.05473015696591337,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_8711628037_8711628036",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8917741,
+            19.098082099999996
+          ],
+          [
+            72.8920252,
+            19.098017999999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 27.365078482956687,
+        "base_travel_min": 0.05473015696591337,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673777_11068673775",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892429,
+            19.0974641
+          ],
+          [
+            72.8924218,
+            19.0974945
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.4500318020838057,
+        "base_travel_min": 0.0069000636041676115,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673777_11068673776",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892429,
+            19.0974641
+          ],
+          [
+            72.892558,
+            19.096797999999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 74.98753481261875,
+        "base_travel_min": 0.1499750696252375,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11068673776_11068673777",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892558,
+            19.096797999999996
+          ],
+          [
+            72.892429,
+            19.0974641
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 74.98753481261875,
+        "base_travel_min": 0.1499750696252375,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11057975858_6569722821",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8856253,
+            19.0787768
+          ],
+          [
+            72.8871511,
+            19.0799503
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 206.584037350178,
+        "base_travel_min": 0.413168074700356,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6569722821_11057975858",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8871511,
+            19.0799503
+          ],
+          [
+            72.8856253,
+            19.0787768
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 206.584037350178,
+        "base_travel_min": 0.413168074700356,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6569722821_11057975860",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8871511,
+            19.0799503
+          ],
+          [
+            72.8869148,
+            19.0802355
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 40.19664931152412,
+        "base_travel_min": 0.08039329862304824,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11057975860_6569722821",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869148,
+            19.0802355
+          ],
+          [
+            72.8871511,
+            19.0799503
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 40.19664931152412,
+        "base_travel_min": 0.08039329862304824,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11057975860_11057975861",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869148,
+            19.0802355
+          ],
+          [
+            72.8855662,
+            19.079228099999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 180.53418814886584,
+        "base_travel_min": 0.3610683762977317,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11057975861_11057975860",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8855662,
+            19.079228099999998
+          ],
+          [
+            72.8869148,
+            19.0802355
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 180.53418814886584,
+        "base_travel_min": 0.3610683762977317,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472615_2246472562",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88713,
+            19.078455099999992
+          ],
+          [
+            72.8877371,
+            19.077724199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 103.11395203802813,
+        "base_travel_min": 0.20622790407605626,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472615_7046060440",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88713,
+            19.078455099999992
+          ],
+          [
+            72.8877518,
+            19.0789104
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 82.61505648782342,
+        "base_travel_min": 0.16523011297564685,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472615_13720592965",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88713,
+            19.078455099999992
+          ],
+          [
+            72.8869249,
+            19.078305
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 27.245101644251974,
+        "base_travel_min": 0.05449020328850395,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472615_13683849812",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88713,
+            19.078455099999992
+          ],
+          [
+            72.88646690000002,
+            19.079183099999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 106.62446547229075,
+        "base_travel_min": 0.2132489309445815,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472562_2246472615",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8877371,
+            19.077724199999995
+          ],
+          [
+            72.88713,
+            19.078455099999992
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 103.11395203802813,
+        "base_travel_min": 0.20622790407605626,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472644_2246472604",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88782,
+            19.078960299999995
+          ],
+          [
+            72.8884435,
+            19.078258199999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 101.73585751277837,
+        "base_travel_min": 0.20347171502555672,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472644_13720592918",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88782,
+            19.078960299999995
+          ],
+          [
+            72.8882088,
+            19.079244999999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 51.65819577301945,
+        "base_travel_min": 0.1033163915460389,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472644_7046060440",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88782,
+            19.078960299999995
+          ],
+          [
+            72.8877518,
+            19.0789104
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.058770951996273,
+        "base_travel_min": 0.018117541903992545,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_2246472604_2246472644",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8884435,
+            19.078258199999997
+          ],
+          [
+            72.88782,
+            19.078960299999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 101.73585751277837,
+        "base_travel_min": 0.20347171502555672,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592918_2246472644",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8882088,
+            19.079244999999997
+          ],
+          [
+            72.88782,
+            19.078960299999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 51.65819577301945,
+        "base_travel_min": 0.1033163915460389,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060440_2246472644",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8877518,
+            19.0789104
+          ],
+          [
+            72.88782,
+            19.078960299999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.058770951996273,
+        "base_travel_min": 0.018117541903992545,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060440_2246472615",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8877518,
+            19.0789104
+          ],
+          [
+            72.88713,
+            19.078455099999992
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 82.61505648782342,
+        "base_travel_min": 0.16523011297564685,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060440_13720592906",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8877518,
+            19.0789104
+          ],
+          [
+            72.8874379,
+            19.079247399999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 49.83920622385215,
+        "base_travel_min": 0.0996784124477043,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592965_2246472615",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869249,
+            19.078305
+          ],
+          [
+            72.88713,
+            19.078455099999992
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 27.245101644251974,
+        "base_travel_min": 0.05449020328850395,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592965_13720592920",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869249,
+            19.078305
+          ],
+          [
+            72.886728,
+            19.078160800000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 26.162673585183022,
+        "base_travel_min": 0.05232534717036604,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592965_13720592964",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869249,
+            19.078305
+          ],
+          [
+            72.8869943,
+            19.078230699999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.001792454982889,
+        "base_travel_min": 0.022003584909965776,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592920_13720592965",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.886728,
+            19.078160800000003
+          ],
+          [
+            72.8869249,
+            19.078305
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 26.162673585183022,
+        "base_travel_min": 0.05232534717036604,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592920_13720592919",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.886728,
+            19.078160800000003
+          ],
+          [
+            72.8861891,
+            19.078799199999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 90.63017632533742,
+        "base_travel_min": 0.18126035265067483,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060436_13720592901",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876987,
+            19.0795004
+          ],
+          [
+            72.8876564,
+            19.079556299999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 7.6243377404831785,
+        "base_travel_min": 0.015248675480966357,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060436_13720592913",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876987,
+            19.0795004
+          ],
+          [
+            72.8881161,
+            19.079814799999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 56.054945458417485,
+        "base_travel_min": 0.11210989091683497,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060436_13720592905",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876987,
+            19.0795004
+          ],
+          [
+            72.8874341,
+            19.079300899999993
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 35.54798801553329,
+        "base_travel_min": 0.07109597603106659,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592901_7046060436",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876564,
+            19.079556299999997
+          ],
+          [
+            72.8876987,
+            19.0795004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 7.6243377404831785,
+        "base_travel_min": 0.015248675480966357,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592901_13720592902",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876564,
+            19.079556299999997
+          ],
+          [
+            72.8876422,
+            19.079573799999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 2.4471046745958387,
+        "base_travel_min": 0.004894209349191677,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592902_13720592901",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876422,
+            19.079573799999995
+          ],
+          [
+            72.8876564,
+            19.079556299999997
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 2.4471046745958387,
+        "base_travel_min": 0.004894209349191677,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592902_7046060435",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876422,
+            19.079573799999995
+          ],
+          [
+            72.8874693,
+            19.07978689999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 29.7977453505887,
+        "base_travel_min": 0.0595954907011774,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592902_13720592903",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8876422,
+            19.079573799999995
+          ],
+          [
+            72.8890246,
+            19.0806334
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 186.9167006246883,
+        "base_travel_min": 0.3738334012493766,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060435_13720592902",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874693,
+            19.07978689999999
+          ],
+          [
+            72.8876422,
+            19.079573799999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 29.7977453505887,
+        "base_travel_min": 0.0595954907011774,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060435_7046060434",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874693,
+            19.07978689999999
+          ],
+          [
+            72.8874608,
+            19.0798188
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.6434245675648045,
+        "base_travel_min": 0.007286849135129609,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060434_7046060435",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874608,
+            19.0798188
+          ],
+          [
+            72.8874693,
+            19.07978689999999
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.6434245675648045,
+        "base_travel_min": 0.007286849135129609,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060434_13720592688",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874608,
+            19.0798188
+          ],
+          [
+            72.8874653,
+            19.079847399999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.201722216473398,
+        "base_travel_min": 0.006403444432946796,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592688_7046060434",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874653,
+            19.079847399999995
+          ],
+          [
+            72.8874608,
+            19.0798188
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.201722216473398,
+        "base_travel_min": 0.006403444432946796,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592688_7046060431",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874653,
+            19.079847399999995
+          ],
+          [
+            72.8874895,
+            19.079878199999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.256490039894951,
+        "base_travel_min": 0.008512980079789902,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060431_13720592688",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874895,
+            19.079878199999996
+          ],
+          [
+            72.8874653,
+            19.079847399999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 4.256490039894951,
+        "base_travel_min": 0.008512980079789902,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060431_13720592689",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874895,
+            19.079878199999996
+          ],
+          [
+            72.8886608,
+            19.0808169
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 161.254514255476,
+        "base_travel_min": 0.32250902851095203,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592689_7046060431",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8886608,
+            19.0808169
+          ],
+          [
+            72.8874895,
+            19.079878199999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 161.254514255476,
+        "base_travel_min": 0.32250902851095203,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592913_7046060436",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8881161,
+            19.079814799999998
+          ],
+          [
+            72.8876987,
+            19.0795004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 56.054945458417485,
+        "base_travel_min": 0.11210989091683497,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060439_13720592906",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88742570000001,
+            19.0792758
+          ],
+          [
+            72.8874379,
+            19.079247399999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.3964882887420895,
+        "base_travel_min": 0.0067929765774841794,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7046060439_13720592905",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88742570000001,
+            19.0792758
+          ],
+          [
+            72.8874341,
+            19.079300899999993
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 2.9162607428274216,
+        "base_travel_min": 0.005832521485654843,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592906_7046060439",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874379,
+            19.079247399999996
+          ],
+          [
+            72.88742570000001,
+            19.0792758
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 3.3964882887420895,
+        "base_travel_min": 0.0067929765774841794,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592906_7046060440",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874379,
+            19.079247399999996
+          ],
+          [
+            72.8877518,
+            19.0789104
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 49.83920622385215,
+        "base_travel_min": 0.0996784124477043,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592905_7046060439",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874341,
+            19.079300899999993
+          ],
+          [
+            72.88742570000001,
+            19.0792758
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 2.9162607428274216,
+        "base_travel_min": 0.005832521485654843,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592905_7046060436",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8874341,
+            19.079300899999993
+          ],
+          [
+            72.8876987,
+            19.0795004
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 35.54798801553329,
+        "base_travel_min": 0.07109597603106659,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592903_13720592902",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8890246,
+            19.0806334
+          ],
+          [
+            72.8876422,
+            19.079573799999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 186.9167006246883,
+        "base_travel_min": 0.3738334012493766,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13683849812_2246472615",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.88646690000002,
+            19.079183099999998
+          ],
+          [
+            72.88713,
+            19.078455099999992
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 106.62446547229075,
+        "base_travel_min": 0.2132489309445815,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592915_13720592917",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8877348,
+            19.079212999999996
+          ],
+          [
+            72.8880301,
+            19.0794338
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 39.54569222311173,
+        "base_travel_min": 0.07909138444622346,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592917_13720592915",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8880301,
+            19.0794338
+          ],
+          [
+            72.8877348,
+            19.079212999999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 39.54569222311173,
+        "base_travel_min": 0.07909138444622346,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592919_13720592920",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8861891,
+            19.078799199999995
+          ],
+          [
+            72.886728,
+            19.078160800000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 90.63017632533742,
+        "base_travel_min": 0.18126035265067483,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_13720592964_13720592965",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8869943,
+            19.078230699999995
+          ],
+          [
+            72.8869249,
+            19.078305
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 11.001792454982889,
+        "base_travel_min": 0.022003584909965776,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245896_4352245897",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.86849550000001,
+            19.0545975
+          ],
+          [
+            72.8682266,
+            19.0547589
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 33.4781646684886,
+        "base_travel_min": 0.0669563293369772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245897_4352245896",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8682266,
+            19.0547589
+          ],
+          [
+            72.86849550000001,
+            19.0545975
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 33.4781646684886,
+        "base_travel_min": 0.0669563293369772,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245897_7374085597",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8682266,
+            19.0547589
+          ],
+          [
+            72.8681053,
+            19.054807699999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 13.866505532878971,
+        "base_travel_min": 0.027733011065757943,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085597_4352245897",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8681053,
+            19.054807699999998
+          ],
+          [
+            72.8682266,
+            19.0547589
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 13.866505532878971,
+        "base_travel_min": 0.027733011065757943,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_7374085597_4352245898",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8681053,
+            19.054807699999998
+          ],
+          [
+            72.8680275,
+            19.0548215
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 8.332138736899761,
+        "base_travel_min": 0.016664277473799522,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245898_7374085597",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8680275,
+            19.0548215
+          ],
+          [
+            72.8681053,
+            19.054807699999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 8.332138736899761,
+        "base_travel_min": 0.016664277473799522,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245898_4352245899",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8680275,
+            19.0548215
+          ],
+          [
+            72.8679341,
+            19.054816399999996
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.849433119676181,
+        "base_travel_min": 0.019698866239352363,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245899_4352245898",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8679341,
+            19.054816399999996
+          ],
+          [
+            72.8680275,
+            19.0548215
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 9.849433119676181,
+        "base_travel_min": 0.019698866239352363,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_11341001672_4352245914",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8685428,
+            19.0548275
+          ],
+          [
+            72.8683627,
+            19.054945099999998
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.001129303495713,
+        "base_travel_min": 0.04600225860699143,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_4352245914_11341001672",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8683627,
+            19.054945099999998
+          ],
+          [
+            72.8685428,
+            19.0548275
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 23.001129303495713,
+        "base_travel_min": 0.04600225860699143,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277713_7097850904",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892061,
+            19.099201699999995
+          ],
+          [
+            72.8919818,
+            19.0993434
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 17.76559123745058,
+        "base_travel_min": 0.035531182474901155,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277713_6552277712",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.892061,
+            19.099201699999995
+          ],
+          [
+            72.8916096,
+            19.099037900000003
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 50.85406953992522,
+        "base_travel_min": 0.10170813907985043,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    },
+    {
+      "asset_id": "RF_6552277712_6552277713",
+      "asset_type": "road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.8916096,
+            19.099037900000003
+          ],
+          [
+            72.892061,
+            19.099201699999995
+          ]
+        ]
+      },
+      "intrinsic_level": 1.0,
+      "functional_level": 1.0,
+      "attributes": {
+        "length_m": 50.85406953992522,
+        "base_travel_min": 0.10170813907985043,
+        "blockage": 0.0,
+        "flood_depth_m": 0.0
+      }
+    }
+  ],
+  "edges": [
+    {
+      "edge_id": "E1_power",
+      "supplier": "S0",
+      "consumer": "H_peripheral_0",
+      "kind": "power",
+      "demand": 0.1,
+      "criticality": 0.9,
+      "buffer_hours": 8.0,
+      "floor": 0.3
+    },
+    {
+      "edge_id": "E2_water",
+      "supplier": "W_synth_0",
+      "consumer": "H_peripheral_0",
+      "kind": "water",
+      "demand": 0.1,
+      "criticality": 0.7,
+      "buffer_hours": 6.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E3_power",
+      "supplier": "S0",
+      "consumer": "H_polyclinic_0",
+      "kind": "power",
+      "demand": 0.1,
+      "criticality": 0.9,
+      "buffer_hours": 8.0,
+      "floor": 0.3
+    },
+    {
+      "edge_id": "E4_water",
+      "supplier": "W_synth_1",
+      "consumer": "H_polyclinic_0",
+      "kind": "water",
+      "demand": 0.1,
+      "criticality": 0.7,
+      "buffer_hours": 6.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E5_power",
+      "supplier": "S0",
+      "consumer": "W_synth_0",
+      "kind": "power",
+      "demand": 0.09119579207607577,
+      "criticality": 0.9,
+      "buffer_hours": 0.0,
+      "floor": 0.0
+    },
+    {
+      "edge_id": "E6_power",
+      "supplier": "S0",
+      "consumer": "W_synth_1",
+      "kind": "power",
+      "demand": 0.07778386696890734,
+      "criticality": 0.9,
+      "buffer_hours": 0.0,
+      "floor": 0.0
+    },
+    {
+      "edge_id": "E7_access",
+      "supplier": "RF_4352245899_4352245912",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E8_access",
+      "supplier": "RF_4352245912_4352245899",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E9_access",
+      "supplier": "RF_4352245912_4352245900",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E10_access",
+      "supplier": "RF_4352245912_4352245911",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E11_access",
+      "supplier": "RF_4352245900_4352245912",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E12_access",
+      "supplier": "RF_4352245900_4352245908",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E13_access",
+      "supplier": "RF_4352245900_7374085598",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E14_access",
+      "supplier": "RF_4352245910_7374085592",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E15_access",
+      "supplier": "RF_7374085592_4352245910",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E16_access",
+      "supplier": "RF_7374085592_7374085593",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E17_access",
+      "supplier": "RF_7374085593_7374085592",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E18_access",
+      "supplier": "RF_7374085593_4352245911",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E19_access",
+      "supplier": "RF_4352245911_7374085593",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E20_access",
+      "supplier": "RF_4352245911_4352245912",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E21_access",
+      "supplier": "RF_7374685556_7374085585",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E22_access",
+      "supplier": "RF_7374085585_7374685556",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E23_access",
+      "supplier": "RF_7374085596_4352245905",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E24_access",
+      "supplier": "RF_7374085596_4352245904",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E25_access",
+      "supplier": "RF_4352245905_7374085596",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E26_access",
+      "supplier": "RF_4352245905_4352245906",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E27_access",
+      "supplier": "RF_4352245906_4352245905",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E28_access",
+      "supplier": "RF_4352245906_7374085595",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E29_access",
+      "supplier": "RF_7374085595_4352245906",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E30_access",
+      "supplier": "RF_7374085595_4352245907",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E31_access",
+      "supplier": "RF_4352245907_7374085595",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E32_access",
+      "supplier": "RF_4352245907_4352245908",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E33_access",
+      "supplier": "RF_4352245908_4352245907",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E34_access",
+      "supplier": "RF_4352245908_4352245900",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E35_access",
+      "supplier": "RF_7374085598_4352245900",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E36_access",
+      "supplier": "RF_7374085598_7374085599",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E37_access",
+      "supplier": "RF_7374085599_7374085598",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E38_access",
+      "supplier": "RF_7374085599_4352245901",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E39_access",
+      "supplier": "RF_4352245901_7374085599",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E40_access",
+      "supplier": "RF_4352245901_4352245902",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E41_access",
+      "supplier": "RF_4352245902_4352245901",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E42_access",
+      "supplier": "RF_4352245902_4352245903",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E43_access",
+      "supplier": "RF_4352245903_4352245902",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E44_access",
+      "supplier": "RF_4352245903_4352245904",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E45_access",
+      "supplier": "RF_4352245904_4352245903",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E46_access",
+      "supplier": "RF_4352245904_7374085596",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E47_access",
+      "supplier": "RF_7374085600_2629436052",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E48_access",
+      "supplier": "RF_2629436052_7374085600",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E49_access",
+      "supplier": "RF_12399619675_12399619678",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E50_access",
+      "supplier": "RF_12399619678_12399619675",
+      "consumer": "H_peripheral_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E51_access",
+      "supplier": "RF_2244961978_2244961993",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E52_access",
+      "supplier": "RF_2244961986_2244961982",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E53_access",
+      "supplier": "RF_2244961986_2244961983",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E54_access",
+      "supplier": "RF_2244961986_2244961993",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E55_access",
+      "supplier": "RF_2244961982_2244961986",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E56_access",
+      "supplier": "RF_2244961982_2244961954",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E57_access",
+      "supplier": "RF_2244961954_2244961982",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E58_access",
+      "supplier": "RF_9872637080_2244961974",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E59_access",
+      "supplier": "RF_2244961974_9872637080",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E60_access",
+      "supplier": "RF_2244961974_11068673775",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E61_access",
+      "supplier": "RF_11068673775_2244961974",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E62_access",
+      "supplier": "RF_11068673775_2244961983",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E63_access",
+      "supplier": "RF_11068673775_11068673777",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E64_access",
+      "supplier": "RF_2244961983_11068673775",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E65_access",
+      "supplier": "RF_2244961983_2244961986",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E66_access",
+      "supplier": "RF_2244961993_2244961986",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E67_access",
+      "supplier": "RF_2244961993_8711628032",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E68_access",
+      "supplier": "RF_2244961993_10279704586",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E69_access",
+      "supplier": "RF_8711628032_7396544190",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E70_access",
+      "supplier": "RF_8711628032_8711628033",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E71_access",
+      "supplier": "RF_7396544190_620011904",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E72_access",
+      "supplier": "RF_7396544190_11135373489",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E73_access",
+      "supplier": "RF_620011904_6552277710",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E74_access",
+      "supplier": "RF_6552277710_6552277713",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E75_access",
+      "supplier": "RF_6552277710_6552277709",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E76_access",
+      "supplier": "RF_7097850903_5242233613",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E77_access",
+      "supplier": "RF_5242233613_5242233614",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E78_access",
+      "supplier": "RF_5242233614_10279704586",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E79_access",
+      "supplier": "RF_10279704586_5242233615",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E80_access",
+      "supplier": "RF_10279704586_2244961993",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E81_access",
+      "supplier": "RF_6552277709_6552277710",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E82_access",
+      "supplier": "RF_6552277709_6552277708",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E83_access",
+      "supplier": "RF_6552277708_6552277709",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E84_access",
+      "supplier": "RF_6552277708_6552277707",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E85_access",
+      "supplier": "RF_6552277707_6552277708",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E86_access",
+      "supplier": "RF_6552277707_6552277706",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E87_access",
+      "supplier": "RF_6552277706_6552277707",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E88_access",
+      "supplier": "RF_7396544194_7396544193",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E89_access",
+      "supplier": "RF_7396544193_7396544194",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E90_access",
+      "supplier": "RF_7396544193_7396544192",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E91_access",
+      "supplier": "RF_7396544192_7396544193",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E92_access",
+      "supplier": "RF_7396544192_7396544191",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E93_access",
+      "supplier": "RF_7396544191_7396544192",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E94_access",
+      "supplier": "RF_7396544191_11135373489",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E95_access",
+      "supplier": "RF_11135373489_7396544191",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E96_access",
+      "supplier": "RF_11135373489_7396544190",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E97_access",
+      "supplier": "RF_8711628033_8711628032",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E98_access",
+      "supplier": "RF_8711628033_8711628034",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E99_access",
+      "supplier": "RF_8711628034_8711628033",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E100_access",
+      "supplier": "RF_8711628034_8711628035",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E101_access",
+      "supplier": "RF_8711628035_8711628034",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E102_access",
+      "supplier": "RF_8711628035_8711628036",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E103_access",
+      "supplier": "RF_8711628036_8711628035",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E104_access",
+      "supplier": "RF_8711628036_8711628037",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E105_access",
+      "supplier": "RF_8711628037_8711628036",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E106_access",
+      "supplier": "RF_11068673777_11068673775",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E107_access",
+      "supplier": "RF_11068673777_11068673776",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E108_access",
+      "supplier": "RF_11068673776_11068673777",
+      "consumer": "H_polyclinic_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.7
+    },
+    {
+      "edge_id": "E109_access",
+      "supplier": "RF_11057975858_6569722821",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E110_access",
+      "supplier": "RF_6569722821_11057975858",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E111_access",
+      "supplier": "RF_6569722821_11057975860",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E112_access",
+      "supplier": "RF_11057975860_6569722821",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E113_access",
+      "supplier": "RF_11057975860_11057975861",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E114_access",
+      "supplier": "RF_11057975861_11057975860",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E115_access",
+      "supplier": "RF_2246472615_2246472562",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E116_access",
+      "supplier": "RF_2246472615_7046060440",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E117_access",
+      "supplier": "RF_2246472615_13720592965",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E118_access",
+      "supplier": "RF_2246472615_13683849812",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E119_access",
+      "supplier": "RF_2246472562_2246472615",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E120_access",
+      "supplier": "RF_2246472644_2246472604",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E121_access",
+      "supplier": "RF_2246472644_13720592918",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E122_access",
+      "supplier": "RF_2246472644_7046060440",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E123_access",
+      "supplier": "RF_2246472604_2246472644",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E124_access",
+      "supplier": "RF_13720592918_2246472644",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E125_access",
+      "supplier": "RF_7046060440_2246472644",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E126_access",
+      "supplier": "RF_7046060440_2246472615",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E127_access",
+      "supplier": "RF_7046060440_13720592906",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E128_access",
+      "supplier": "RF_13720592965_2246472615",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E129_access",
+      "supplier": "RF_13720592965_13720592920",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E130_access",
+      "supplier": "RF_13720592965_13720592964",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E131_access",
+      "supplier": "RF_13720592920_13720592965",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E132_access",
+      "supplier": "RF_13720592920_13720592919",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E133_access",
+      "supplier": "RF_7046060436_13720592901",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E134_access",
+      "supplier": "RF_7046060436_13720592913",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E135_access",
+      "supplier": "RF_7046060436_13720592905",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E136_access",
+      "supplier": "RF_13720592901_7046060436",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E137_access",
+      "supplier": "RF_13720592901_13720592902",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E138_access",
+      "supplier": "RF_13720592902_13720592901",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E139_access",
+      "supplier": "RF_13720592902_7046060435",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E140_access",
+      "supplier": "RF_13720592902_13720592903",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E141_access",
+      "supplier": "RF_7046060435_13720592902",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E142_access",
+      "supplier": "RF_7046060435_7046060434",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E143_access",
+      "supplier": "RF_7046060434_7046060435",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E144_access",
+      "supplier": "RF_7046060434_13720592688",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E145_access",
+      "supplier": "RF_13720592688_7046060434",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E146_access",
+      "supplier": "RF_13720592688_7046060431",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E147_access",
+      "supplier": "RF_7046060431_13720592688",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E148_access",
+      "supplier": "RF_7046060431_13720592689",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E149_access",
+      "supplier": "RF_13720592689_7046060431",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E150_access",
+      "supplier": "RF_13720592913_7046060436",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E151_access",
+      "supplier": "RF_7046060439_13720592906",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E152_access",
+      "supplier": "RF_7046060439_13720592905",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E153_access",
+      "supplier": "RF_13720592906_7046060439",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E154_access",
+      "supplier": "RF_13720592906_7046060440",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E155_access",
+      "supplier": "RF_13720592905_7046060439",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E156_access",
+      "supplier": "RF_13720592905_7046060436",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E157_access",
+      "supplier": "RF_13720592903_13720592902",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E158_access",
+      "supplier": "RF_13683849812_2246472615",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E159_access",
+      "supplier": "RF_13720592915_13720592917",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E160_access",
+      "supplier": "RF_13720592917_13720592915",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E161_access",
+      "supplier": "RF_13720592919_13720592920",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E162_access",
+      "supplier": "RF_13720592964_13720592965",
+      "consumer": "S0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E163_access",
+      "supplier": "RF_4352245896_4352245897",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E164_access",
+      "supplier": "RF_4352245897_4352245896",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E165_access",
+      "supplier": "RF_4352245897_7374085597",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E166_access",
+      "supplier": "RF_7374085597_4352245897",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E167_access",
+      "supplier": "RF_7374085597_4352245898",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E168_access",
+      "supplier": "RF_4352245898_7374085597",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E169_access",
+      "supplier": "RF_4352245898_4352245899",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E170_access",
+      "supplier": "RF_4352245899_4352245898",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E171_access",
+      "supplier": "RF_4352245899_4352245912",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E172_access",
+      "supplier": "RF_4352245912_4352245899",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E173_access",
+      "supplier": "RF_4352245912_4352245900",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E174_access",
+      "supplier": "RF_4352245912_4352245911",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E175_access",
+      "supplier": "RF_4352245900_4352245912",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E176_access",
+      "supplier": "RF_4352245900_4352245908",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E177_access",
+      "supplier": "RF_4352245900_7374085598",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E178_access",
+      "supplier": "RF_4352245910_7374085592",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E179_access",
+      "supplier": "RF_7374085592_4352245910",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E180_access",
+      "supplier": "RF_7374085592_7374085593",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E181_access",
+      "supplier": "RF_7374085593_7374085592",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E182_access",
+      "supplier": "RF_7374085593_4352245911",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E183_access",
+      "supplier": "RF_4352245911_7374085593",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E184_access",
+      "supplier": "RF_4352245911_4352245912",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E185_access",
+      "supplier": "RF_11341001672_4352245914",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E186_access",
+      "supplier": "RF_4352245914_11341001672",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E187_access",
+      "supplier": "RF_7374085596_4352245905",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E188_access",
+      "supplier": "RF_7374085596_4352245904",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E189_access",
+      "supplier": "RF_4352245905_7374085596",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E190_access",
+      "supplier": "RF_4352245905_4352245906",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E191_access",
+      "supplier": "RF_4352245906_4352245905",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E192_access",
+      "supplier": "RF_4352245906_7374085595",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E193_access",
+      "supplier": "RF_7374085595_4352245906",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E194_access",
+      "supplier": "RF_7374085595_4352245907",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E195_access",
+      "supplier": "RF_4352245907_7374085595",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E196_access",
+      "supplier": "RF_4352245907_4352245908",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E197_access",
+      "supplier": "RF_4352245908_4352245907",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E198_access",
+      "supplier": "RF_4352245908_4352245900",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E199_access",
+      "supplier": "RF_7374085598_4352245900",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E200_access",
+      "supplier": "RF_7374085598_7374085599",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E201_access",
+      "supplier": "RF_7374085599_7374085598",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E202_access",
+      "supplier": "RF_7374085599_4352245901",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E203_access",
+      "supplier": "RF_4352245901_7374085599",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E204_access",
+      "supplier": "RF_4352245901_4352245902",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E205_access",
+      "supplier": "RF_4352245902_4352245901",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E206_access",
+      "supplier": "RF_4352245902_4352245903",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E207_access",
+      "supplier": "RF_4352245903_4352245902",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E208_access",
+      "supplier": "RF_4352245903_4352245904",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E209_access",
+      "supplier": "RF_4352245904_4352245903",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E210_access",
+      "supplier": "RF_4352245904_7374085596",
+      "consumer": "W_synth_0",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E211_access",
+      "supplier": "RF_2244961978_2244961993",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E212_access",
+      "supplier": "RF_2244961986_2244961993",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E213_access",
+      "supplier": "RF_2244961993_2244961986",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E214_access",
+      "supplier": "RF_2244961993_8711628032",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E215_access",
+      "supplier": "RF_2244961993_10279704586",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E216_access",
+      "supplier": "RF_8711628032_7396544190",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E217_access",
+      "supplier": "RF_8711628032_8711628033",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E218_access",
+      "supplier": "RF_7396544190_620011904",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E219_access",
+      "supplier": "RF_7396544190_11135373489",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E220_access",
+      "supplier": "RF_620011904_6552277710",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E221_access",
+      "supplier": "RF_6552277710_6552277713",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E222_access",
+      "supplier": "RF_6552277710_6552277709",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E223_access",
+      "supplier": "RF_6552277713_7097850904",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E224_access",
+      "supplier": "RF_6552277713_6552277712",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E225_access",
+      "supplier": "RF_7097850903_5242233613",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E226_access",
+      "supplier": "RF_5242233613_5242233614",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E227_access",
+      "supplier": "RF_5242233614_10279704586",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E228_access",
+      "supplier": "RF_10279704586_5242233615",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E229_access",
+      "supplier": "RF_10279704586_2244961993",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E230_access",
+      "supplier": "RF_6552277709_6552277710",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E231_access",
+      "supplier": "RF_6552277709_6552277708",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E232_access",
+      "supplier": "RF_6552277708_6552277709",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E233_access",
+      "supplier": "RF_6552277712_6552277713",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E234_access",
+      "supplier": "RF_7396544194_7396544193",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E235_access",
+      "supplier": "RF_7396544193_7396544194",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E236_access",
+      "supplier": "RF_7396544193_7396544192",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E237_access",
+      "supplier": "RF_7396544192_7396544193",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E238_access",
+      "supplier": "RF_7396544192_7396544191",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E239_access",
+      "supplier": "RF_7396544191_7396544192",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E240_access",
+      "supplier": "RF_7396544191_11135373489",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E241_access",
+      "supplier": "RF_11135373489_7396544191",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E242_access",
+      "supplier": "RF_11135373489_7396544190",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E243_access",
+      "supplier": "RF_8711628033_8711628032",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E244_access",
+      "supplier": "RF_8711628033_8711628034",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E245_access",
+      "supplier": "RF_8711628034_8711628033",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E246_access",
+      "supplier": "RF_8711628034_8711628035",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E247_access",
+      "supplier": "RF_8711628035_8711628034",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E248_access",
+      "supplier": "RF_8711628035_8711628036",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E249_access",
+      "supplier": "RF_8711628036_8711628035",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E250_access",
+      "supplier": "RF_8711628036_8711628037",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    },
+    {
+      "edge_id": "E251_access",
+      "supplier": "RF_8711628037_8711628036",
+      "consumer": "W_synth_1",
+      "kind": "access",
+      "demand": 1.0,
+      "criticality": 0.6,
+      "buffer_hours": 0.0,
+      "floor": 0.5
+    }
+  ]
+}

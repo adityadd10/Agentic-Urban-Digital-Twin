@@ -1,0 +1,52 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/landuse.geojson",
+  "generated_at": "2026-09-19T14:32:27.995616+00:00",
+  "inputs": {
+    "source": "OSM official REST API (api.openstreetmap.org/api/0.6/map)",
+    "boundary": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/ward_boundary.geojson",
+      "sha256": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288"
+    },
+    "impervious_landuse_types": [
+      "civic",
+      "commercial",
+      "construction",
+      "garages",
+      "industrial",
+      "military",
+      "railway",
+      "residential",
+      "retail"
+    ],
+    "bbox": [
+      72.8635584747941,
+      19.0475540899272,
+      72.9080099959495,
+      19.129178410485
+    ]
+  },
+  "row_count": 3206,
+  "extra": {
+    "n_landuse_polygons": 284,
+    "n_buildings": 2922,
+    "by_landuse_type": {
+      "residential": 168,
+      "railway": 8,
+      "garages": 4,
+      "industrial": 27,
+      "commercial": 21,
+      "cemetery": 7,
+      "religious": 1,
+      "grass": 25,
+      "recreation_ground": 6,
+      "retail": 2,
+      "construction": 6,
+      "neighborhood": 1,
+      "area": 1,
+      "military": 3,
+      "education": 1,
+      "locality": 1,
+      "quarry": 2
+    }
+  }
+}

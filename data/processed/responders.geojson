@@ -1,0 +1,113 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8858245000001,
+          19.0847462
+        ]
+      },
+      "properties": {
+        "asset_id": "FS0",
+        "asset_type": "fire_station",
+        "name": "Kurla Fire Staion",
+        "location": "Kurla Fire Station, Lal Bahadur Shastri Marg, Near Phoenix Mall, Kurla West, Mumbai, 400070",
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8782730040001,
+          19.076686991
+        ]
+      },
+      "properties": {
+        "asset_id": "PS0",
+        "asset_type": "police_station",
+        "name": "288-TRIAL-Kurla Police Station 21",
+        "location": "CST Road, Lal Bahadur Shastri Marg, Kapadia Nagar, Kurla, Mumbai, Maharashtra 400070\r\nCST Road, Lal Bahadur Shastri Marg, Kapadia Nagar, Kurla, Mumbai, Maharashtra 400070\r\n",
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8806665180001,
+          19.0587439080001
+        ]
+      },
+      "properties": {
+        "asset_id": "PS1",
+        "asset_type": "police_station",
+        "name": "Nehru Nagar Police Station",
+        "location": "Nehru Nagar Colony, Kurla (E), Mumbai - 400024.  Pramod Khoparde   9821624266 neharunagar1985@gmail.com",
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8762344180001,
+          19.0649449250001
+        ]
+      },
+      "properties": {
+        "asset_id": "PS2",
+        "asset_type": "police_station",
+        "name": "Kurla Police Station",
+        "location": "CST Road, Satejeevan Society, Kurla West",
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8841817860001,
+          19.071716641
+        ]
+      },
+      "properties": {
+        "asset_id": "PS3",
+        "asset_type": "police_station",
+        "name": "V B Nagar Police Station",
+        "location": "H.I.G Colony, BLD NO. 7 Kohonoor Co.op Hs . Society. V.B Nagar, Kurla (W), Mumbai - 400070. Pravin More  9821517320 vbnagarpolicestation@mtnl.net.in",
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8762510000001,
+          19.064808
+        ]
+      },
+      "properties": {
+        "asset_id": "PS4",
+        "asset_type": "police_station",
+        "name": "Kurla Railway Police Station",
+        "location": null,
+        "ward": "L",
+        "source": "bmc_arcgis"
+      }
+    }
+  ]
+}

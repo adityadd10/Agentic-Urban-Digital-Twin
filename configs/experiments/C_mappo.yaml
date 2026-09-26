@@ -1,0 +1,15 @@
+# Experiment C (dev doc §5.5/§14 Phase 6: "MAPPO ... Experiment C / RQ1
+# / end of semester-1 core") — goal-conditioned MAPPO, unconstrained,
+# no LLM/router/risk-gate. `scripts/train_mappo.py` already implements
+# this directly (module M6a/M6b, no `--constrained` flag); documented
+# here in dev doc §15's frozen format.
+experiment: C
+policy: mappo
+planner: none
+router: disabled
+risk_gate: disabled
+human_model: {}
+suite:
+  types: [flood]
+  split: test
+seeds: [0, 1, 2, 3, 4]

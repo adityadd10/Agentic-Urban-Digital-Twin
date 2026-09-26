@@ -1,0 +1,14 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/responders.geojson",
+  "generated_at": "2026-09-19T14:31:57.066521+00:00",
+  "inputs": {
+    "fire_source": "BMC ArcGIS REST (Fire_Station), WARD filter",
+    "police_source": "BMC ArcGIS REST (Police_Stations), WARD filter",
+    "ward": "L"
+  },
+  "row_count": 6,
+  "extra": {
+    "n_fire": 1,
+    "n_police": 5
+  }
+}

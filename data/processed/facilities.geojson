@@ -1,0 +1,91 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.86704420022,
+          19.0544651996312
+        ]
+      },
+      "properties": {
+        "asset_id": "H_peripheral_0",
+        "asset_type": "hospital",
+        "name": "K B Bhabha Hospital, Kurla",
+        "hospital_type": "peripheral",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.8921111100031,
+          19.0980833302163
+        ]
+      },
+      "properties": {
+        "asset_id": "H_polyclinic_0",
+        "asset_type": "hospital",
+        "name": "polyclinic_0",
+        "hospital_type": "polyclinic",
+        "source": "bmc_arcgis"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.88692212,
+          19.07916164
+        ]
+      },
+      "properties": {
+        "asset_id": "S0",
+        "asset_type": "substation",
+        "name": "Tata Power Kurla Receiving Station",
+        "source": "osm",
+        "osm_id": 1363540147,
+        "osm_type": "way"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.867544,
+          19.054965
+        ]
+      },
+      "properties": {
+        "asset_id": "W_synth_0",
+        "asset_type": "water",
+        "name": "Synthetic local pumping station (near K B Bhabha Hospital) \u2014 NOT a verified real facility",
+        "provenance": "synthetic_placeholder",
+        "source": "manual"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.892611,
+          19.098583
+        ]
+      },
+      "properties": {
+        "asset_id": "W_synth_1",
+        "asset_type": "water",
+        "name": "Synthetic local pumping station (near polyclinic) \u2014 NOT a verified real facility",
+        "provenance": "synthetic_placeholder",
+        "source": "manual"
+      }
+    }
+  ]
+}
