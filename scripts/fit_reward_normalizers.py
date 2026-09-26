@@ -6,6 +6,16 @@ split (never val/test), through the same `experiments.runner.run_episode`
 harness Experiment A uses, and records each §5.4 term's mean absolute
 per-tick value. A term that is always zero gets normaliser 1.0.
 
+**Disclosed deviation from §5.4 (2026-09-27): a floor on the energy term.**
+The rule-based agent almost never sheds load (only above 95% capacity), so
+its mean unserved energy per tick is ~0.0026 MWh. Normalising by that made
+one hour of the mildest (tier-1) shedding cost about as much as 27 patient
+deaths, so no agent could ever learn to shed, although since the 2026-09-26
+supply-allocation fix shedding is what protects hospitals on a degraded
+substation. The energy normaliser is therefore floored at one tick of tier-1
+shedding at every substation's base load (`energy_floor_mwh` below). The
+other four terms follow §5.4 exactly.
+
 Refuses to overwrite an existing configs/reward.yaml: §5.4 says normalisers
 are "never changed mid-experiment". Delete the file deliberately (and
 retrain everything) to refit.
@@ -34,7 +44,7 @@ sys.path.insert(0, str(REPO_ROOT / "tests" / "fixtures"))
 from _pipeline_common import configure_logging, load_config, resolve_path  # noqa: E402
 from runner import run_episode  # noqa: E402
 from udt.agents.rule_based import RuleBasedAgent  # noqa: E402
-from udt.common.models import DependencyGraph  # noqa: E402
+from udt.common.models import AssetType, DependencyGraph  # noqa: E402
 from udt.common.versions import ENV_VERSION  # noqa: E402
 from udt.envs.reward import REWARD_CONFIG_PATH, TERMS, trace_terms  # noqa: E402
 from udt.incidents.degradations.flood import (  # noqa: E402
@@ -43,6 +53,7 @@ from udt.incidents.degradations.flood import (  # noqa: E402
 )
 from udt.scenarios.generator import apply_initial_conditions, onset_hour_of_day  # noqa: E402
 from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_manifest, load_suite  # noqa: E402
+from udt.twin.power import SHED_FRACTION_BY_TIER  # noqa: E402
 from udt.twin.road_network import RoadNetwork  # noqa: E402
 
 N_TICKS = 288
@@ -86,10 +97,18 @@ def main() -> None:
 
     means = {k: float(np.mean(v)) for k, v in per_tick.items()}
     normalisers = {k: (m if m > 0 else 1.0) for k, m in means.items()}
+    # Energy floor: one tick of tier-1 shedding at base load (module docstring).
+    energy_floor_mwh = sum(
+        float(a.attributes.get("load_mw", 0.0)) * SHED_FRACTION_BY_TIER[1] * (5.0 / 60.0)
+        for a in base_graph.assets
+        if a.asset_type == AssetType.SUBSTATION
+    )
+    normalisers["unserved_energy_mwh"] = max(normalisers["unserved_energy_mwh"], energy_floor_mwh)
     manifest = load_manifest(DEFAULT_FLOOD_SUITE_DIR)
     doc = {
         "normalisers": normalisers,
         "raw_mean_abs_per_tick": means,
+        "energy_floor_mwh": energy_floor_mwh,
         "fitted_on": {
             "agent": "rule_based",
             "suite_version": manifest["suite_version"],
@@ -99,7 +118,11 @@ def main() -> None:
             "env_version": ENV_VERSION,
             "created_at": datetime.now(UTC).isoformat(),
         },
-        "note": "dev doc §5.4: frozen; never refit mid-experiment. Zero-mean terms get 1.0.",
+        "note": (
+            "dev doc §5.4: frozen; never refit mid-experiment. Zero-mean terms get 1.0. "
+            "Deviation: unserved_energy_mwh floored at one tick of tier-1 shedding at base "
+            "load (see scripts/fit_reward_normalizers.py docstring)."
+        ),
     }
     REWARD_CONFIG_PATH.write_text(yaml.safe_dump(doc, sort_keys=False))
     print(yaml.safe_dump(doc, sort_keys=False))

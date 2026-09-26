@@ -58,6 +58,7 @@ from _pipeline_common import configure_logging, load_config, resolve_path  # noq
 from udt.agents.marl.mappo import MAPPOConfig, MAPPOTrainer  # noqa: E402
 from udt.agents.marl.registry import append_entry  # noqa: E402
 from udt.common.models import PolicyRegistryEntry  # noqa: E402
+from udt.common.versions import SUITE_VERSION  # noqa: E402
 from udt.envs.multi_env import UDTMultiAgentEnv  # noqa: E402
 
 N_EVAL_EPISODES = 3
@@ -71,6 +72,7 @@ def _evaluate_deterministic(
     base_seed: int,
     *,
     use_action_masking: bool = False,
+    scenario_indices: list[int] | None = None,
 ) -> float:
     """Mean episode reward over `n_episodes` deterministic rollouts —
     disclosed as *not* a true held-out validation score, see module
@@ -84,7 +86,8 @@ def _evaluate_deterministic(
     training."""
     episode_rewards = []
     for i in range(n_episodes):
-        obs, _ = env.reset(seed=base_seed + EVAL_SEED_OFFSET + i)
+        options = {"scenario_index": scenario_indices[i]} if scenario_indices else None
+        obs, _ = env.reset(seed=base_seed + EVAL_SEED_OFFSET + i, options=options)
         obs_t = {name: torch.as_tensor(obs[name], dtype=torch.float32) for name in env.agents}
         total_reward = 0.0
         done = False
@@ -95,12 +98,8 @@ def _evaluate_deterministic(
                 for name in active_agents:
                     mask = None
                     if use_action_masking:
-                        mask = [
-                            torch.as_tensor(m, dtype=torch.bool) for m in env.action_mask(name)
-                        ]
-                    action, _ = trainer.actors[name].act(
-                        obs_t[name], deterministic=True, mask=mask
-                    )
+                        mask = [torch.as_tensor(m, dtype=torch.bool) for m in env.action_mask(name)]
+                    action, _ = trainer.actors[name].act(obs_t[name], deterministic=True, mask=mask)
                     actions[name] = action.numpy()
             next_obs, rewards, terminations, truncations, _ = env.step(actions)
             total_reward += rewards[active_agents[0]]
@@ -196,18 +195,34 @@ def main() -> None:
     trainer.save(final_path)
     log.info("mappo_training_complete", final_model=str(final_path), run_dir=str(run_dir))
 
-    val_score = _evaluate_deterministic(
-        trainer, env, N_EVAL_EPISODES, args.seed, use_action_masking=args.constrained
+    # 2026-09-27: validation on the frozen suite's held-out val split (dev doc
+    # §4.3): one deterministic episode per val scenario, in a separate env.
+    val_env = UDTMultiAgentEnv(
+        processed_dir=processed_dir,
+        n_ticks=args.n_ticks,
+        base_seed=args.seed,
+        constrained_reward=args.constrained,
+        scenario_split="val",
     )
-    log.info("deterministic_eval_complete", val_score=val_score, n_episodes=N_EVAL_EPISODES)
+    n_val = len(val_env._scenarios)
+    val_score = _evaluate_deterministic(
+        trainer,
+        val_env,
+        n_val,
+        args.seed,
+        use_action_masking=args.constrained,
+        scenario_indices=list(range(n_val)),
+    )
+    val_env.close()
+    log.info("deterministic_eval_complete", val_score=val_score, n_episodes=n_val, split="val")
 
     entry = PolicyRegistryEntry(
         incident_type=args.incident_type,
         policy_path=str(final_path),
         env_version=UDTMultiAgentEnv.metadata["name"],
-        suite_version="none-n1-scenario",  # disclosed: no frozen train/val/test suite yet (M3)
+        suite_version=SUITE_VERSION,
         val_score=val_score,
-        val_score_is_true_holdout=False,  # disclosed: fresh seeds, not a real held-out split
+        val_score_is_true_holdout=True,  # mean over the frozen suite's val split
         trained_date=datetime.now(UTC).isoformat(),
     )
     append_entry(args.registry_path, entry)
