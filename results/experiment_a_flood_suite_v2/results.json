@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "suite_version": "flood_suite_v2",
+    "split": "test",
+    "env_version": "udt_multi_env_v2",
+    "n_scenarios": 10,
+    "eval_seeds_per_scenario": 3,
+    "n_bootstrap": 10000,
+    "alpha": 0.05,
+    "reward_normalisers": {
+      "unmet_patient_hours": 1.091189236111111,
+      "patient_deaths": 0.21024305555555556,
+      "unserved_energy_mwh": 0.21998209947402164,
+      "ambulance_response_delay_hours": 0.1820023148148148,
+      "new_cascade_failures": 0.009375
+    }
+  },
+  "results": {
+    "patient_deaths": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 104.86666666666667,
+      "do_nothing_ci95": [
+        76.69916666666667,
+        127.53333333333333
+      ],
+      "rule_based_mean": 43.56666666666666,
+      "rule_based_ci95": [
+        29.199166666666667,
+        58.33416666666665
+      ],
+      "diff_mean_rule_minus_nothing": -61.3,
+      "diff_ci95": [
+        -78.56666666666668,
+        -42.333333333333336
+      ],
+      "wilcoxon_p": 0.00390625,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    },
+    "unmet_patient_hours": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 479.25277777777774,
+      "do_nothing_ci95": [
+        353.89006944444446,
+        577.7811805555556
+      ],
+      "rule_based_mean": 272.7916666666667,
+      "rule_based_ci95": [
+        195.27104166666672,
+        344.6668055555556
+      ],
+      "diff_mean_rule_minus_nothing": -206.46111111111108,
+      "diff_ci95": [
+        -262.9446527777778,
+        -142.91506944444438
+      ],
+      "wilcoxon_p": 0.00390625,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    },
+    "cascading_failure_count": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 3.1,
+      "do_nothing_ci95": [
+        2.0,
+        4.0
+      ],
+      "rule_based_mean": 3.3,
+      "rule_based_ci95": [
+        2.3,
+        4.0
+      ],
+      "diff_mean_rule_minus_nothing": 0.2,
+      "diff_ci95": [
+        0.0,
+        0.5
+      ],
+      "wilcoxon_p": 0.5,
+      "significant_at_0.05": false,
+      "rule_based_better": false
+    },
+    "mean_hospital_functional_level": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 0.4422394497905019,
+      "do_nothing_ci95": [
+        0.34604458044351893,
+        0.5735869847173083
+      ],
+      "rule_based_mean": 0.7029427609777062,
+      "rule_based_ci95": [
+        0.6344333230246284,
+        0.7719564886633808
+      ],
+      "diff_mean_rule_minus_nothing": 0.2607033111872043,
+      "diff_ci95": [
+        0.18002124577291095,
+        0.33106178504070055
+      ],
+      "wilcoxon_p": 0.00390625,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    },
+    "mean_critical_functional_level": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 0.31710411324953414,
+      "do_nothing_ci95": [
+        0.16092468876860838,
+        0.5318707630906944
+      ],
+      "rule_based_mean": 0.5904617962729398,
+      "rule_based_ci95": [
+        0.47629795537557634,
+        0.7186598687306663
+      ],
+      "diff_mean_rule_minus_nothing": 0.2733576830234057,
+      "diff_ci95": [
+        0.17767504206592682,
+        0.358669315207704
+      ],
+      "wilcoxon_p": 0.00390625,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    },
+    "unserved_energy_mwh": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 0.0,
+      "do_nothing_ci95": [
+        0.0,
+        0.0
+      ],
+      "rule_based_mean": 2.658652949369708,
+      "rule_based_ci95": [
+        0.0,
+        6.4007039870578355
+      ],
+      "diff_mean_rule_minus_nothing": 2.658652949369708,
+      "diff_ci95": [
+        0.0,
+        6.4007039870578355
+      ],
+      "wilcoxon_p": 0.5,
+      "significant_at_0.05": false,
+      "rule_based_better": false
+    },
+    "mean_ambulance_response_delay_hours": {
+      "n_scenarios": 0
+    },
+    "requests_completed": {
+      "n_scenarios": 10,
+      "do_nothing_mean": 0.0,
+      "do_nothing_ci95": [
+        0.0,
+        0.0
+      ],
+      "rule_based_mean": 9.2,
+      "rule_based_ci95": [
+        7.166666666666666,
+        11.366666666666667
+      ],
+      "diff_mean_rule_minus_nothing": 9.2,
+      "diff_ci95": [
+        7.166666666666667,
+        11.399999999999999
+      ],
+      "wilcoxon_p": 0.001953125,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    },
+    "episode_reward": {
+      "n_scenarios": 10,
+      "do_nothing_mean": -7080.413379544072,
+      "do_nothing_ci95": [
+        -8645.108166368904,
+        -5113.6230941038
+      ],
+      "rule_based_mean": -4331.980777605449,
+      "rule_based_ci95": [
+        -5426.985970631735,
+        -3115.3530875901324
+      ],
+      "diff_mean_rule_minus_nothing": 2748.432601938623,
+      "diff_ci95": [
+        1793.56162705106,
+        3610.3821107048607
+      ],
+      "wilcoxon_p": 0.00390625,
+      "significant_at_0.05": true,
+      "rule_based_better": true
+    }
+  }
+}
