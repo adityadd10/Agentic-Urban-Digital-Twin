@@ -315,6 +315,11 @@ class UDTMultiAgentEnv(
         # any tick's own randomness), same disclosed convention as every
         # other rng use in this codebase (dev doc §3.6).
         self.goal = self.sim.rng.uniform(GOAL_LOW, GOAL_HIGH, size=GOAL_DIM).astype(np.float32)
+        # Evaluation override (2026-09-27): `options={"goal": [...]}` fixes g,
+        # e.g. the §5.4 defaults (all 1.0). The draw above still happens, so
+        # the rng stream is identical with or without the override.
+        if options and "goal" in options:
+            self.goal = np.asarray(options["goal"], dtype=np.float32)
 
         self.agents = list(self.possible_agents)
         self._stable_streak = 0

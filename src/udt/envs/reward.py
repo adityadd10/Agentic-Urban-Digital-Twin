@@ -82,3 +82,25 @@ def trace_terms(trace: list[TwinState], dt_hours: float) -> list[dict[str, float
         out.append(tick_terms(snap, dt_hours, deaths, cascades))
         deaths, cascades = snap.patient_deaths_cumulative, snap.cascading_failure_count
     return out
+
+
+def episode_reward(
+    trace: list[TwinState],
+    normalisers: dict[str, float],
+    goal: tuple[float, float, float] = (1.0, 1.0, 1.0),
+    dt_hours: float = 5.0 / 60.0,
+) -> float:
+    """Dev doc §5.4 reward summed over a finished episode's trace, with goal
+    weights (g_health, g_power, g_transport); defaults = the §5.4 defaults.
+    Excludes the safety-violation penalty (evaluation compares outcomes)."""
+    g_health, g_power, g_transport = goal
+    total = 0.0
+    for t in trace_terms(trace, dt_hours):
+        n = {k: v / normalisers[k] for k, v in t.items()}
+        total -= (
+            g_health * (n["unmet_patient_hours"] + 10.0 * n["patient_deaths"])
+            + g_power * n["unserved_energy_mwh"]
+            + g_transport * n["ambulance_response_delay_hours"]
+            + 5.0 * n["new_cascade_failures"]
+        )
+    return total
