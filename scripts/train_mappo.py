@@ -145,22 +145,52 @@ def main() -> None:
         "(lagrangian_enabled) and multi_env's constrained_reward together, as one unit "
         "- omit for the default unconstrained MAPPO (Experiments C/E/F)",
     )
+    parser.add_argument(
+        "--reward-config",
+        default=None,
+        help="reward normaliser YAML; default = the frozen configs/reward.yaml "
+        "(protocol 2026-09-27: condition B uses configs/reward_no_energy_floor.yaml)",
+    )
+    parser.add_argument(
+        "--resume-every",
+        type=int,
+        default=0,
+        help="write resume_latest.pt (exact-resume state) every N iterations; 0 = off",
+    )
+    parser.add_argument(
+        "--resume", default=None, help="resume_latest.pt to continue from (same args required)"
+    )
     args = parser.parse_args()
 
     log = configure_logging()
     cfg = load_config(args.config)
     processed_dir = resolve_path(cfg["paths"]["processed_dir"])
 
-    run_id = f"{datetime.now(UTC):%Y%m%dT%H%M%SZ}_{uuid.uuid4().hex[:8]}"
-    run_dir = REPO_ROOT / "runs" / run_id
+    if args.resume:
+        run_dir = Path(args.resume).resolve().parent  # continue in the same run dir
+    else:
+        run_id = f"{datetime.now(UTC):%Y%m%dT%H%M%SZ}_{uuid.uuid4().hex[:8]}"
+        run_dir = REPO_ROOT / "runs" / run_id
     checkpoint_dir = run_dir / "checkpoints"
     checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    # What exactly this run is, for the resume check and the record.
+    run_config = {
+        "seed": args.seed,
+        "n_iterations": args.n_iterations,
+        "rollout_length": args.rollout_length,
+        "n_ticks": args.n_ticks,
+        "constrained": args.constrained,
+        "reward_config": args.reward_config,
+        "env_version": UDTMultiAgentEnv.metadata["name"],
+        "suite_version": SUITE_VERSION,
+    }
 
     env = UDTMultiAgentEnv(
         processed_dir=processed_dir,
         n_ticks=args.n_ticks,
         base_seed=args.seed,
         constrained_reward=args.constrained,
+        reward_config=args.reward_config,
     )
     trainer = MAPPOTrainer(
         env,
@@ -179,11 +209,30 @@ def main() -> None:
         run_dir=str(run_dir),
     )
 
-    history = []
-    for iteration in range(1, args.n_iterations + 1):
+    history: list[dict[str, float]] = []
+    start_iteration = 1
+    if args.resume:
+        resumed = trainer.load_resume(args.resume)
+        if resumed["metadata"] != run_config:
+            raise SystemExit(f"resume config mismatch: {resumed['metadata']} vs {run_config}")
+        history = resumed["history"]
+        start_iteration = resumed["iteration"] + 1
+        log.info("mappo_resumed", from_iteration=resumed["iteration"], run_dir=str(run_dir))
+    else:
+        (run_dir / "run_config.json").write_text(json.dumps(run_config, indent=2))
+
+    for iteration in range(start_iteration, args.n_iterations + 1):
         losses = trainer.train_iteration()
         history.append({"iteration": iteration, **losses})
         log.info("mappo_iteration_complete", iteration=iteration, **losses)
+
+        if args.resume_every and iteration % args.resume_every == 0:
+            trainer.save_resume(
+                run_dir / "resume_latest.pt",
+                iteration=iteration,
+                history=history,
+                metadata=run_config,
+            )
 
         if iteration % args.checkpoint_every == 0 or iteration == args.n_iterations:
             checkpoint_path = checkpoint_dir / f"mappo_iter{iteration}.pt"
@@ -203,6 +252,7 @@ def main() -> None:
         base_seed=args.seed,
         constrained_reward=args.constrained,
         scenario_split="val",
+        reward_config=args.reward_config,
     )
     n_val = len(val_env._scenarios)
     val_score = _evaluate_deterministic(

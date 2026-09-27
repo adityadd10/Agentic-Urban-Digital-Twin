@@ -68,7 +68,9 @@ actors with agent-ID embedding" — not what's implemented, and why).
 
 from __future__ import annotations
 
-from dataclasses import dataclass
+import os
+import random
+from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any
 
@@ -200,8 +202,7 @@ class MAPPOTrainer:
                     mask = None
                     if masks is not None:
                         mask = [
-                            torch.as_tensor(m, dtype=torch.bool)
-                            for m in self.env.action_mask(name)
+                            torch.as_tensor(m, dtype=torch.bool) for m in self.env.action_mask(name)
                         ]
                         masks[name] = mask
                     action, log_prob = self.actors[name].act(self._obs[name], mask=mask)
@@ -424,6 +425,66 @@ class MAPPOTrainer:
             checkpoint["cost_critic"] = self.cost_critic.state_dict()
             checkpoint["lagrange_lambda"] = self.lagrange_lambda
         torch.save(checkpoint, path)
+
+    RESUME_FORMAT = "mappo_resume_v1"
+
+    def save_resume(
+        self,
+        path: str | Path,
+        *,
+        iteration: int,
+        history: list[dict[str, Any]],
+        metadata: dict[str, Any],
+    ) -> None:
+        """Full training state for an exact resume (protocol 2026-09-27 §6.2):
+        networks, optimiser, counters, current observation, torch/numpy/python
+        RNG states, the env's in-progress state, config and metadata. Written
+        atomically (temp file + rename) so an interruption mid-save can't
+        corrupt the previous resume point. `save()` (final models) is unchanged."""
+        state = {
+            "format": self.RESUME_FORMAT,
+            "config": asdict(self.config),
+            "actors": {name: actor.state_dict() for name, actor in self.actors.items()},
+            "critic": self.critic.state_dict(),
+            "cost_critic": self.cost_critic.state_dict(),
+            "lagrange_lambda": self.lagrange_lambda,
+            "optimizer": self.optimizer.state_dict(),
+            "total_steps": self.total_steps,
+            "iteration": iteration,
+            "history": history,
+            "obs": self._obs,
+            "torch_rng": torch.get_rng_state(),
+            "numpy_rng": np.random.get_state(),
+            "python_rng": random.getstate(),
+            "env_state": self.env.resume_state(),
+            "metadata": metadata,
+        }
+        tmp = Path(f"{path}.tmp")
+        torch.save(state, tmp)
+        os.replace(tmp, path)
+
+    def load_resume(self, path: str | Path) -> dict[str, Any]:
+        """Restore `save_resume` state into this trainer (built with the same
+        config and a freshly constructed env). Returns iteration, history and
+        metadata so the caller continues from `iteration + 1`."""
+        state: dict[str, Any] = torch.load(path, weights_only=False)
+        if state.get("format") != self.RESUME_FORMAT:
+            raise ValueError(f"{path} is not a {self.RESUME_FORMAT} checkpoint")
+        if state["config"] != asdict(self.config):
+            raise ValueError(f"config mismatch: saved {state['config']} vs {asdict(self.config)}")
+        for name, actor in self.actors.items():
+            actor.load_state_dict(state["actors"][name])
+        self.critic.load_state_dict(state["critic"])
+        self.cost_critic.load_state_dict(state["cost_critic"])
+        self.lagrange_lambda = state["lagrange_lambda"]
+        self.optimizer.load_state_dict(state["optimizer"])
+        self.total_steps = state["total_steps"]
+        self.env.load_resume_state(state["env_state"])
+        self._obs = state["obs"]
+        torch.set_rng_state(state["torch_rng"])
+        np.random.set_state(state["numpy_rng"])
+        random.setstate(state["python_rng"])
+        return {k: state[k] for k in ("iteration", "history", "metadata")}
 
     def load(self, path: str | Path) -> None:
         checkpoint: dict[str, Any] = torch.load(path, weights_only=True)

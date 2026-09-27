@@ -91,6 +91,7 @@ from __future__ import annotations
 
 import functools
 import json
+import pickle
 from pathlib import Path
 from typing import Any
 
@@ -159,6 +160,7 @@ class UDTMultiAgentEnv(
         base_seed: int = 0,
         scenario_split: str | None = "train",
         suite_dir: str | Path | None = None,
+        reward_config: str | Path | None = None,
         constrained_reward: bool = False,
     ) -> None:
         # M7 slice 2: dev doc §5.4's own footnote — the fixed
@@ -191,7 +193,10 @@ class UDTMultiAgentEnv(
         # Dev doc §4.3 (2026-09-27): episodes draw from the frozen suite's
         # `scenario_split` (train for training; val/test only for evaluation),
         # verified on load. `None` = fresh random scenarios, for smoke tests only.
-        self._reward_normalisers = load_reward_normalisers()
+        # `reward_config` (2026-09-27, energy-floor ablation): None = the frozen
+        # configs/reward.yaml, i.e. unchanged behaviour.
+        self.reward_config = str(reward_config) if reward_config is not None else None
+        self._reward_normalisers = load_reward_normalisers(reward_config)
         self.scenario_split = scenario_split
         self._scenarios = (
             load_suite(suite_dir or DEFAULT_FLOOD_SUITE_DIR, scenario_split)
@@ -277,6 +282,43 @@ class UDTMultiAgentEnv(
         if agent == AGENT_TRANSPORT:
             return spaces.MultiDiscrete([2] * self._n_ambulances)
         raise ValueError(f"unknown agent {agent!r}")
+
+    # ------------------------------------------------------------------
+    # Exact training resume (protocol 2026-09-27 §6.2)
+    # ------------------------------------------------------------------
+    _RESUME_EXCLUDE = ("_raster", "_road_network")
+
+    def resume_state(self) -> bytes:
+        """Everything needed to continue this env mid-episode, bit-identically:
+        all attributes except the read-only raster handle and road network,
+        which are re-linked on load (plus the road network's per-tick state)."""
+        fn = getattr(self, "_degradation_fn", None)
+        sim = getattr(self, "sim", None)
+        saved_rn = sim.road_network if sim is not None else None
+        saved_raster = fn.raster if fn is not None else None
+        try:
+            if sim is not None:
+                sim.road_network = None
+            if fn is not None:
+                fn.raster = None
+            state = {k: v for k, v in self.__dict__.items() if k not in self._RESUME_EXCLUDE}
+            state["_road_network_state"] = self._road_network.mutable_state()
+            return pickle.dumps(state)
+        finally:
+            if sim is not None:
+                sim.road_network = saved_rn
+            if fn is not None:
+                fn.raster = saved_raster
+
+    def load_resume_state(self, blob: bytes) -> None:
+        state = pickle.loads(blob)
+        rn_state = state.pop("_road_network_state")
+        self.__dict__.update(state)
+        if self.sim is not None:
+            self.sim.road_network = self._road_network
+        if getattr(self, "_degradation_fn", None) is not None:
+            self._degradation_fn.raster = self._raster
+        self._road_network.load_mutable_state(rn_state, getattr(self, "incident", None))
 
     # ------------------------------------------------------------------
     # PettingZoo API

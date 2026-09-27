@@ -101,6 +101,28 @@ class RoadNetwork:
         d2 = (self._node_xy[:, 0] - lon) ** 2 + (self._node_xy[:, 1] - lat) ** 2
         return self._node_ids[int(np.argmin(d2))]
 
+    def mutable_state(self) -> dict[str, Any]:
+        """The only per-tick state this read-mostly object carries, for an
+        exact training resume (the graph itself is reloaded from disk)."""
+        return {
+            "current_depth_scale": self._current_depth_scale,
+            "footprint_incident_id": self._footprint_incident_id,
+        }
+
+    def load_mutable_state(self, state: dict[str, Any], incident: Incident | None) -> None:
+        """Restore `mutable_state()`; recomputes the per-edge footprint cache
+        for `incident` exactly as `update_for_tick` would."""
+        self._current_depth_scale = float(state["current_depth_scale"])
+        self._footprint_incident_id = None
+        if state["footprint_incident_id"] is not None and incident is not None:
+            assert incident.incident_id == state["footprint_incident_id"]
+            for _u, _v, data in self.graph.edges(data=True):
+                has_xy = "lon" in data and "lat" in data
+                data["footprint"] = (
+                    footprint_weight(incident, data["lon"], data["lat"]) if has_xy else 1.0
+                )
+            self._footprint_incident_id = incident.incident_id
+
     def update_for_tick(self, incident: Incident, tick: int, dt_minutes: float) -> None:
         """Call once per tick, *before* any `travel_time_minutes` calls
         for that tick — including before the deciding agent's own call,
