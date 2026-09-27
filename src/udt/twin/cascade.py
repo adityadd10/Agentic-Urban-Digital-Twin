@@ -125,26 +125,47 @@ def allocation_ratios(g: nx.DiGraph[str], levels: dict[str, float]) -> dict[str,
     the supplier can deliver when all its consumers compete (module
     docstring point 3). `levels` = suppliers' functional levels."""
     ratios: dict[str, float] = {}
-    for supplier_id in g.nodes:
+    for supplier_id, kind, edges, demand in _allocation_groups(g):
         supplier: Asset = g.nodes[supplier_id]["asset"]
-        by_kind: dict[str, list[DependencyEdge]] = {}
-        for _s, _c, data in g.out_edges(supplier_id, data=True):
-            edge: DependencyEdge = data["edge"]
-            if edge.kind != "access":
-                by_kind.setdefault(edge.kind, []).append(edge)
-        for kind, edges in by_kind.items():
-            demand = sum(e.demand for e in edges)
-            background = _background_load_share(supplier, demand) if kind == "power" else 0.0
-            total = demand + background
-            capacity = levels[supplier_id]
-            r = 1.0 if total <= 0 or capacity >= total else capacity / total
-            for e in edges:
-                ratios[e.edge_id] = r
+        background = _background_load_share(supplier, demand) if kind == "power" else 0.0
+        total = demand + background
+        capacity = levels[supplier_id]
+        r = 1.0 if total <= 0 or capacity >= total else capacity / total
+        for e in edges:
+            ratios[e.edge_id] = r
     return ratios
 
 
+def _allocation_groups(
+    g: nx.DiGraph[str],
+) -> list[tuple[str, str, list[DependencyEdge], float]]:
+    """(supplier, edge kind, non-access edges, total demand) per group, in the
+    same order and with the same demand sums `allocation_ratios` used to build
+    on every call. Cached on the graph (2026-09-28 speed-up): the dependency
+    structure and edge demands never change during a run; the cache is
+    rebuilt if the edge count changes. Nodes without out-edges (e.g.
+    ambulances added later) form no group, as before."""
+    n_edges = g.number_of_edges()
+    cached = g.graph.get("_allocation_groups")
+    if cached is None or cached[0] != n_edges:
+        groups: list[tuple[str, str, list[DependencyEdge], float]] = []
+        for supplier_id in g.nodes:
+            by_kind: dict[str, list[DependencyEdge]] = {}
+            for _s, _c, data in g.out_edges(supplier_id, data=True):
+                edge: DependencyEdge = data["edge"]
+                if edge.kind != "access":
+                    by_kind.setdefault(edge.kind, []).append(edge)
+            for kind, edges in by_kind.items():
+                groups.append((supplier_id, kind, edges, sum(e.demand for e in edges)))
+        g.graph["_allocation_groups"] = (n_edges, groups)
+        cached = g.graph["_allocation_groups"]
+    return cached[1]  # type: ignore[no-any-return]
+
+
 def _current_levels(g: nx.DiGraph[str]) -> dict[str, float]:
-    return {a: compute_supply(g, a) for a in g.nodes}
+    """Current supply of every supplier that has an allocation group (the
+    only levels `allocation_ratios` reads)."""
+    return {sid: compute_supply(g, sid) for sid, _k, _e, _d in _allocation_groups(g)}
 
 
 def update_buffers(
