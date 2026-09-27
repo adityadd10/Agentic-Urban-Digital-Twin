@@ -58,6 +58,7 @@ from _pipeline_common import configure_logging, load_config, resolve_path  # noq
 from udt.agents.marl.mappo import MAPPOConfig, MAPPOTrainer  # noqa: E402
 from udt.agents.marl.registry import append_entry  # noqa: E402
 from udt.common.models import PolicyRegistryEntry  # noqa: E402
+from udt.common.runinfo import machine_info  # noqa: E402
 from udt.common.versions import SUITE_VERSION  # noqa: E402
 from udt.envs.multi_env import UDTMultiAgentEnv  # noqa: E402
 
@@ -183,6 +184,9 @@ def main() -> None:
         "reward_config": args.reward_config,
         "env_version": UDTMultiAgentEnv.metadata["name"],
         "suite_version": SUITE_VERSION,
+        # Protocol addendum 2026-09-28 §2: part of the resume check, so a
+        # resume on another machine or changed code is refused.
+        "machine": machine_info(),
     }
 
     env = UDTMultiAgentEnv(
