@@ -1,0 +1,62 @@
+[
+  {
+    "policy_type": "MAPPO",
+    "condition": "B (no energy floor)",
+    "seed": 0,
+    "training_steps": 307200,
+    "reward_config": "configs/reward_no_energy_floor.yaml",
+    "env_version": "udt_multi_env_v2",
+    "suite_version": "flood_suite_v2",
+    "training_commit": "c775ec6",
+    "model_path": "runs/20260927T130939Z_660899e7/mappo_final.pt",
+    "sha256": "2b132f48a14bf6ba70b56051edb6734ba292133b283c1e907f45108b901ee1ad"
+  },
+  {
+    "policy_type": "MAPPO",
+    "condition": "B (no energy floor)",
+    "seed": 1,
+    "training_steps": 307200,
+    "reward_config": "configs/reward_no_energy_floor.yaml",
+    "env_version": "udt_multi_env_v2",
+    "suite_version": "flood_suite_v2",
+    "training_commit": "c775ec6",
+    "model_path": "runs/20260927T130939Z_61f3741a/mappo_final.pt",
+    "sha256": "9c05e4d1e9c83ab6759b9dc9dd384d4a535b6fc604b43af1a744e4f17d817b4a"
+  },
+  {
+    "policy_type": "MAPPO",
+    "condition": "B (no energy floor)",
+    "seed": 2,
+    "training_steps": 307200,
+    "reward_config": "configs/reward_no_energy_floor.yaml",
+    "env_version": "udt_multi_env_v2",
+    "suite_version": "flood_suite_v2",
+    "training_commit": "c775ec6",
+    "model_path": "runs/20260927T130939Z_601d84e8/mappo_final.pt",
+    "sha256": "4cee2c69db507bc2a3e65429817e11e28062cb628adf79a9cd688a9783b9e019"
+  },
+  {
+    "policy_type": "MAPPO",
+    "condition": "B (no energy floor)",
+    "seed": 3,
+    "training_steps": 307200,
+    "reward_config": "configs/reward_no_energy_floor.yaml",
+    "env_version": "udt_multi_env_v2",
+    "suite_version": "flood_suite_v2",
+    "training_commit": "c775ec6",
+    "model_path": "runs/20260927T130939Z_98e1e8b7/mappo_final.pt",
+    "sha256": "f45d48bc2c6a052ed972a6886e04f0bc2ca0d296710418ffd37df751e142f78a"
+  },
+  {
+    "policy_type": "MAPPO",
+    "condition": "B (no energy floor)",
+    "seed": 4,
+    "training_steps": 307200,
+    "reward_config": "configs/reward_no_energy_floor.yaml",
+    "env_version": "udt_multi_env_v2",
+    "suite_version": "flood_suite_v2",
+    "training_commit": "c775ec6",
+    "model_path": "runs/20260927T130939Z_6af7eb60/mappo_final.pt",
+    "sha256": "18322a22925d0c8823fcfb6a05359d1487fa7435553a09d3bc2323a98b08e65f"
+  }
+]

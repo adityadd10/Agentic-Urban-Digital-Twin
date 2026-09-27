@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "split": "val",
+    "a_models": [
+      "results/baseline-300k/models/mappo_seed0.pt",
+      "results/baseline-300k/models/mappo_seed1.pt",
+      "results/baseline-300k/models/mappo_seed2.pt",
+      "results/baseline-300k/models/mappo_seed3.pt",
+      "results/baseline-300k/models/mappo_seed4.pt"
+    ],
+    "b_models": [
+      "runs/20260927T130939Z_660899e7/mappo_final.pt",
+      "runs/20260927T130939Z_61f3741a/mappo_final.pt",
+      "runs/20260927T130939Z_601d84e8/mappo_final.pt",
+      "runs/20260927T130939Z_98e1e8b7/mappo_final.pt",
+      "runs/20260927T130939Z_6af7eb60/mappo_final.pt"
+    ],
+    "eval_seeds": 3
+  },
+  "results": {
+    "patient_deaths": {
+      "n_scenarios": 10,
+      "A_mean": 61.459999999999994,
+      "B_mean": 68.41333333333333,
+      "diff_B_minus_A": 6.953333333333333,
+      "diff_ci95": [
+        1.3996666666666684,
+        14.033833333333328
+      ],
+      "wilcoxon_p": 0.0546875,
+      "rule_based_mean": 57.033333333333324
+    },
+    "unmet_patient_hours": {
+      "n_scenarios": 10,
+      "A_mean": 328.60111111111115,
+      "B_mean": 352.75500000000005,
+      "diff_B_minus_A": 24.153888888888908,
+      "diff_ci95": [
+        -3.562916666666645,
+        58.80519444444444
+      ],
+      "wilcoxon_p": 0.42578125,
+      "rule_based_mean": 310.26388888888897
+    },
+    "cascading_failure_count": {
+      "n_scenarios": 10,
+      "A_mean": 1.8800000000000001,
+      "B_mean": 2.0,
+      "diff_B_minus_A": 0.12,
+      "diff_ci95": [
+        0.0,
+        0.36
+      ],
+      "wilcoxon_p": 1.0,
+      "rule_based_mean": 2.5
+    },
+    "mean_hospital_functional_level": {
+      "n_scenarios": 10,
+      "A_mean": 0.667151085533747,
+      "B_mean": 0.6468301923757713,
+      "diff_B_minus_A": -0.020320893157975688,
+      "diff_ci95": [
+        -0.039347378156583096,
+        -0.0041287095590083235
+      ],
+      "wilcoxon_p": 0.0546875,
+      "rule_based_mean": 0.6668974859575878
+    },
+    "mean_critical_functional_level": {
+      "n_scenarios": 10,
+      "A_mean": 0.5978690572101073,
+      "B_mean": 0.5785269512004974,
+      "diff_B_minus_A": -0.019342106009610165,
+      "diff_ci95": [
+        -0.04493911499060875,
+        0.0016717662359198682
+      ],
+      "wilcoxon_p": 0.1953125,
+      "rule_based_mean": 0.5852897185778774
+    },
+    "unserved_energy_mwh": {
+      "n_scenarios": 10,
+      "A_mean": 39.42995788982144,
+      "B_mean": 0.0,
+      "diff_B_minus_A": -39.42995788982144,
+      "diff_ci95": [
+        -48.71546924251534,
+        -28.386957013014886
+      ],
+      "wilcoxon_p": 0.001953125,
+      "rule_based_mean": 1.6673161772234952
+    },
+    "mean_ambulance_response_delay_hours": {
+      "n_scenarios": 9,
+      "A_mean": 7.484419725328855,
+      "B_mean": 6.761983400594262,
+      "diff_B_minus_A": -0.7224363247345938,
+      "diff_ci95": [
+        -1.3146873330968811,
+        -0.1802544556746137
+      ],
+      "wilcoxon_p": 0.07421875,
+      "rule_based_mean": 4.727988341897758
+    },
+    "requests_completed": {
+      "n_scenarios": 10,
+      "A_mean": 8.586666666666666,
+      "B_mean": 5.4733333333333345,
+      "diff_B_minus_A": -3.1133333333333333,
+      "diff_ci95": [
+        -4.340166666666667,
+        -1.9333333333333336
+      ],
+      "wilcoxon_p": 0.00390625,
+      "rule_based_mean": 13.733333333333334
+    },
+    "episode_reward": {
+      "n_scenarios": 10,
+      "A_mean": -4775.475578170661,
+      "B_mean": -4875.068236856523,
+      "diff_B_minus_A": -99.59265868586411,
+      "diff_ci95": [
+        -513.5500403749888,
+        269.4585086791431
+      ],
+      "wilcoxon_p": 0.921875,
+      "rule_based_mean": -4718.974808458447
+    }
+  },
+  "decision": {
+    "(a) energy: B <= 50% of A and p < 0.05": true,
+    "(b) non-inferior (upper CI of B-A <= +10% of A)": {
+      "patient_deaths": false,
+      "unmet_patient_hours": false
+    },
+    "verdict": "USE A"
+  }
+}

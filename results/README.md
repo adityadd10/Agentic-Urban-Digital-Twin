@@ -9,6 +9,9 @@ Wilcoxon signed-rank, α = 0.05, no multiple-comparison correction).
 | `experiment_a_flood_suite_v2/` | Experiment A: rule-based vs do-nothing | 847297e |
 | `INTERIM_experiment_bc_half_trained/` | **Interim, half-trained**: PPO (3 seeds @ 150k steps), MAPPO (5 seeds @ iteration 600 ≈ 154k steps) vs rule-based | 847297e (training), f6c207d (eval) |
 | `experiment_bc_flood_suite_v2/` | **Final** Experiments B/C: PPO (3 seeds, 300k steps), MAPPO (5 seeds, 1,200 iterations ≈ 307k steps) vs rule-based | 847297e (training), a55a3b9 (eval) |
+| `baseline-300k/` | Frozen reference: manifest (SHA-256, true steps) and read-only copies of the 8 baseline models (tag `baseline-300k`) | 52840c7 |
+| `protocol/` | Pre-declared protocols, committed before the runs they govern | 4052ed9 |
+| `ablation_energy_floor/` | Energy-floor ablation (MAPPO, 300k): A vs B on val → **decision USE A**; B on test once. See `OUTCOME.md` | c775ec6 |
 
 Read with these caveats:
 - Training budget is ≈ 6–15% of dev doc §5.5's 2–5 M steps: these are under-trained policies.
