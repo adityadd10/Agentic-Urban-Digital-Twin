@@ -37,7 +37,7 @@ training/evaluation harnesses run one incident at a time.
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 import networkx as nx
 import numpy as np
@@ -80,6 +80,13 @@ class RoadNetwork:
         # docstring's performance note.
         self._current_depth_scale = 0.0
         self._footprint_incident_id: str | None = None
+        # Per-edge weight cache (2026-09-28 speed-up, see `_edge_weights`).
+        self._edge_arrays: dict[str, np.ndarray[Any, np.dtype[np.float64]]] | None = None
+        self._weights_scale: float | None = None
+        self._weights: list[float] = []
+        # (source, target) -> (length, path) at the current weights; cleared
+        # whenever the weights change. See `_route`.
+        self._route_cache: dict[tuple[str, str], tuple[float, list[str]] | None] = {}
 
     @classmethod
     def load(cls, path: str | Path, raster: SusceptibilityRaster) -> RoadNetwork:
@@ -122,6 +129,80 @@ class RoadNetwork:
                     footprint_weight(incident, data["lon"], data["lat"]) if has_xy else 1.0
                 )
             self._footprint_incident_id = incident.incident_id
+        self._edge_arrays = None
+
+    def _ensure_edge_arrays(self) -> dict[str, np.ndarray[Any, np.dtype[np.float64]]]:
+        """Static per-edge arrays (susceptibility, footprint, free-flow travel
+        time), indexed by `data["_eidx"]`. Rebuilt lazily after the footprint
+        cache changes."""
+        if self._edge_arrays is None:
+            sus, fp, base = [], [], []
+            for i, (_u, _v, data) in enumerate(self.graph.edges(data=True)):
+                data["_eidx"] = i
+                sus.append(float(data.get("susceptibility", 0.0)))
+                fp.append(float(data.get("footprint", 1.0)))
+                length_m = float(data.get("length", 0.0))
+                base.append(length_m / 1000.0 / ASSUMED_SPEED_KMPH * 60.0)
+            self._edge_arrays = {
+                "sus": np.array(sus, dtype=np.float64),
+                "fp": np.array(fp, dtype=np.float64),
+                "base": np.array(base, dtype=np.float64),
+            }
+            self._weights_scale = None
+        return self._edge_arrays
+
+    def _edge_weights(self) -> list[float]:
+        """Every edge's routing weight at the current depth scale, computed
+        once per scale instead of once per edge visit per Dijkstra call.
+
+        2026-09-28 speed-up: routing was over half of training time (the
+        old per-visit weight function ran ~3.8 M times per MAPPO iteration),
+        yet weights only change when the flood depth scale does. Same
+        formula, same operation order, IEEE float64 throughout, so each
+        weight equals the old per-visit value exactly and routes and travel
+        times are bit-identical (checked by `scripts/check_reproduction.py`
+        against baseline-300k)."""
+        arrays = self._ensure_edge_arrays()
+        scale = self._current_depth_scale
+        if self._weights_scale != scale:
+            depth = scale * arrays["sus"] * arrays["fp"]
+            blockage = np.maximum(0.0, np.minimum(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M))
+            weights = arrays["base"] / np.maximum(0.05, 1.0 - blockage)
+            weights = np.where(blockage >= IMPASSABLE_BLOCKAGE, np.inf, weights)
+            self._weights = weights.tolist()
+            self._weights_scale = scale
+            self._route_cache.clear()
+        return self._weights
+
+    def _route(self, source: str, target: str) -> tuple[float, list[str]] | None:
+        """One Dijkstra search giving both the shortest travel time and its
+        path, cached per (source, target) until the weights change.
+
+        2026-09-28 speed-up: `travel_time_minutes` and
+        `shortest_path_max_depth` each ran their own search, and 43% of
+        searches in a MAPPO iteration repeated an earlier (source, target)
+        at the same flood level. `nx.single_source_dijkstra` is the routine
+        `nx.dijkstra_path` itself calls, and its distance comes from the same
+        `_dijkstra_multisource` pass `nx.dijkstra_path_length` uses, so
+        lengths and paths are identical to the two separate calls. `None` =
+        no route (NetworkXNoPath / NodeNotFound)."""
+        weights = self._edge_weights()
+        key = (source, target)
+        if key not in self._route_cache:
+
+            def weight(u: str, v: str, data: dict[str, Any]) -> float:
+                return weights[int(data["_eidx"])]
+
+            try:
+                # With a `target`, networkx returns (length, path).
+                length, path = cast(
+                    tuple[float, list[str]],
+                    nx.single_source_dijkstra(self.graph, source, target=target, weight=weight),
+                )
+                self._route_cache[key] = (float(length), list(path))
+            except (nx.NetworkXNoPath, nx.NodeNotFound):
+                self._route_cache[key] = None
+        return self._route_cache[key]
 
     def update_for_tick(self, incident: Incident, tick: int, dt_minutes: float) -> None:
         """Call once per tick, *before* any `travel_time_minutes` calls
@@ -140,6 +221,7 @@ class RoadNetwork:
                     footprint_weight(incident, data["lon"], data["lat"]) if has_xy else 1.0
                 )
             self._footprint_incident_id = incident.incident_id
+            self._edge_arrays = None  # footprint changed -> rebuild weight inputs
         hours_since_onset = (tick - incident.onset_tick) * dt_minutes / 60.0
         envelope = incident_envelope(incident, hours_since_onset)
         self._current_depth_scale = incident.severity * envelope * MAX_DEPTH_AT_SEVERITY_1_M
@@ -153,21 +235,10 @@ class RoadNetwork:
         routed around, exactly as dev doc §3.3 describes. Returns `None`
         if no route exists (fully cut off by blockage or genuine
         disconnection)."""
-        scale = self._current_depth_scale
-
-        def weight(u: str, v: str, data: dict[str, Any]) -> float:
-            depth = _edge_depth(scale, data)
-            blockage = max(0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M))
-            if blockage >= IMPASSABLE_BLOCKAGE:
-                return float("inf")
-            length_m = float(data.get("length", 0.0))
-            base_travel_min = length_m / 1000.0 / ASSUMED_SPEED_KMPH * 60.0
-            return base_travel_min / max(0.05, 1.0 - blockage)
-
-        try:
-            travel_time = float(nx.dijkstra_path_length(self.graph, source, target, weight=weight))
-        except (nx.NetworkXNoPath, nx.NodeNotFound):
+        route = self._route(source, target)
+        if route is None:
             return None
+        travel_time = route[0]
         # A path can exist topologically but be entirely made of
         # impassable (`inf`-weight) edges — dijkstra_path_length returns
         # `inf` rather than raising in that case, so check explicitly.
@@ -187,21 +258,11 @@ class RoadNetwork:
         `travel_time_minutes`, and the caller (`constraints/engine.py`)
         treats "no route" as unsafe (fails the constraint) rather than
         vacuously safe."""
-        scale = self._current_depth_scale
-
-        def weight(u: str, v: str, data: dict[str, Any]) -> float:
-            depth = _edge_depth(scale, data)
-            blockage = max(0.0, min(1.0, depth / ROAD_BLOCKAGE_DEPTH_SCALE_M))
-            if blockage >= IMPASSABLE_BLOCKAGE:
-                return float("inf")
-            length_m = float(data.get("length", 0.0))
-            base_travel_min = length_m / 1000.0 / ASSUMED_SPEED_KMPH * 60.0
-            return base_travel_min / max(0.05, 1.0 - blockage)
-
-        try:
-            path = nx.dijkstra_path(self.graph, source, target, weight=weight)
-        except (nx.NetworkXNoPath, nx.NodeNotFound):
+        route = self._route(source, target)
+        if route is None:
             return None
+        scale = self._current_depth_scale
+        path = route[1]
 
         max_depth = 0.0
         for u, v in zip(path[:-1], path[1:], strict=True):
