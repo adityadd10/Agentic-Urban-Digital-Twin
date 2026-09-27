@@ -111,6 +111,28 @@ CASCADE_THRESHOLD = 0.5
 CASCADE_ELIGIBLE_TYPES = frozenset({AssetType.HOSPITAL, AssetType.SUBSTATION, AssetType.WATER})
 
 
+def _snapshot_asset(asset: Asset) -> Asset:
+    """Per-tick snapshot copy of an asset, equal in value to
+    `asset.model_copy(deep=True)`.
+
+    2026-09-28 speed-up: that deep copy was ~44% of MAPPO training time,
+    mostly re-copying every road's coordinate list each tick. Geometry is
+    never modified anywhere (only read), so the snapshot shares it;
+    `attributes` (which does change: queues, blockage, ambulance state) is
+    still deep-copied, and the scalars are immutable. Nothing uses pydantic's
+    fields-set tracking (no `exclude_unset`), so `model_construct` is
+    equivalent for every consumer. Bit-identical training confirmed by
+    `scripts/check_reproduction.py`."""
+    return Asset.model_construct(
+        asset_id=asset.asset_id,
+        asset_type=asset.asset_type,
+        geometry=asset.geometry,
+        intrinsic_level=asset.intrinsic_level,
+        functional_level=asset.functional_level,
+        attributes=copy.deepcopy(asset.attributes),
+    )
+
+
 class Simulator:
     """Owns one twin run's mutable state: the asset graph, each edge's
     buffer, and the current tick. `step()` advances exactly one tick
@@ -287,7 +309,7 @@ class Simulator:
 
         snapshot = TwinState(
             tick=self.tick,
-            assets=[self.asset(a).model_copy(deep=True) for a in self.graph.nodes],
+            assets=[_snapshot_asset(self.asset(a)) for a in self.graph.nodes],
             cascading_failure_count=len(self._ever_cascaded),
             patient_deaths_cumulative=self._patient_deaths_total,
             ambulance_response_times_this_tick=response_times_this_tick,
