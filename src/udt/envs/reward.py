@@ -47,11 +47,34 @@ def load_reward_normalisers(path: str | Path | None = None) -> dict[str, float]:
     return normalisers
 
 
+AMBULANCE_MODES = ("pickup", "pending_accrual")
+
+
+def load_reward_options(path: str | Path | None = None) -> dict[str, Any]:
+    """Reward-design options (protocol 2026-09-28 reward ablations). Defaults
+    reproduce the reward every reported policy was trained on:
+    - `ambulance_delay_mode`: "pickup" = response time booked when a call is
+      picked up (unanswered calls cost nothing); "pending_accrual" = every
+      pending call accrues its waiting time each tick (condition C).
+    - `cascade_coefficient`: weight of new cascade failures (5.0; condition D: 0)."""
+    path = Path(path) if path is not None else REWARD_CONFIG_PATH
+    data: dict[str, Any] = yaml.safe_load(path.read_text()) if path.exists() else {}
+    options = data.get("options") or {}
+    mode = str(options.get("ambulance_delay_mode", "pickup"))
+    if mode not in AMBULANCE_MODES:
+        raise ValueError(f"{path}: ambulance_delay_mode must be one of {AMBULANCE_MODES}")
+    return {
+        "ambulance_delay_mode": mode,
+        "cascade_coefficient": float(options.get("cascade_coefficient", 5.0)),
+    }
+
+
 def tick_terms(
     snapshot: TwinState,
     dt_hours: float,
     prev_patient_deaths: int,
     prev_cascading_count: int,
+    ambulance_delay_mode: str = "pickup",
 ) -> dict[str, float]:
     """The raw §5.4 terms for one tick (before normalisation/coefficients)."""
     queued = sum(
@@ -68,7 +91,11 @@ def tick_terms(
         "unmet_patient_hours": queued * dt_hours,
         "patient_deaths": float(snapshot.patient_deaths_cumulative - prev_patient_deaths),
         "unserved_energy_mwh": unserved,
-        "ambulance_response_delay_hours": float(sum(snapshot.ambulance_response_times_this_tick)),
+        "ambulance_response_delay_hours": (
+            float(snapshot.pending_requests_count) * dt_hours
+            if ambulance_delay_mode == "pending_accrual"
+            else float(sum(snapshot.ambulance_response_times_this_tick))
+        ),
         "new_cascade_failures": float(
             max(0, snapshot.cascading_failure_count - prev_cascading_count)
         ),

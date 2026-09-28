@@ -70,6 +70,10 @@ from udt.twin.graph import dependency_edges_of
 from udt.twin.power import SHED_FRACTION_BY_TIER
 
 MAX_FIXED_POINT_ITERATIONS = 20
+# Dependency aggregation: "product" (dev doc §3.3, the model) or "min" (robustness
+# study R13's alternative: a facility is as functional as its weakest dependency).
+# Evaluation-time switch only; training always used "product".
+AGGREGATION = "product"
 CONVERGENCE_TOLERANCE = 1e-6
 
 
@@ -231,11 +235,14 @@ def resolve_functional_levels(
             # `asset.functional_level` (last tick's stable value) — that
             # distinction is what makes this a fixed-point iteration.
             product = 1.0
+            weakest = 1.0
             for edge in other_edges:
                 # `sat` takes supply in demand units; r x demand is what this
                 # consumer actually receives under competition.
                 delivered = ratios[edge.edge_id] * edge.demand
-                product *= sat(edge, delivered, edge_states[edge.edge_id].remaining_hours)
+                edge_sat = sat(edge, delivered, edge_states[edge.edge_id].remaining_hours)
+                product *= edge_sat
+                weakest = min(weakest, edge_sat)
 
             if access_edges and asset.asset_type == AssetType.HOSPITAL:
                 access_sats = [
@@ -247,8 +254,10 @@ def resolve_functional_levels(
                     for e in access_edges
                 ]
                 product *= max(access_sats)  # best available route, see module docstring
+                weakest = min(weakest, max(access_sats))
 
-            new_levels[asset_id] = asset.intrinsic_level * product
+            factor = weakest if AGGREGATION == "min" else product
+            new_levels[asset_id] = asset.intrinsic_level * factor
 
         max_delta = max(abs(new_levels[a] - levels[a]) for a in levels)
         levels = new_levels

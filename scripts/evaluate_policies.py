@@ -50,6 +50,7 @@ from udt.common.versions import ENV_VERSION, SUITE_VERSION  # noqa: E402
 from udt.envs.multi_env import UDTMultiAgentEnv  # noqa: E402
 from udt.envs.reward import episode_reward, load_reward_normalisers  # noqa: E402
 from udt.envs.single_env import UDTSingleAgentEnv  # noqa: E402
+from udt.incidents.degradations.flood import FAILED_RESIDUAL  # noqa: E402
 from udt.logging.metrics import compute_episode_metrics  # noqa: E402
 
 EVAL_SEED_STRIDE = 100_000  # must match scripts/experiment_a.py
@@ -107,9 +108,27 @@ def evaluate(
             trace = runner(seed, index)
             m = compute_episode_metrics(sid, label, trace).model_dump()
             m["episode_reward"] = episode_reward(trace, normalisers)
+            m["restoration"] = restoration_fraction(trace)
             m["eval_seed"] = seed
             out.append(m)
     return out
+
+
+def restoration_fraction(trace: list[Any]) -> float | None:
+    """Mechanism metric for reward ablation D (protocol 2026-09-28_reward_ablations
+    §2): of the facilities that were flood-failed (intrinsic at their failed
+    residual) at some tick, the fraction whose intrinsic level was back to >= 0.5
+    at the end of the episode. None if no facility flood-failed."""
+    failed: set[str] = set()
+    for snap in trace:
+        for a in snap.assets:
+            residual = FAILED_RESIDUAL.get(a.asset_type)
+            if residual is not None and a.intrinsic_level <= residual + 1e-9:
+                failed.add(a.asset_id)
+    if not failed:
+        return None
+    final = {a.asset_id: a.intrinsic_level for a in trace[-1].assets}
+    return sum(final[i] >= 0.5 for i in failed) / len(failed)
 
 
 def per_scenario(episodes: list[dict[str, Any]], ids: list[str], metric: str) -> np.ndarray:

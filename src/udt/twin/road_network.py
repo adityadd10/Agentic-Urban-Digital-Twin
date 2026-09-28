@@ -36,6 +36,7 @@ training/evaluation harnesses run one incident at a time.
 
 from __future__ import annotations
 
+import zlib
 from pathlib import Path
 from typing import Any, cast
 
@@ -55,6 +56,12 @@ from udt.incidents.degradations.flood import (
 ASSUMED_SPEED_KMPH = 30.0
 ROAD_BLOCKAGE_DEPTH_SCALE_M = 0.6
 IMPASSABLE_BLOCKAGE = 0.95  # this blocked or worse -> routing treats it as closed
+# Travel-time noise (dev doc §3.6 specifies ±15%; not part of the nominal twin).
+# Evaluation-time switch for robustness study R14: 0.0 = off (nominal). When on,
+# each reported travel time is multiplied by U(1 - x, 1 + x), drawn from a seeded
+# RNG keyed by (seed, source, target, depth scale), so runs stay reproducible.
+TRAVEL_TIME_NOISE = 0.0
+TRAVEL_TIME_NOISE_SEED = 0
 
 
 def _edge_depth(scale: float, data: dict[str, Any]) -> float:
@@ -239,6 +246,15 @@ class RoadNetwork:
         if route is None:
             return None
         travel_time = route[0]
+        if TRAVEL_TIME_NOISE > 0.0 and np.isfinite(travel_time):
+            key = [
+                TRAVEL_TIME_NOISE_SEED,
+                zlib.crc32(source.encode()),
+                zlib.crc32(target.encode()),
+                int(round(self._current_depth_scale * 1e9)),
+            ]
+            noise = np.random.default_rng(key).uniform(-TRAVEL_TIME_NOISE, TRAVEL_TIME_NOISE)
+            travel_time = travel_time * (1.0 + float(noise))
         # A path can exist topologically but be entirely made of
         # impassable (`inf`-weight) edges — dijkstra_path_length returns
         # `inf` rather than raising in that case, so check explicitly.

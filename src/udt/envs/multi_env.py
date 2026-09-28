@@ -104,7 +104,7 @@ from shapely.geometry import shape
 from udt.common.models import AgentAction, AssetType, DependencyGraph, Incident, TwinState
 from udt.common.versions import ENV_VERSION
 from udt.constraints.engine import check
-from udt.envs.reward import load_reward_normalisers, tick_terms
+from udt.envs.reward import load_reward_normalisers, load_reward_options, tick_terms
 from udt.incidents.degradations.flood import SusceptibilityRaster, make_flood_degradation_fn
 from udt.scenarios.generator import (
     apply_initial_conditions,
@@ -197,6 +197,9 @@ class UDTMultiAgentEnv(
         # configs/reward.yaml, i.e. unchanged behaviour.
         self.reward_config = str(reward_config) if reward_config is not None else None
         self._reward_normalisers = load_reward_normalisers(reward_config)
+        # Reward-design options (2026-09-28 reward ablations C/D); the defaults
+        # reproduce the reward every reported policy was trained on.
+        self._reward_options = load_reward_options(reward_config)
         self.scenario_split = scenario_split
         self._scenarios = (
             load_suite(suite_dir or DEFAULT_FLOOD_SUITE_DIR, scenario_split)
@@ -607,7 +610,11 @@ class UDTMultiAgentEnv(
         # each raw term is divided by its fitted normaliser before the
         # §5.4 coefficients apply.
         raw = tick_terms(
-            snapshot, self.sim.dt_hours, self._prev_patient_deaths, self._prev_cascading_count
+            snapshot,
+            self.sim.dt_hours,
+            self._prev_patient_deaths,
+            self._prev_cascading_count,
+            ambulance_delay_mode=self._reward_options["ambulance_delay_mode"],
         )
         self._prev_patient_deaths = snapshot.patient_deaths_cumulative
         self._prev_cascading_count = snapshot.cascading_failure_count
@@ -627,7 +634,7 @@ class UDTMultiAgentEnv(
             float(g_health) * (t["unmet_patient_hours"] + 10.0 * t["patient_deaths"])
             + float(g_power) * t["unserved_energy_mwh"]
             + float(g_transport) * t["ambulance_response_delay_hours"]
-            + 5.0 * t["new_cascade_failures"]
+            + float(self._reward_options["cascade_coefficient"]) * t["new_cascade_failures"]
             + 20.0 * violations_attempted  # dev doc §5.4's exact coefficient (M7)
         )
 

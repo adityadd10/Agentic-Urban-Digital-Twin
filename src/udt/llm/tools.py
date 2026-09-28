@@ -79,7 +79,11 @@ def simulate_plan(
     if n_rollouts is not None:
         kwargs["n_rollouts"] = n_rollouts
     return simulate(
-        sim, proxy_action, degradation_fn=degradation_fn, incident=incident, **kwargs  # type: ignore[arg-type]
+        sim,
+        proxy_action,
+        degradation_fn=degradation_fn,
+        incident=incident,
+        **kwargs,  # type: ignore[arg-type]
     )
 
 
