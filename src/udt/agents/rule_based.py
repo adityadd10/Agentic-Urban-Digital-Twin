@@ -244,6 +244,97 @@ class RuleBasedAgent:
         )
 
 
+# --- Rule-based v2 (dev doc §3.9, 2026-09-29) -------------------------------
+# Fixes the two flaws the robustness study exposed in v1 (results/robustness/
+# OUTCOME.md §2). v1 above is unchanged and remains the twin-v2 baseline of
+# record. v2 stays reactive (current state only, no forecasting) on purpose:
+# a sensible operator following standard procedures, never weakened to leave
+# room for learned agents (dev doc §3.9 "Headroom principle").
+
+
+def _n_dependants(graph: nx.DiGraph[str], asset_id: str) -> int:
+    """Facilities that depend on `asset_id`, directly or through a chain
+    (supplier -> consumer edges; roads are never counted)."""
+    return sum(
+        1
+        for d in nx.descendants(graph, asset_id)
+        if graph.nodes[d]["asset"].asset_type in REPAIRABLE_TYPES
+    )
+
+
+def _pick_repair_target_v2(graph: nx.DiGraph[str]) -> str | None:
+    """The physically damaged facility (intrinsic < 1) that the most other
+    facilities depend on, most damaged first among equals. v1 ranked by
+    *functional* level, so it could send the only crew to an intact facility
+    that was dark only because its supplier had failed."""
+    best_id: str | None = None
+    best_key: tuple[int, float] | None = None
+    for asset_id in graph.nodes:
+        asset = graph.nodes[asset_id]["asset"]
+        if asset.asset_type not in REPAIRABLE_TYPES or asset.intrinsic_level >= 1.0:
+            continue
+        key = (-_n_dependants(graph, asset_id), asset.intrinsic_level)
+        if best_key is None or key < best_key:
+            best_id, best_key = asset_id, key
+    return best_id
+
+
+def _pick_ambulance_dispatch_v2(
+    graph: nx.DiGraph[str], road_network: RoadNetwork | None
+) -> dict[str, str] | None:
+    """Every idle ambulance to a different *reachable* pending request,
+    oldest request first, nearest ambulance to each. Unreachable requests
+    are skipped rather than blocking every request behind them (v1's
+    head-of-line blocking: one dispatch per decision, oldest request only)."""
+    if road_network is None:
+        return None
+    pending: list[dict[str, object]] = graph.graph.get("pending_requests", [])
+    idle = [
+        asset_id
+        for asset_id in graph.nodes
+        if graph.nodes[asset_id]["asset"].asset_type == AssetType.AMBULANCE
+        and graph.nodes[asset_id]["asset"].attributes.get("status") == "idle"
+    ]
+    assignment: dict[str, str] = {}
+    for request in sorted(pending, key=lambda r: r["requested_at_tick"]):  # type: ignore[arg-type,return-value]
+        if not idle:
+            break
+        pickup_node = road_network.nearest_node(*request["location"])  # type: ignore[misc]
+        best_id: str | None = None
+        best_time = float("inf")
+        for ambulance_id in idle:
+            home_node = graph.nodes[ambulance_id]["asset"].attributes["home_node"]
+            to_pickup = road_network.travel_time_minutes(home_node, pickup_node)
+            to_home = road_network.travel_time_minutes(pickup_node, home_node)
+            if to_pickup is not None and to_home is not None and to_pickup < best_time:
+                best_id, best_time = ambulance_id, to_pickup
+        if best_id is not None:
+            assignment[best_id] = str(request["request_id"])
+            idle.remove(best_id)
+    return assignment or None
+
+
+class RuleBasedAgentV2:
+    """Rule-based v2: v1's transfer and load-shed rules, with the repair and
+    dispatch rules fixed (see the section comment above)."""
+
+    name = "rule_based_v2"
+
+    def act(
+        self,
+        graph: nx.DiGraph[str],
+        tick: int,
+        road_network: RoadNetwork | None = None,
+        edge_states: dict[str, EdgeRuntimeState] | None = None,
+    ) -> AgentAction:
+        return AgentAction(
+            repair_target=_pick_repair_target_v2(graph),
+            ambulance_assignment=_pick_ambulance_dispatch_v2(graph, road_network),
+            patient_transfer=_pick_patient_transfer(graph, edge_states, road_network),
+            shed_tier=_pick_load_shed(graph),
+        )
+
+
 class DoNothingAgent:
     """The zero-action control condition — not part of the dev doc's
     §5.6 spec, but the natural baseline for the harness to compare the

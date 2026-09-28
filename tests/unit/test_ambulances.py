@@ -230,3 +230,26 @@ def test_unanswered_call_counts_as_a_death_when_the_switch_is_on(
     assert state.pending_requests_count == 0
     assert state.uncollected_casualty_deaths_cumulative == 1
     assert state.patient_deaths_cumulative >= 1  # included in the death proxy total
+
+
+@pytest.mark.phase4
+def test_rule_v2_dispatches_every_idle_ambulance_and_skips_unreachable_calls() -> None:
+    from udt.agents.rule_based import RuleBasedAgent, RuleBasedAgentV2
+
+    graph = _hospital_graph()
+    rn = _road_network_chain(3)
+    rn.graph.add_node("island", x=99.0, y=99.0)  # unreachable call location
+    rn._node_ids.append("island")
+    rn._node_xy = np.vstack([rn._node_xy, [[99.0, 99.0]]])
+    spawn_ambulances(graph, rn, n_per_hospital=2)
+    graph.graph["pending_requests"] = [
+        {"request_id": "CUT_OFF", "location": (99.0, 99.0), "requested_at_tick": 0},
+        {"request_id": "A", "location": (72.882, 19.07), "requested_at_tick": 1},
+        {"request_id": "B", "location": (72.883, 19.07), "requested_at_tick": 2},
+    ]
+    # v1: head-of-line blocking; the oldest call is unreachable, so nothing moves.
+    assert RuleBasedAgent().act(graph, tick=3, road_network=rn).ambulance_assignment is None
+    # v2: both idle ambulances go, to the two reachable calls.
+    assignment = RuleBasedAgentV2().act(graph, tick=3, road_network=rn).ambulance_assignment
+    assert assignment is not None
+    assert sorted(assignment.values()) == ["A", "B"]
