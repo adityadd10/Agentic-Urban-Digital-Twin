@@ -228,3 +228,18 @@ This is the "near hospital cut off / far hospital open" trade-off that Gate B te
 
 The ≥ 25%-of-train requirement and the physical oversampling rule (§3) apply to T1′, T2 and T3.
 The original T1 is still computed and reported in the manifest.
+
+## Addendum 2026-09-29 (4): erratum to addendum 3 (written before the suite and any gate)
+
+The "natural rate 26%" given for T1′ in addendum 3 is **wrong**. That measurement gave every
+scenario the same id, and `RoadNetwork` caches the flood footprint per `incident_id`, so all 200
+scenarios were routed over the *first* scenario's flood.
+
+Re-measured with unique ids (400 scenarios), the **true T1′ rate is 0.7% (3/400)**. Kurla's road
+network is dense enough that flooding almost never makes the nearer alternative hospital slower
+to reach than the farther one. Real suite scenarios always have unique ids, so the generator
+itself and every earlier result are unaffected.
+
+**Consequence:** neither road-based definition (T1: 0/400; T1′: 3/400) can meet the ≥ 25%
+requirement. No suite has been generated; generation stopped on this check. A replacement
+definition is pending the user's decision (addendum 5).
