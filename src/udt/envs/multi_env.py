@@ -114,6 +114,7 @@ from udt.scenarios.generator import (
 from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_suite
 from udt.twin.ambulances import generate_requests, spawn_ambulances
 from udt.twin.graph import dependency_edges_of
+from udt.twin.modes import require_twin_v2
 from udt.twin.power import update_substation_load
 from udt.twin.road_network import RoadNetwork
 from udt.twin.simulator import Simulator
@@ -172,6 +173,7 @@ class UDTMultiAgentEnv(
         # drops that term when this is `True`. Defaults `False` so every
         # M4-M6b/M7-slice-1 caller's reward is unchanged.
         self.constrained_reward = constrained_reward
+        require_twin_v2()  # twin-v2 physics only; see udt.twin.modes
         processed_dir = Path(processed_dir)
         with (processed_dir / "dependency_graph.json").open() as f:
             self._base_graph = DependencyGraph.model_validate(json.load(f))

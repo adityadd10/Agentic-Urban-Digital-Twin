@@ -19,3 +19,10 @@ from __future__ import annotations
 ENV_VERSION = "udt_multi_env_v2"
 TWIN_GIT_TAG = "twin-v2"
 SUITE_VERSION = "flood_suite_v2"
+
+# Twin-v3 (dev doc §3.9): 3 hospitals / 3 substations, interdependent sector
+# decisions. Built alongside v2; v2's constants above stay the default for
+# every v2 code path. The git tag is set once the v3 action space is frozen.
+ENV_VERSION_V3 = "udt_multi_env_v3"
+TWIN_V3_GIT_TAG = "twin-v3"
+SUITE_VERSION_V3 = "flood_suite_v3"

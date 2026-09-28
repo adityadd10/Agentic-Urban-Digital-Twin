@@ -98,6 +98,7 @@ from udt.scenarios.generator import (
 from udt.scenarios.suite import DEFAULT_FLOOD_SUITE_DIR, load_suite
 from udt.twin.ambulances import generate_requests, spawn_ambulances
 from udt.twin.graph import dependency_edges_of
+from udt.twin.modes import require_twin_v2
 from udt.twin.power import update_substation_load
 from udt.twin.road_network import RoadNetwork
 from udt.twin.simulator import Simulator
@@ -134,6 +135,7 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
         scenario_split: str | None = "train",
         suite_dir: str | Path | None = None,
     ) -> None:
+        require_twin_v2()  # twin-v2 physics only; see udt.twin.modes
         processed_dir = Path(processed_dir)
         dep_graph_path = processed_dir / "dependency_graph.json"
         with dep_graph_path.open() as f:

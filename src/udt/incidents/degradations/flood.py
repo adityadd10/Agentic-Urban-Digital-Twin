@@ -173,6 +173,24 @@ def incident_envelope(incident: Incident, hours_since_onset: float) -> float:
     )
 
 
+def flood_phase(incident: Incident, hours_since_onset: float) -> tuple[float, float, float, float]:
+    """(envelope, rising, peak, receding) for observations (twin-v3, dev doc
+    §3.9). The three phase flags are one-hot while the flood is active and all
+    0 before onset and after it has fully receded."""
+    p = incident.profile
+    growth = float(p.get("growth_hours", GROWTH_HOURS))
+    hold = float(p.get("hold_hours", HOLD_HOURS))
+    recede = float(p.get("recede_hours", RECEDE_HOURS))
+    envelope = incident_envelope(incident, hours_since_onset)
+    if hours_since_onset < 0 or hours_since_onset >= growth + hold + recede:
+        return envelope, 0.0, 0.0, 0.0
+    if hours_since_onset < growth:
+        return envelope, 1.0, 0.0, 0.0
+    if hours_since_onset < growth + hold:
+        return envelope, 0.0, 1.0, 0.0
+    return envelope, 0.0, 0.0, 1.0
+
+
 def footprint_weight(incident: Incident, lon: float, lat: float) -> float:
     """Gaussian rainfall footprint, `exp(-d^2 / 2 sigma^2)` (dev doc §4.2).
     1.0 everywhere if the incident has no footprint."""
