@@ -1,0 +1,24 @@
+# Frozen twin-v3 scenario suite config (protocol 2026-09-29_twin_v3_success_criteria §3 and
+# addendum 3; dev doc §3.9). Consumed by scripts/generate_scenarios_v3.py. Changing anything here
+# after generation means a new suite_version; the script refuses to overwrite a manifest.
+
+suite_version: flood_suite_v3
+incident_type: flood
+out_dir: data/scenarios/flood_v3
+
+# 20 / 10 / 10. Seed ranges are new (v2 used 1-3 million) and disjoint by construction.
+splits:
+  train: { n: 20, seed_start: 11000000 }
+  val: { n: 10, seed_start: 12000000 }
+  test: { n: 10, seed_start: 13000000 }
+
+# Strata: flood-centre sector (nearest of the 3 hospitals) x severity band (equal thirds of the
+# generator's range). 9 cells: each gets floor(n / 9) scenarios; the remaining n mod 9 slots go
+# to the next scenarios in seed order, whatever their cell.
+
+# Trade-off features (physical only). On train, each must occur in >= this share. The physical
+# oversampling rule: while scanning seeds in order, a scenario lacking a feature is skipped only
+# if accepting it would make the quota unreachable with the slots left.
+tradeoff_min_share_train: 0.25
+
+leakage_min_distance: 0.05
