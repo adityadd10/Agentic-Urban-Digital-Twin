@@ -12,9 +12,10 @@ Wilcoxon signed-rank, α = 0.05, no multiple-comparison correction).
 | `baseline-300k/` | Frozen reference: manifest (SHA-256, true steps) and read-only copies of the 8 baseline models (tag `baseline-300k`) | 52840c7 |
 | `protocol/` | Pre-declared protocols, committed before the runs they govern | 4052ed9 |
 | `ablation_energy_floor/` | Energy-floor ablation (MAPPO, 300k): A vs B on val → **decision USE A**; B on test once. See `OUTCOME.md` | c775ec6 |
+| `full_budget_2M/` | **Pre-registered 2M training** (MAPPO 5 × 2,000,128; PPO 3 × 2,000,896), frozen code; vs rule-based and vs baseline-300k on test. See `OUTCOME.md` | d24ae43 (training) |
 
 Read with these caveats:
-- Training budget is ≈ 6–15% of dev doc §5.5's 2–5 M steps: these are under-trained policies.
+- `baseline-300k` results used ≈ 6–15% of dev doc §5.5's 2–5 M steps; `full_budget_2M` uses 2 M (the low end).
 - `patient_deaths` is the queue-wait proxy (dev doc §3.8 item 8), not clinical mortality.
 - The cascade metric must be read with functional levels (dev doc §3.5 caveat).
 - The energy-normaliser floor (dev doc §5.4) is a disclosed deviation that shapes how much

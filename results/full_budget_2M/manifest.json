@@ -1,0 +1,175 @@
+{
+  "experiment": "full-budget 2M (protocol 2026-09-27 \u00a77)",
+  "git_tag": "train-2M-start",
+  "reported_checkpoint": "final",
+  "models": [
+    {
+      "policy_type": "MAPPO",
+      "seed": 0,
+      "training_steps": 2000128,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_0f456866/mappo_final.pt",
+      "archived_copy": "results/full_budget_2M/models/mappo_seed0.pt",
+      "sha256": "a7020e0df4db5fdae794285c9d628a9bd33700a2b25056ee5f00848b735878b2"
+    },
+    {
+      "policy_type": "MAPPO",
+      "seed": 1,
+      "training_steps": 2000128,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_ea236a77/mappo_final.pt",
+      "archived_copy": "results/full_budget_2M/models/mappo_seed1.pt",
+      "sha256": "8c3f8b8b31416e9ab786df5371392d1ab407ab2dab2c28ca39ac9a7330883105"
+    },
+    {
+      "policy_type": "MAPPO",
+      "seed": 2,
+      "training_steps": 2000128,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_b992c7d1/mappo_final.pt",
+      "archived_copy": "results/full_budget_2M/models/mappo_seed2.pt",
+      "sha256": "d4593ee8d8d019463499acf0edf926cb4f420e7fb1a8ab63f674946546b25268"
+    },
+    {
+      "policy_type": "MAPPO",
+      "seed": 3,
+      "training_steps": 2000128,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_b26adbae/mappo_final.pt",
+      "archived_copy": "results/full_budget_2M/models/mappo_seed3.pt",
+      "sha256": "3c641497b023ca3969ed993cb46c3756d414c9f97723ef35f60d033038297a4f"
+    },
+    {
+      "policy_type": "MAPPO",
+      "seed": 4,
+      "training_steps": 2000128,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_6b2a6b12/mappo_final.pt",
+      "archived_copy": "results/full_budget_2M/models/mappo_seed4.pt",
+      "sha256": "cecd2a30b093abfb5470fb0d34969f46d61888beb502a16319e855766cc5a2f3"
+    },
+    {
+      "policy_type": "PPO",
+      "seed": 0,
+      "training_steps": 2000896,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_68f2b19d/ppo_single_env_final.zip",
+      "archived_copy": "results/full_budget_2M/models/ppo_seed0.zip",
+      "sha256": "f20fef13abccee90fd8459e19b871eb88308a8cbaae6c88373c88620bec55456"
+    },
+    {
+      "policy_type": "PPO",
+      "seed": 1,
+      "training_steps": 2000896,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_4ceb8022/ppo_single_env_final.zip",
+      "archived_copy": "results/full_budget_2M/models/ppo_seed1.zip",
+      "sha256": "11e65424a582eab95e81d70900419f35f16438efa83d7f7f7235317e67f8d5c4"
+    },
+    {
+      "policy_type": "PPO",
+      "seed": 2,
+      "training_steps": 2000896,
+      "env_version": "udt_multi_env_v2",
+      "suite_version": "flood_suite_v2",
+      "reward_config": "configs/reward.yaml (A)",
+      "training_commit": "d24ae43",
+      "git_dirty": false,
+      "machine": {
+        "platform": "macOS-26.5.1-arm64-arm-64bit",
+        "cpu": "Apple M5",
+        "torch": "2.14.0",
+        "numpy": "1.26.4",
+        "stable_baselines3": "2.9.0"
+      },
+      "resumes": [],
+      "model_path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt-train-2M/runs/20260927T210052Z_82072975/ppo_single_env_final.zip",
+      "archived_copy": "results/full_budget_2M/models/ppo_seed2.zip",
+      "sha256": "9b368900b44c7fabfe07e34475e8d8ddb3d19f27496d2a325039d324ea12e764"
+    }
+  ]
+}
