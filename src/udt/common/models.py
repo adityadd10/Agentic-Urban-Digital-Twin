@@ -116,6 +116,9 @@ class TwinState(BaseModel):
     assets: list[Asset]
     cascading_failure_count: int = 0
     patient_deaths_cumulative: int = 0
+    uncollected_casualty_deaths_cumulative: int = 0
+    """Part of `patient_deaths_cumulative`: calls never answered within the
+    wait deadline (dev doc §3.9 item 2). Always 0 in twin-v2."""
     ambulance_response_times_this_tick: list[float] = Field(default_factory=list)
     pending_requests_count: int = 0
     patients_transferred_cumulative: int = 0
@@ -212,6 +215,7 @@ class EpisodeMetrics(BaseModel):
     mean_critical_functional_level: float  # hospitals + substations + water
     unmet_patient_hours: float  # sum over ticks of (total queued patients x dt_hours)
     patient_deaths: int  # dev doc §5.4's simplified mortality proxy
+    uncollected_casualty_deaths: int = 0  # part of patient_deaths (dev doc §3.9); 0 in twin-v2
     mean_ambulance_response_delay_hours: float | None = None  # None = no request completed
     requests_completed: int = 0
     requests_pending_at_end: int = 0

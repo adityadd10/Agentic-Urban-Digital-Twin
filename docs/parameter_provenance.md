@@ -97,7 +97,7 @@ it matters).
 | Emergency call rate | 2 /h × severity | `REQUEST_RATE_PER_HOUR_AT_SEVERITY_1_DEFAULT` | **E** | Invented | — |
 | Travel speed | 30 km/h | `ASSUMED_SPEED_KMPH` | D | Urban assumption | — |
 | Travel-time noise | none (±15% in dev doc §3.6 is **not implemented**) | — | — | — | **R14** |
-| Repair rate | 0.05 /tick (0 → 1 in 100 min) | `DEFAULT_REPAIR_RATE_PER_TICK` | **E** | Invented; deterministic (dev doc repair noise not implemented) | **R10** |
+| Repair rate | 0.05 per applied repair; applied once per 15-min decision (0 → 1 in about 5 h; the earlier "100 min" was wrong, corrected 2026-09-29) | `DEFAULT_REPAIR_RATE_PER_TICK` | **E** | Invented; deterministic (dev doc repair noise not implemented) | **R10** |
 | Load surge | up to +50% × severity × envelope | `LOAD_SURGE_FACTOR` | E | Invented coupling | **R11** |
 | Overload threshold / damage | 95% / 0.05 per tick | `twin/power.py` | D / E | Threshold from dev doc §5.6; damage rate invented | — |
 

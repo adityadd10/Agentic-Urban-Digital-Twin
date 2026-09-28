@@ -10,14 +10,17 @@ import pytest
 from shapely.geometry import Point, Polygon
 
 from udt.common.models import Asset, AssetType, DependencyGraph, Incident
+from udt.twin import ambulances
 from udt.twin.ambulances import (
     advance_ambulances,
     dispatch_ambulance,
+    expire_uncollected_requests,
     generate_requests,
     spawn_ambulances,
 )
 from udt.twin.graph import build_networkx_graph
 from udt.twin.road_network import RoadNetwork
+from udt.twin.simulator import Simulator
 
 POINT = {"type": "Point", "coordinates": [72.88, 19.07]}
 
@@ -151,3 +154,79 @@ def test_advance_ambulances_idle_ambulance_is_untouched() -> None:
     response_times = advance_ambulances(graph, tick=5, dt_minutes=5.0)
     assert response_times == []
     assert graph.nodes[amb_id]["asset"].attributes["status"] == "idle"
+
+
+# --- Uncollected-casualty deaths (dev doc §3.9 item 2, metric-v2) ---------
+
+DT_HOURS = 5.0 / 60.0  # 4 h deadline = 48 ticks
+
+
+@pytest.mark.phase4
+def test_expire_uncollected_requests_uses_the_hospital_queue_deadline() -> None:
+    graph = _hospital_graph()
+    graph.graph["pending_requests"] = [
+        {"request_id": "OLD", "location": (72.882, 19.07), "requested_at_tick": 0},
+        {"request_id": "NEW", "location": (72.882, 19.07), "requested_at_tick": 10},
+    ]
+    assert expire_uncollected_requests(graph, tick=48, dt_hours=DT_HOURS) == 0  # exactly 4 h
+    assert expire_uncollected_requests(graph, tick=49, dt_hours=DT_HOURS) == 1
+    assert [r["request_id"] for r in graph.graph["pending_requests"]] == ["NEW"]
+
+
+@pytest.mark.phase4
+def test_ambulance_sent_to_an_expired_request_returns_empty() -> None:
+    graph = _hospital_graph()
+    rn = _road_network_chain(2)
+    (amb_id,) = spawn_ambulances(graph, rn, n_per_hospital=1)
+    request = {"request_id": "REQ1", "location": (72.882, 19.07), "requested_at_tick": 0}
+    graph.graph["pending_requests"] = [request]
+    dispatch_ambulance(graph, rn, amb_id, request)
+    expire_uncollected_requests(graph, tick=49, dt_hours=DT_HOURS)
+    amb = graph.nodes[amb_id]["asset"]
+    amb.attributes["remaining_travel_min"] = 1.0
+    assert advance_ambulances(graph, tick=49, dt_minutes=5.0) == []  # no pickup
+    assert amb.attributes["status"] == "returning"
+    assert not amb.attributes.get("carrying_patient")
+
+
+def _simulator_with_one_unanswered_call() -> Simulator:
+    hospital = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.88, 19.07]},
+        attributes={},
+    )
+    sim = Simulator(
+        DependencyGraph(assets=[hospital], edges=[]), road_network=_road_network_chain(2)
+    )
+    sim.graph.graph["pending_requests"] = [
+        {"request_id": "R1", "location": (72.882, 19.07), "requested_at_tick": 0}
+    ]
+    return sim
+
+
+@pytest.mark.phase4
+def test_unanswered_call_is_not_a_death_when_the_switch_is_off() -> None:
+    assert ambulances.COUNT_UNCOLLECTED_CASUALTY_DEATHS is False  # twin-v2 default
+    sim = _simulator_with_one_unanswered_call()
+    for _ in range(60):
+        state = sim.step()
+    assert state.pending_requests_count == 1
+    assert state.uncollected_casualty_deaths_cumulative == 0
+
+
+@pytest.mark.phase4
+def test_unanswered_call_counts_as_a_death_when_the_switch_is_on(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    sim = _simulator_with_one_unanswered_call()
+    monkeypatch.setattr(ambulances, "COUNT_UNCOLLECTED_CASUALTY_DEATHS", True)
+    deaths_before_deadline = None
+    for _ in range(60):
+        state = sim.step()
+        if state.tick == 48:
+            deaths_before_deadline = state.uncollected_casualty_deaths_cumulative
+    assert deaths_before_deadline == 0
+    assert state.pending_requests_count == 0
+    assert state.uncollected_casualty_deaths_cumulative == 1
+    assert state.patient_deaths_cumulative >= 1  # included in the death proxy total

@@ -85,7 +85,12 @@ import networkx as nx
 import numpy as np
 
 from udt.common.models import Asset, AssetType, DependencyGraph, TwinState
-from udt.twin.ambulances import advance_ambulances, dispatch_ambulance
+from udt.twin import ambulances as _ambulances
+from udt.twin.ambulances import (
+    advance_ambulances,
+    dispatch_ambulance,
+    expire_uncollected_requests,
+)
 from udt.twin.cascade import EdgeRuntimeState, resolve_functional_levels, update_buffers
 from udt.twin.demand import apply_patient_transfer, consume_demand
 from udt.twin.graph import build_networkx_graph, get_asset
@@ -102,7 +107,9 @@ flood degradation function (dev doc §4.2)."""
 # Disclosed prototype-1 default, not sourced from anything (same status as
 # the twin's other placeholder constants, e.g. flood.py's depth scales):
 # a fully-destroyed asset (intrinsic_level=0) returns to full health
-# (=1) in 20 ticks of continuous repair = 100 simulated minutes.
+# (=1) after 20 repair applications. Agents and the harness apply a repair
+# only on decision ticks (every 3rd tick, 15 min), so a full repair takes
+# 20 x 15 min = 5 simulated hours, not 100 min (corrected 2026-09-29).
 DEFAULT_REPAIR_RATE_PER_TICK = 0.05
 
 # Dev doc §3.5 (revised 2026-09-26): only facilities can "cascade", and only
@@ -171,6 +178,9 @@ class Simulator:
         # Patient deaths (dev doc §5.4's patient_deaths' proxy, M4
         # addition) — cumulative across the run, same convention.
         self._patient_deaths_total = 0
+        # Of which: casualties never collected within the wait deadline (dev
+        # doc §3.9 item 2); stays 0 unless COUNT_UNCOLLECTED_CASUALTY_DEATHS.
+        self._uncollected_deaths_total = 0
         # Patients moved by the transfer rule (dev doc §5.6, M4
         # addition) — cumulative across the run, same convention.
         self._patients_transferred_total = 0
@@ -202,6 +212,7 @@ class Simulator:
         clone.rng = np.random.default_rng(seed)
         clone._ever_cascaded = set(self._ever_cascaded)
         clone._patient_deaths_total = self._patient_deaths_total
+        clone._uncollected_deaths_total = self._uncollected_deaths_total
         clone._patients_transferred_total = self._patients_transferred_total
         return clone
 
@@ -305,6 +316,10 @@ class Simulator:
                     if request is not None:
                         dispatch_ambulance(self.graph, self.road_network, ambulance_id, request)
             response_times_this_tick = advance_ambulances(self.graph, self.tick, self.dt_minutes)
+            if _ambulances.COUNT_UNCOLLECTED_CASUALTY_DEATHS:
+                expired = expire_uncollected_requests(self.graph, self.tick, self.dt_hours)
+                self._uncollected_deaths_total += expired
+                self._patient_deaths_total += expired
             pending_requests_count = len(self.graph.graph.get("pending_requests", []))
 
         snapshot = TwinState(
@@ -312,6 +327,7 @@ class Simulator:
             assets=[_snapshot_asset(self.asset(a)) for a in self.graph.nodes],
             cascading_failure_count=len(self._ever_cascaded),
             patient_deaths_cumulative=self._patient_deaths_total,
+            uncollected_casualty_deaths_cumulative=self._uncollected_deaths_total,
             ambulance_response_times_this_tick=response_times_this_tick,
             pending_requests_count=pending_requests_count,
             patients_transferred_cumulative=self._patients_transferred_total,

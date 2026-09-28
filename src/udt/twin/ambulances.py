@@ -32,6 +32,15 @@ dispatch action, module M4).
   `patient_queue`), subject to the same wait-deadline rule as walk-ins.
   Delivering to the home hospital (not the best-placed one) is a disclosed
   simplification: the return route is already computed to there.
+- **Uncollected casualties (2026-09-29, dev doc §3.9 item 2, metric-v2).**
+  In twin-v2 a call that is never answered costs nothing and never
+  expires, so the death proxy only counts patients who waited in a
+  *hospital* queue: answering calls could only raise it. With
+  `COUNT_UNCOLLECTED_CASUALTY_DEATHS` on, a request still pending after
+  `twin/demand.py`'s `PATIENT_WAIT_DEADLINE_HOURS` (the same deadline as
+  hospital queues) is removed and counted as a death. **Off by default**:
+  twin-v2 behaviour, and every v2 result, stays bit-identical; twin-v3
+  turns it on.
 """
 
 from __future__ import annotations
@@ -47,6 +56,7 @@ from udt.twin.road_network import RoadNetwork
 
 N_AMBULANCES_PER_HOSPITAL_DEFAULT = 2
 REQUEST_RATE_PER_HOUR_AT_SEVERITY_1_DEFAULT = 2.0
+COUNT_UNCOLLECTED_CASUALTY_DEATHS = False  # twin-v2 = False; twin-v3 = True (dev doc §3.9)
 
 
 def spawn_ambulances(
@@ -202,3 +212,20 @@ def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> 
 
     graph.graph["pending_requests"] = pending
     return response_times_hours
+
+
+def expire_uncollected_requests(graph: nx.DiGraph[str], tick: int, dt_hours: float) -> int:
+    """Removes every pending request older than the patient wait deadline
+    and returns how many were removed (each is one uncollected-casualty
+    death). Uses the same deadline and comparison as `twin/demand.py`'s
+    hospital queues. An ambulance already en route to an expired request
+    finds no patient and returns empty (`advance_ambulances` already handles
+    a missing request). Only called when `COUNT_UNCOLLECTED_CASUALTY_DEATHS`
+    is on."""
+    from udt.twin import demand  # read at call time, so evaluation overrides apply
+
+    deadline_ticks = demand.PATIENT_WAIT_DEADLINE_HOURS / dt_hours
+    pending: list[dict[str, Any]] = graph.graph.get("pending_requests", [])
+    still_pending = [r for r in pending if (tick - r["requested_at_tick"]) <= deadline_ticks]
+    graph.graph["pending_requests"] = still_pending
+    return len(pending) - len(still_pending)

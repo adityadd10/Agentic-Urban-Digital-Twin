@@ -89,6 +89,9 @@ def compute_episode_metrics(
         ),
         unmet_patient_hours=unmet_patient_hours,
         patient_deaths=trace[-1].patient_deaths_cumulative if trace else 0,
+        uncollected_casualty_deaths=(
+            trace[-1].uncollected_casualty_deaths_cumulative if trace else 0
+        ),
         mean_ambulance_response_delay_hours=(
             float(np.mean(response_times_hours)) if response_times_hours else None
         ),
