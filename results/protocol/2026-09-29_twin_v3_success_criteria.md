@@ -187,3 +187,23 @@ the metric is defined as follows (`EpisodeMetrics.mean_casualty_time_to_admissio
 "Jobs completed" = street calls picked up + transfers delivered (`jobs_completed`).
 "Fleet contention" (§8, Gate C) = the share of ticks on which calls and transfers are both
 waiting and there are fewer idle ambulances than jobs (`fleet_contention_fraction`).
+
+## Addendum 2026-09-29 (2): load-shedding pre-check and action-space freeze (written before any gate run)
+
+In twin-v2, switching load shedding off changed nothing (validation probe: 57.0 vs 57.2 deaths).
+Before any gate, shedding must show a causal effect in twin-v3, or it is removed from the action
+space. No lever that does nothing stays in the action space.
+
+- **When:** after `flood_suite_v3` and RB-S (`rbs-v3`) are frozen, before the noise calibration.
+- **Comparison:** RB-S vs RB-S with shedding disabled (tier 0 always), on train, same statistics
+  as §4.
+- **Rule:** shedding is **kept** if, for deaths or unmet patient-hours (Holm across the two), the
+  95% CI of the paired difference excludes 0 **and** |mean difference| ≥ 5% of RB-S's mean.
+  Otherwise the power agent's shed head is removed.
+- **Why the margin is fixed here:** the noise-derived margins (§5) are computed later, with the
+  final action space.
+- **Then:** the action space is frozen and twin-v3 is tagged, with a reproduction check, before
+  §5's calibration.
+
+Environment semantics (job slots, slack-based priority, defer-not-cancel, no automatic
+rerouting, execution order) are fixed in dev doc §3.9, "Twin-v3 environment specification".
