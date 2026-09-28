@@ -1,0 +1,854 @@
+{
+  "suite_version": "flood_suite_v3",
+  "incident_type": "flood",
+  "env_version": "udt_multi_env_v3",
+  "generated_at_commit": "074180d4e3dbfd8b9bbc57d2c6d10787fff8943e",
+  "data_sha256": {
+    "data/processed/dependency_graph_v3.json": "c3e834aa921ca8b039800151bf4e2861035a97015abbc8d2ec66fa6b6c933ecb",
+    "data/processed/flood_susceptibility.tif": "58babd3cb9058d1be5125cacde31341fe40c98247a922257af4dacff4d88adcf",
+    "data/processed/ward_boundary.geojson": "fec61a26f0efcb4321010e405ce01439e5495efd45ed92e0adbaba2e15b43288",
+    "data/processed/roads_full.graphml": "8d69d625f4ea97890e9552344b83cde8046b4cf51326158c6c340e247c47bc8c"
+  },
+  "created_at": "2026-09-28T22:21:53.628217+00:00",
+  "config": {
+    "suite_version": "flood_suite_v3",
+    "incident_type": "flood",
+    "out_dir": "data/scenarios/flood_v3",
+    "splits": {
+      "train": {
+        "n": 20,
+        "seed_start": 11000000
+      },
+      "val": {
+        "n": 10,
+        "seed_start": 12000000
+      },
+      "test": {
+        "n": 10,
+        "seed_start": 13000000
+      }
+    },
+    "tradeoff_min_share_train": 0.25,
+    "leakage_min_distance": 0.05
+  },
+  "splits": {
+    "train": {
+      "n": 20,
+      "seeds": [
+        11000000,
+        11000001,
+        11000002,
+        11000003,
+        11000004,
+        11000005,
+        11000006,
+        11000007,
+        11000008,
+        11000009,
+        11000010,
+        11000011,
+        11000012,
+        11000013,
+        11000016,
+        11000018,
+        11000023,
+        11000024,
+        11000029,
+        11000034
+      ]
+    },
+    "val": {
+      "n": 10,
+      "seeds": [
+        12000000,
+        12000001,
+        12000002,
+        12000003,
+        12000004,
+        12000007,
+        12000008,
+        12000020,
+        12000023,
+        12000135
+      ]
+    },
+    "test": {
+      "n": 10,
+      "seeds": [
+        13000000,
+        13000001,
+        13000002,
+        13000003,
+        13000004,
+        13000006,
+        13000013,
+        13000015,
+        13000027,
+        13000045
+      ]
+    }
+  },
+  "cells_covered": {
+    "train": [
+      "H_peripheral_0|mild",
+      "H_peripheral_0|moderate",
+      "H_peripheral_0|severe",
+      "H_polyclinic_0|mild",
+      "H_polyclinic_0|moderate",
+      "H_polyclinic_0|severe",
+      "H_synth_0|mild",
+      "H_synth_0|moderate",
+      "H_synth_0|severe"
+    ],
+    "val": [
+      "H_peripheral_0|mild",
+      "H_peripheral_0|moderate",
+      "H_peripheral_0|severe",
+      "H_polyclinic_0|mild",
+      "H_polyclinic_0|moderate",
+      "H_polyclinic_0|severe",
+      "H_synth_0|mild",
+      "H_synth_0|moderate",
+      "H_synth_0|severe"
+    ],
+    "test": [
+      "H_peripheral_0|mild",
+      "H_peripheral_0|moderate",
+      "H_peripheral_0|severe",
+      "H_polyclinic_0|mild",
+      "H_polyclinic_0|moderate",
+      "H_polyclinic_0|severe",
+      "H_synth_0|mild",
+      "H_synth_0|moderate",
+      "H_synth_0|severe"
+    ]
+  },
+  "tradeoff_shares": {
+    "train": {
+      "T1_alt_access_closure": 0.0,
+      "T1p_route_tradeoff": 0.0,
+      "T1pp_destination_tradeoff": 0.3,
+      "T2_multi_facility_threat": 0.6,
+      "T3_high_call_volume": 0.5
+    },
+    "val": {
+      "T1_alt_access_closure": 0.0,
+      "T1p_route_tradeoff": 0.0,
+      "T1pp_destination_tradeoff": 0.4,
+      "T2_multi_facility_threat": 0.6,
+      "T3_high_call_volume": 0.4
+    },
+    "test": {
+      "T1_alt_access_closure": 0.0,
+      "T1p_route_tradeoff": 0.0,
+      "T1pp_destination_tradeoff": 0.5,
+      "T2_multi_facility_threat": 0.6,
+      "T3_high_call_volume": 0.3
+    }
+  },
+  "t3_median_expected_calls_train": 32.28004615523588,
+  "scenario_features": {
+    "train": [
+      {
+        "scenario_id": "flood_v3_train_00",
+        "sector": "H_polyclinic_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 33.75079563315907,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000000,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_01",
+        "sector": "H_peripheral_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 43.46696098276706,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000001,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_02",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 31.175536560827595,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000002,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_03",
+        "sector": "H_synth_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 21.58127185418086,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000003,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_04",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 33.384555749644164,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000004,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_05",
+        "sector": "H_polyclinic_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 10.741154727476351,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000005,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_06",
+        "sector": "H_synth_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 34.737831784378,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000006,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_07",
+        "sector": "H_polyclinic_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 37.9890279532307,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000007,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_08",
+        "sector": "H_synth_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 10.46068450043954,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000008,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_09",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 34.586225357671125,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000009,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_10",
+        "sector": "H_synth_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 40.98802703314304,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000010,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_11",
+        "sector": "H_polyclinic_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 30.145814871984477,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000011,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_12",
+        "sector": "H_synth_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 46.04459313885444,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000012,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_13",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 27.026198871993284,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000013,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_14",
+        "sector": "H_synth_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 25.69448507691255,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000016,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_15",
+        "sector": "H_polyclinic_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 19.883858551007407,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000018,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_16",
+        "sector": "H_peripheral_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 35.58119447038551,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000023,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_17",
+        "sector": "H_polyclinic_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 44.083276216145975,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 11000024,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_train_18",
+        "sector": "H_peripheral_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 16.952656086300486,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000029,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_train_19",
+        "sector": "H_peripheral_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 17.70609633160615,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 11000034,
+        "T3_high_call_volume": false
+      }
+    ],
+    "val": [
+      {
+        "scenario_id": "flood_v3_val_00",
+        "sector": "H_synth_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 47.542768190614254,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000000,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_val_01",
+        "sector": "H_synth_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 37.48695447271879,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000001,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_val_02",
+        "sector": "H_polyclinic_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 11.253930620840862,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000002,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_03",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 28.91993711412225,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 12000003,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_04",
+        "sector": "H_polyclinic_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 41.722029830268866,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000004,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_val_05",
+        "sector": "H_polyclinic_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 29.982631278004025,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 12000007,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_06",
+        "sector": "H_peripheral_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 13.711506321888464,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000008,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_07",
+        "sector": "H_synth_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 21.075517717184713,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 12000020,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_08",
+        "sector": "H_synth_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 28.718020897158603,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 12000023,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_val_09",
+        "sector": "H_peripheral_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 40.758587031625794,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 12000135,
+        "T3_high_call_volume": true
+      }
+    ],
+    "test": [
+      {
+        "scenario_id": "flood_v3_test_00",
+        "sector": "H_peripheral_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 42.11501460346822,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 13000000,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_test_01",
+        "sector": "H_polyclinic_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 16.90477863350803,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 13000001,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_02",
+        "sector": "H_synth_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 36.82761344690008,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 13000002,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_test_03",
+        "sector": "H_polyclinic_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 20.405307846320163,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 13000003,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_04",
+        "sector": "H_synth_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 28.827240554089816,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 13000004,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_05",
+        "sector": "H_polyclinic_0",
+        "severity_band": "severe",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 42.274655101936645,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 13000006,
+        "T3_high_call_volume": true
+      },
+      {
+        "scenario_id": "flood_v3_test_06",
+        "sector": "H_synth_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 17.209301095225392,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 13000013,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_07",
+        "sector": "H_polyclinic_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 26.296546362943243,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 13000015,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_08",
+        "sector": "H_peripheral_0",
+        "severity_band": "mild",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": false,
+        "expected_calls": 16.291316133935204,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": false,
+        "seed": 13000027,
+        "T3_high_call_volume": false
+      },
+      {
+        "scenario_id": "flood_v3_test_09",
+        "sector": "H_peripheral_0",
+        "severity_band": "moderate",
+        "T1_alt_access_closure": false,
+        "T2_multi_facility_threat": true,
+        "expected_calls": 26.053126732057844,
+        "T1p_route_tradeoff": false,
+        "T1pp_destination_tradeoff": true,
+        "seed": 13000045,
+        "T3_high_call_volume": false
+      }
+    ]
+  },
+  "checks": {
+    "seeds_disjoint_across_splits": true,
+    "fragility_seeds_unique": true,
+    "bed_occupancy_seeds_unique": true,
+    "no_duplicate_parameter_vectors": true,
+    "min_normalised_distance": {
+      "val": 0.2428,
+      "test": 0.3313,
+      "test_to_val": 0.197
+    },
+    "no_near_duplicates": true,
+    "all_cells_covered": true,
+    "train_tradeoff_shares_met": true
+  },
+  "files": [
+    {
+      "path": "train/flood_v3_train_00.json",
+      "sha256": "f66c4c3c5b6f648d91860430f6438ea3b26d58dd78f3069835c2591c392cf51a",
+      "seed": 11000000
+    },
+    {
+      "path": "train/flood_v3_train_01.json",
+      "sha256": "37ed52a2c179c810f843272892247560e5d3d0be23926d58f44a7344bd7a7cb2",
+      "seed": 11000001
+    },
+    {
+      "path": "train/flood_v3_train_02.json",
+      "sha256": "20ba9dd65f5e7988b89b19ebbfc1c44e0dd6106efc2bf73cafd1a12c651991b5",
+      "seed": 11000002
+    },
+    {
+      "path": "train/flood_v3_train_03.json",
+      "sha256": "84498708f2abe4d0fd4d6136e7b3a9c5e8e62262f67a66cef23bc0bdced0bb57",
+      "seed": 11000003
+    },
+    {
+      "path": "train/flood_v3_train_04.json",
+      "sha256": "472bddabc4996cd767e63f868f4cf88dff927471586b5256a96854e8ae1f09d1",
+      "seed": 11000004
+    },
+    {
+      "path": "train/flood_v3_train_05.json",
+      "sha256": "fae7651e2f68f4458694ed8cbbe519123d0dccde46e7b513986b3cfd2ab093b0",
+      "seed": 11000005
+    },
+    {
+      "path": "train/flood_v3_train_06.json",
+      "sha256": "f9fe1c07e55667908f40cbd85bfdc3f77b9fd05b13bc84acdb410ef22669a29a",
+      "seed": 11000006
+    },
+    {
+      "path": "train/flood_v3_train_07.json",
+      "sha256": "1ec7fdc611e5844ba265967c2087d6292d78445aac8a52c9163e037da32132fd",
+      "seed": 11000007
+    },
+    {
+      "path": "train/flood_v3_train_08.json",
+      "sha256": "0574da6cc293ac39f140ce706f5dc6183d6a48796c586de12507ec3736ddeb5f",
+      "seed": 11000008
+    },
+    {
+      "path": "train/flood_v3_train_09.json",
+      "sha256": "d0faa16312ab3759da5d23bbed5711f959533ffe331113f80ebdf704490c1ad2",
+      "seed": 11000009
+    },
+    {
+      "path": "train/flood_v3_train_10.json",
+      "sha256": "b04d56e5e984a351db52b62adf00f16fff819aed97d3a4413804e11229730b68",
+      "seed": 11000010
+    },
+    {
+      "path": "train/flood_v3_train_11.json",
+      "sha256": "db0bff555d6c4555ead490e8b16fdc68e8326fe653a162a6afe88fdfc9fa9136",
+      "seed": 11000011
+    },
+    {
+      "path": "train/flood_v3_train_12.json",
+      "sha256": "af858d79240e0ced0d250e6d6b7b61c9769b5791e53c25ba6e0d8a5df4d51f52",
+      "seed": 11000012
+    },
+    {
+      "path": "train/flood_v3_train_13.json",
+      "sha256": "45a7a2e2f457602816990afb30fad98a8890e6295ed63c5eb30b24656aae54c0",
+      "seed": 11000013
+    },
+    {
+      "path": "train/flood_v3_train_14.json",
+      "sha256": "6a0156b7b8d4a5fed3f741620c31795f49fa0f0f46374c09f992fdbf3afd4dd4",
+      "seed": 11000016
+    },
+    {
+      "path": "train/flood_v3_train_15.json",
+      "sha256": "be94dc8015ecd221b8ea79e1d14f8a462e0425d02b4ebb82a69d5fc4264e265e",
+      "seed": 11000018
+    },
+    {
+      "path": "train/flood_v3_train_16.json",
+      "sha256": "66fc1837b77062a3968de3d4c900ce8a1551a778d326629f8dbe4086db2317fd",
+      "seed": 11000023
+    },
+    {
+      "path": "train/flood_v3_train_17.json",
+      "sha256": "e76e60e32b172848590d17e6e962c67916dd1ebce546261123f89f8cbf1b9cf5",
+      "seed": 11000024
+    },
+    {
+      "path": "train/flood_v3_train_18.json",
+      "sha256": "e277b5472f079b20f3ac439ba5d941b45a9926506b0c2e309839be948905d1df",
+      "seed": 11000029
+    },
+    {
+      "path": "train/flood_v3_train_19.json",
+      "sha256": "3b9b41b2300df9b85a0eb5cd211340a89802fc1aded24e2b452b7915e33051e1",
+      "seed": 11000034
+    },
+    {
+      "path": "val/flood_v3_val_00.json",
+      "sha256": "b127995b217fd6848319f8f906cae78d0cbf0f612872efc1e7e63be48c884fb4",
+      "seed": 12000000
+    },
+    {
+      "path": "val/flood_v3_val_01.json",
+      "sha256": "8a5794b523021571be43fff393f9f01dacee74060b154001975f730f9c535e48",
+      "seed": 12000001
+    },
+    {
+      "path": "val/flood_v3_val_02.json",
+      "sha256": "f471f0d01ff19a8a6fb9cda298e7dc8738f2d20464634dc103d45b8e125ebfb8",
+      "seed": 12000002
+    },
+    {
+      "path": "val/flood_v3_val_03.json",
+      "sha256": "b126793ac3ac144f35978c5d3dc102f86ad904d3159be125457aba5448b7c7bd",
+      "seed": 12000003
+    },
+    {
+      "path": "val/flood_v3_val_04.json",
+      "sha256": "c0dcad37b3a20bbefa1464e87dfa48789fc174f0ba04f957631efe15827c573b",
+      "seed": 12000004
+    },
+    {
+      "path": "val/flood_v3_val_05.json",
+      "sha256": "b1e355a0313bfbd3387ac97ec085ee6efbcd356a8a2c070a73b47c60f93aa3f4",
+      "seed": 12000007
+    },
+    {
+      "path": "val/flood_v3_val_06.json",
+      "sha256": "12184b2793ef39c4a35a1e86ce08a57c49f85ca2c65dee69189904d36ff651d9",
+      "seed": 12000008
+    },
+    {
+      "path": "val/flood_v3_val_07.json",
+      "sha256": "4f2ced13165d86458eb4ad5e45f14273237a6610b4f85a629ac91c15ca92efe9",
+      "seed": 12000020
+    },
+    {
+      "path": "val/flood_v3_val_08.json",
+      "sha256": "521aa9d82f60b97b7aac2e15a81482b6bb2a0fe118c8ae018557bf9fb152e79e",
+      "seed": 12000023
+    },
+    {
+      "path": "val/flood_v3_val_09.json",
+      "sha256": "a723616cec2815a60867e869e60465a125bbebac211309f7ce18a445a861b47c",
+      "seed": 12000135
+    },
+    {
+      "path": "test/flood_v3_test_00.json",
+      "sha256": "f8a3ebfc5c83a97b833dff3c1a6ca52d2bd4ecb8b5f229c6c04539b0cb7ac75e",
+      "seed": 13000000
+    },
+    {
+      "path": "test/flood_v3_test_01.json",
+      "sha256": "d3d1c855e1453e8b57ad4e96b7dadfb58afe6b24be4f499b84fbb4b9e2aa8e87",
+      "seed": 13000001
+    },
+    {
+      "path": "test/flood_v3_test_02.json",
+      "sha256": "707fd6d2e43384f45aff42af76701c867aa8b4d9f9d0ea2e732cbf5ab724777d",
+      "seed": 13000002
+    },
+    {
+      "path": "test/flood_v3_test_03.json",
+      "sha256": "e82ba2eedc2997b7cd3856690aa62d5d2c0031859c2ed18c634bfaa4be330dce",
+      "seed": 13000003
+    },
+    {
+      "path": "test/flood_v3_test_04.json",
+      "sha256": "31f10e9682820c5fbcd3839004a573c3da83fc6812ccdba52a85a3263c0498b9",
+      "seed": 13000004
+    },
+    {
+      "path": "test/flood_v3_test_05.json",
+      "sha256": "546a8a2b485409d445acfa7565c621f14138db22c36a030887df3b184f233c85",
+      "seed": 13000006
+    },
+    {
+      "path": "test/flood_v3_test_06.json",
+      "sha256": "1068592013c6267cae296788f5c481c0edb6378398c8eb167dc5efd4f794a271",
+      "seed": 13000013
+    },
+    {
+      "path": "test/flood_v3_test_07.json",
+      "sha256": "6f32fefce0b06cf11d7f9e05eb3a2cb239bd7d2fa9e6abd70ac52b35878b5eea",
+      "seed": 13000015
+    },
+    {
+      "path": "test/flood_v3_test_08.json",
+      "sha256": "de3f56bba91e092ff62a85ae75c5e5283419249baf220000b8f01ffa18fdb4b5",
+      "seed": 13000027
+    },
+    {
+      "path": "test/flood_v3_test_09.json",
+      "sha256": "adf02b477535ca88af4d427a5eec731b7900d9ff2ce41b1aa9acbbab84e70a46",
+      "seed": 13000045
+    }
+  ]
+}
