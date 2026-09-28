@@ -1,0 +1,1564 @@
+{
+  "verdicts": {
+    "ppo_2M/patient_deaths": {
+      "nominal_category": "no difference",
+      "conditions_unchanged": 22,
+      "robust (>= 18 of 22)": true,
+      "flipped_conditions": [],
+      "advantage_not_robust (rule 2)": false
+    },
+    "ppo_2M/unmet_patient_hours": {
+      "nominal_category": "no difference",
+      "conditions_unchanged": 22,
+      "robust (>= 18 of 22)": true,
+      "flipped_conditions": [],
+      "advantage_not_robust (rule 2)": false
+    },
+    "mappo_2M/patient_deaths": {
+      "nominal_category": "no difference",
+      "conditions_unchanged": 22,
+      "robust (>= 18 of 22)": true,
+      "flipped_conditions": [],
+      "advantage_not_robust (rule 2)": false
+    },
+    "mappo_2M/unmet_patient_hours": {
+      "nominal_category": "no difference",
+      "conditions_unchanged": 22,
+      "robust (>= 18 of 22)": true,
+      "flipped_conditions": [],
+      "advantage_not_robust (rule 2)": false
+    }
+  },
+  "per_condition": {
+    "nominal": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.845703125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.431640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      }
+    },
+    "R1_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.98046875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.625
+        }
+      }
+    },
+    "R1_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.8203125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.431640625
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.91015625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.625
+        }
+      }
+    },
+    "R2_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.6953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.431640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.556640625
+        }
+      }
+    },
+    "R2_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.91015625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      }
+    },
+    "R3_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.921875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      }
+    },
+    "R3_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.75
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.556640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.625
+        }
+      }
+    },
+    "R4_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.431640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.322265625
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.5703125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.431640625
+        }
+      }
+    },
+    "R4_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.677734375
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.556640625
+        }
+      }
+    },
+    "R5_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.49609375
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.431640625
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.431640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.431640625
+        }
+      }
+    },
+    "R5_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.98046875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.6953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.6953125
+        }
+      }
+    },
+    "R6_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.6953125
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.4921875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.556640625
+        }
+      }
+    },
+    "R6_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.91015625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      }
+    },
+    "R8_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.6953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.845703125
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.6953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      }
+    },
+    "R8_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.88671875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.845703125
+        }
+      }
+    },
+    "R9_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.84375
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.4921875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.556640625
+        }
+      }
+    },
+    "R9_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 1.0
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.6953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.845703125
+        }
+      }
+    },
+    "R10_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.185546875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.193359375
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.275390625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.193359375
+        }
+      }
+    },
+    "R10_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.05078125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.556640625
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.275390625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      }
+    },
+    "R11_low": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.7421875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.921875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.845703125
+        }
+      }
+    },
+    "R11_high": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.845703125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.6953125
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.375
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.10546875
+        }
+      }
+    },
+    "R13": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.921875
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 1.0
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.76953125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      }
+    },
+    "R14": {
+      "ppo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.845703125
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.921875
+        }
+      },
+      "mappo_2M": {
+        "patient_deaths": {
+          "category": "no difference",
+          "p": 0.431640625
+        },
+        "unmet_patient_hours": {
+          "category": "no difference",
+          "p": 0.76953125
+        }
+      }
+    }
+  },
+  "spearman_rho_median": 0.7999999999999999,
+  "spearman_rho_min": 0.7999999999999999,
+  "absolute_means": {
+    "nominal": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 43.56666666666666,
+        "unmet_patient_hours": 272.7916666666667,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4331.980777605449
+      },
+      "ppo_2M": {
+        "patient_deaths": 49.81111111111111,
+        "unmet_patient_hours": 285.7092592592593,
+        "mean_hospital_functional_level": 0.6406422789362118,
+        "unserved_energy_mwh": 1.5331448739594193,
+        "requests_completed": 0.3,
+        "episode_reward": -4307.503804002842
+      },
+      "mappo_2M": {
+        "patient_deaths": 43.42666666666666,
+        "unmet_patient_hours": 271.735,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.473333333333334,
+        "episode_reward": -4351.713784351077
+      },
+      "mappo_300k": {
+        "patient_deaths": 43.393333333333324,
+        "unmet_patient_hours": 278.3455555555556,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -4447.965753606391
+      }
+    },
+    "R1_low": {
+      "do_nothing": {
+        "patient_deaths": 111.16666666666666,
+        "unmet_patient_hours": 504.45833333333337,
+        "mean_hospital_functional_level": 0.3513994865298019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7456.499052801623
+      },
+      "rule_based": {
+        "patient_deaths": 49.833333333333336,
+        "unmet_patient_hours": 298.38611111111106,
+        "mean_hospital_functional_level": 0.6466112676466859,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4653.504040933724
+      },
+      "ppo_2M": {
+        "patient_deaths": 58.444444444444436,
+        "unmet_patient_hours": 311.81296296296296,
+        "mean_hospital_functional_level": 0.5687351951205996,
+        "unserved_energy_mwh": 3.001207925405052,
+        "requests_completed": 0.33333333333333337,
+        "episode_reward": -4804.022361296998
+      },
+      "mappo_2M": {
+        "patient_deaths": 50.653333333333336,
+        "unmet_patient_hours": 296.46444444444444,
+        "mean_hospital_functional_level": 0.5908738526196357,
+        "unserved_energy_mwh": 49.88437486626764,
+        "requests_completed": 4.5,
+        "episode_reward": -4768.671154440568
+      },
+      "mappo_300k": {
+        "patient_deaths": 52.37333333333332,
+        "unmet_patient_hours": 308.7233333333333,
+        "mean_hospital_functional_level": 0.5919522898337737,
+        "unserved_energy_mwh": 40.024593655482285,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -4957.0059849325235
+      }
+    },
+    "R1_high": {
+      "do_nothing": {
+        "patient_deaths": 92.33333333333334,
+        "unmet_patient_hours": 424.2944444444444,
+        "mean_hospital_functional_level": 0.588802962406622,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6433.912415912066
+      },
+      "rule_based": {
+        "patient_deaths": 30.4,
+        "unmet_patient_hours": 214.2722222222222,
+        "mean_hospital_functional_level": 0.7950577854025414,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3598.759102283111
+      },
+      "ppo_2M": {
+        "patient_deaths": 30.977777777777778,
+        "unmet_patient_hours": 203.75648148148147,
+        "mean_hospital_functional_level": 0.7529427614180094,
+        "unserved_energy_mwh": 1.0024652499723703,
+        "requests_completed": 0.28888888888888886,
+        "episode_reward": -3333.791735002718
+      },
+      "mappo_2M": {
+        "patient_deaths": 30.46,
+        "unmet_patient_hours": 211.15499999999997,
+        "mean_hospital_functional_level": 0.7629753531495882,
+        "unserved_energy_mwh": 51.974253549926814,
+        "requests_completed": 4.4,
+        "episode_reward": -3679.8147149114375
+      },
+      "mappo_300k": {
+        "patient_deaths": 30.6,
+        "unmet_patient_hours": 221.2411111111111,
+        "mean_hospital_functional_level": 0.761794095586872,
+        "unserved_energy_mwh": 39.26243504805126,
+        "requests_completed": 7.480000000000001,
+        "episode_reward": -3784.519697325367
+      }
+    },
+    "R2_low": {
+      "do_nothing": {
+        "patient_deaths": 116.8,
+        "unmet_patient_hours": 525.575,
+        "mean_hospital_functional_level": 0.3649970495576735,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7690.461542389525
+      },
+      "rule_based": {
+        "patient_deaths": 55.733333333333334,
+        "unmet_patient_hours": 317.1166666666666,
+        "mean_hospital_functional_level": 0.6254780146667842,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4951.296889334801
+      },
+      "ppo_2M": {
+        "patient_deaths": 60.31111111111112,
+        "unmet_patient_hours": 330.5953703703703,
+        "mean_hospital_functional_level": 0.5486413291762292,
+        "unserved_energy_mwh": 2.5172489325172984,
+        "requests_completed": 0.34444444444444444,
+        "episode_reward": -4854.579522999991
+      },
+      "mappo_2M": {
+        "patient_deaths": 54.80666666666666,
+        "unmet_patient_hours": 314.47277777777776,
+        "mean_hospital_functional_level": 0.5643417037837739,
+        "unserved_energy_mwh": 49.91123390113271,
+        "requests_completed": 4.48,
+        "episode_reward": -4928.04116357286
+      },
+      "mappo_300k": {
+        "patient_deaths": 56.06666666666668,
+        "unmet_patient_hours": 325.78722222222217,
+        "mean_hospital_functional_level": 0.570761818199417,
+        "unserved_energy_mwh": 40.484955146584,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -5096.718865068395
+      }
+    },
+    "R2_high": {
+      "do_nothing": {
+        "patient_deaths": 86.43333333333334,
+        "unmet_patient_hours": 416.99722222222215,
+        "mean_hospital_functional_level": 0.5197940901384943,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6146.597432353275
+      },
+      "rule_based": {
+        "patient_deaths": 25.000000000000004,
+        "unmet_patient_hours": 190.92777777777783,
+        "mean_hospital_functional_level": 0.7897871493783726,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3267.18660657865
+      },
+      "ppo_2M": {
+        "patient_deaths": 34.56666666666667,
+        "unmet_patient_hours": 206.78333333333336,
+        "mean_hospital_functional_level": 0.7361182605140935,
+        "unserved_energy_mwh": 0.8831924178426374,
+        "requests_completed": 0.3,
+        "episode_reward": -3453.381834552542
+      },
+      "mappo_2M": {
+        "patient_deaths": 28.45333333333333,
+        "unmet_patient_hours": 205.0438888888889,
+        "mean_hospital_functional_level": 0.7511565421562818,
+        "unserved_energy_mwh": 52.088100429873705,
+        "requests_completed": 4.453333333333333,
+        "episode_reward": -3530.4191643000495
+      },
+      "mappo_300k": {
+        "patient_deaths": 29.166666666666664,
+        "unmet_patient_hours": 201.96555555555554,
+        "mean_hospital_functional_level": 0.7472720767428894,
+        "unserved_energy_mwh": 39.452168771124406,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -3647.3445919822793
+      }
+    },
+    "R3_low": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 33.83333333333333,
+        "unmet_patient_hours": 245.47222222222226,
+        "mean_hospital_functional_level": 0.734093883892944,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3843.9881483548183
+      },
+      "ppo_2M": {
+        "patient_deaths": 43.03333333333333,
+        "unmet_patient_hours": 259.23611111111103,
+        "mean_hospital_functional_level": 0.6713552034949861,
+        "unserved_energy_mwh": 1.4485789560319369,
+        "requests_completed": 0.3,
+        "episode_reward": -3960.4803600574987
+      },
+      "mappo_2M": {
+        "patient_deaths": 36.20666666666667,
+        "unmet_patient_hours": 247.90944444444443,
+        "mean_hospital_functional_level": 0.685009124931544,
+        "unserved_energy_mwh": 51.36396210682848,
+        "requests_completed": 4.473333333333334,
+        "episode_reward": -3988.8440597350527
+      },
+      "mappo_300k": {
+        "patient_deaths": 38.13333333333334,
+        "unmet_patient_hours": 257.34722222222223,
+        "mean_hospital_functional_level": 0.6804273631910841,
+        "unserved_energy_mwh": 39.40823117945735,
+        "requests_completed": 7.473333333333334,
+        "episode_reward": -4176.714877550987
+      }
+    },
+    "R3_high": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 47.766666666666666,
+        "unmet_patient_hours": 288.8499999999999,
+        "mean_hospital_functional_level": 0.684502353815896,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4546.465923463734
+      },
+      "ppo_2M": {
+        "patient_deaths": 51.76666666666667,
+        "unmet_patient_hours": 292.35370370370373,
+        "mean_hospital_functional_level": 0.6304685944843297,
+        "unserved_energy_mwh": 1.5771412938542233,
+        "requests_completed": 0.3,
+        "episode_reward": -4406.807019029464
+      },
+      "mappo_2M": {
+        "patient_deaths": 46.74000000000001,
+        "unmet_patient_hours": 286.91555555555556,
+        "mean_hospital_functional_level": 0.6398360945008219,
+        "unserved_energy_mwh": 50.712075243756686,
+        "requests_completed": 4.466666666666667,
+        "episode_reward": -4523.174836735005
+      },
+      "mappo_300k": {
+        "patient_deaths": 48.78,
+        "unmet_patient_hours": 303.6161111111111,
+        "mean_hospital_functional_level": 0.6370999907218888,
+        "unserved_energy_mwh": 39.552845694962095,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -4726.245806313304
+      }
+    },
+    "R4_low": {
+      "do_nothing": {
+        "patient_deaths": 53.73333333333333,
+        "unmet_patient_hours": 246.76388888888886,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -4435.247580743441
+      },
+      "rule_based": {
+        "patient_deaths": 22.866666666666667,
+        "unmet_patient_hours": 140.96944444444443,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 7.866666666666667,
+        "episode_reward": -3196.1211765721955
+      },
+      "ppo_2M": {
+        "patient_deaths": 23.144444444444446,
+        "unmet_patient_hours": 135.39629629629633,
+        "mean_hospital_functional_level": 0.6417946097755302,
+        "unserved_energy_mwh": 0.9916104782695921,
+        "requests_completed": 0.16666666666666666,
+        "episode_reward": -2891.7796514542106
+      },
+      "mappo_2M": {
+        "patient_deaths": 20.986666666666668,
+        "unmet_patient_hours": 129.14055555555558,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.92,
+        "episode_reward": -3182.1669638808667
+      },
+      "mappo_300k": {
+        "patient_deaths": 20.84,
+        "unmet_patient_hours": 134.3922222222222,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.906666666666666,
+        "episode_reward": -3259.1152919456636
+      }
+    },
+    "R4_high": {
+      "do_nothing": {
+        "patient_deaths": 163.8,
+        "unmet_patient_hours": 770.6305555555555,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -10150.54597518935
+      },
+      "rule_based": {
+        "patient_deaths": 72.49999999999999,
+        "unmet_patient_hours": 484.27222222222224,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 8.066666666666666,
+        "episode_reward": -5883.322598493787
+      },
+      "ppo_2M": {
+        "patient_deaths": 83.70000000000002,
+        "unmet_patient_hours": 476.6518518518519,
+        "mean_hospital_functional_level": 0.6381232655779223,
+        "unserved_energy_mwh": 2.8968655483896257,
+        "requests_completed": 0.4444444444444445,
+        "episode_reward": -6106.0945968665055
+      },
+      "mappo_2M": {
+        "patient_deaths": 74.46000000000001,
+        "unmet_patient_hours": 478.1627777777777,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.306666666666667,
+        "episode_reward": -6022.518568257177
+      },
+      "mappo_300k": {
+        "patient_deaths": 77.42666666666666,
+        "unmet_patient_hours": 501.985,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 6.886666666666668,
+        "episode_reward": -6255.795329387906
+      }
+    },
+    "R5_low": {
+      "do_nothing": {
+        "patient_deaths": 99.06666666666666,
+        "unmet_patient_hours": 460.80277777777775,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6787.634040712849
+      },
+      "rule_based": {
+        "patient_deaths": 33.4,
+        "unmet_patient_hours": 223.11944444444447,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3802.8922973114313
+      },
+      "ppo_2M": {
+        "patient_deaths": 31.855555555555554,
+        "unmet_patient_hours": 224.97222222222223,
+        "mean_hospital_functional_level": 0.6407284602828928,
+        "unserved_energy_mwh": 1.4579508500998766,
+        "requests_completed": 0.3,
+        "episode_reward": -3397.4626765676358
+      },
+      "mappo_2M": {
+        "patient_deaths": 26.646666666666665,
+        "unmet_patient_hours": 201.91666666666663,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.553333333333333,
+        "episode_reward": -3488.8064662608485
+      },
+      "mappo_300k": {
+        "patient_deaths": 27.78666666666667,
+        "unmet_patient_hours": 210.13777777777779,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.506666666666666,
+        "episode_reward": -3641.646860028536
+      }
+    },
+    "R5_high": {
+      "do_nothing": {
+        "patient_deaths": 106.56666666666665,
+        "unmet_patient_hours": 487.51944444444433,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7168.848006234673
+      },
+      "rule_based": {
+        "patient_deaths": 48.03333333333333,
+        "unmet_patient_hours": 297.0944444444444,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4566.705123081441
+      },
+      "ppo_2M": {
+        "patient_deaths": 55.25555555555555,
+        "unmet_patient_hours": 300.12129629629624,
+        "mean_hospital_functional_level": 0.6406426797295814,
+        "unserved_energy_mwh": 1.6094900934375649,
+        "requests_completed": 0.3,
+        "episode_reward": -4580.018035769387
+      },
+      "mappo_2M": {
+        "patient_deaths": 50.7,
+        "unmet_patient_hours": 311.0172222222222,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.473333333333334,
+        "episode_reward": -4733.658993580247
+      },
+      "mappo_300k": {
+        "patient_deaths": 51.86666666666666,
+        "unmet_patient_hours": 323.61111111111114,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -4892.474125444553
+      }
+    },
+    "R6_low": {
+      "do_nothing": {
+        "patient_deaths": 116.4,
+        "unmet_patient_hours": 256.0083333333333,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7424.396605577816
+      },
+      "rule_based": {
+        "patient_deaths": 61.333333333333336,
+        "unmet_patient_hours": 160.46666666666673,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -5074.096303413966
+      },
+      "ppo_2M": {
+        "patient_deaths": 64.84444444444445,
+        "unmet_patient_hours": 159.78055555555557,
+        "mean_hospital_functional_level": 0.6417919036305156,
+        "unserved_energy_mwh": 0.7057787244751458,
+        "requests_completed": 0.18888888888888888,
+        "episode_reward": -4897.486807281704
+      },
+      "mappo_2M": {
+        "patient_deaths": 59.160000000000004,
+        "unmet_patient_hours": 157.18777777777777,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.473333333333334,
+        "episode_reward": -4995.079336148438
+      },
+      "mappo_300k": {
+        "patient_deaths": 60.086666666666666,
+        "unmet_patient_hours": 158.99722222222223,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -5132.59285360468
+      }
+    },
+    "R6_high": {
+      "do_nothing": {
+        "patient_deaths": 90.93333333333334,
+        "unmet_patient_hours": 677.1333333333334,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6599.0322990773475
+      },
+      "rule_based": {
+        "patient_deaths": 27.166666666666668,
+        "unmet_patient_hours": 354.08055555555546,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3626.4269161158722
+      },
+      "ppo_2M": {
+        "patient_deaths": 36.633333333333326,
+        "unmet_patient_hours": 385.60925925925926,
+        "mean_hospital_functional_level": 0.635725510550617,
+        "unserved_energy_mwh": 2.7140535035865403,
+        "requests_completed": 0.35555555555555557,
+        "episode_reward": -3780.8102809919815
+      },
+      "mappo_2M": {
+        "patient_deaths": 29.733333333333338,
+        "unmet_patient_hours": 355.53277777777777,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.473333333333334,
+        "episode_reward": -3777.199031629096
+      },
+      "mappo_300k": {
+        "patient_deaths": 28.806666666666672,
+        "unmet_patient_hours": 367.08222222222224,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -3835.486649668374
+      }
+    },
+    "R8_low": {
+      "do_nothing": {
+        "patient_deaths": 109.70000000000002,
+        "unmet_patient_hours": 496.8583333333333,
+        "mean_hospital_functional_level": 0.4020436616363779,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7113.106979558514
+      },
+      "rule_based": {
+        "patient_deaths": 63.5,
+        "unmet_patient_hours": 341.36111111111103,
+        "mean_hospital_functional_level": 0.6119266129978282,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -5289.595632083281
+      },
+      "ppo_2M": {
+        "patient_deaths": 69.9,
+        "unmet_patient_hours": 353.8425925925926,
+        "mean_hospital_functional_level": 0.5571754532302354,
+        "unserved_energy_mwh": 5.483772169466705,
+        "requests_completed": 0.888888888888889,
+        "episode_reward": -5150.80292668006
+      },
+      "mappo_2M": {
+        "patient_deaths": 62.24666666666667,
+        "unmet_patient_hours": 345.91,
+        "mean_hospital_functional_level": 0.5735317728587571,
+        "unserved_energy_mwh": 51.788076770593634,
+        "requests_completed": 4.706666666666667,
+        "episode_reward": -5113.007536114716
+      },
+      "mappo_300k": {
+        "patient_deaths": 65.2,
+        "unmet_patient_hours": 358.1622222222222,
+        "mean_hospital_functional_level": 0.5773844591273927,
+        "unserved_energy_mwh": 42.0158385284292,
+        "requests_completed": 7.953333333333335,
+        "episode_reward": -5365.750496879594
+      }
+    },
+    "R8_high": {
+      "do_nothing": {
+        "patient_deaths": 93.63333333333334,
+        "unmet_patient_hours": 429.2833333333333,
+        "mean_hospital_functional_level": 0.49433296910209074,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6286.984252351029
+      },
+      "rule_based": {
+        "patient_deaths": 37.36666666666667,
+        "unmet_patient_hours": 237.70277777777778,
+        "mean_hospital_functional_level": 0.7362879527157473,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3791.594107732641
+      },
+      "ppo_2M": {
+        "patient_deaths": 46.35555555555556,
+        "unmet_patient_hours": 262.3537037037037,
+        "mean_hospital_functional_level": 0.6694993626811885,
+        "unserved_energy_mwh": 1.505388530817343,
+        "requests_completed": 0.28888888888888886,
+        "episode_reward": -3907.7971925622783
+      },
+      "mappo_2M": {
+        "patient_deaths": 39.58,
+        "unmet_patient_hours": 253.34222222222223,
+        "mean_hospital_functional_level": 0.684462966507601,
+        "unserved_energy_mwh": 50.63561000904518,
+        "requests_completed": 4.406666666666666,
+        "episode_reward": -3934.364664661955
+      },
+      "mappo_300k": {
+        "patient_deaths": 38.1,
+        "unmet_patient_hours": 249.64777777777778,
+        "mean_hospital_functional_level": 0.6866991448540193,
+        "unserved_energy_mwh": 38.537027387271806,
+        "requests_completed": 7.253333333333333,
+        "episode_reward": -3942.46481353537
+      }
+    },
+    "R9_low": {
+      "do_nothing": {
+        "patient_deaths": 105.8,
+        "unmet_patient_hours": 484.1166666666666,
+        "mean_hospital_functional_level": 0.43263620025340527,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7129.263863278238
+      },
+      "rule_based": {
+        "patient_deaths": 45.8,
+        "unmet_patient_hours": 283.29166666666663,
+        "mean_hospital_functional_level": 0.689310665542237,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.099999999999998,
+        "episode_reward": -4515.792681889322
+      },
+      "ppo_2M": {
+        "patient_deaths": 51.66666666666667,
+        "unmet_patient_hours": 293.5824074074074,
+        "mean_hospital_functional_level": 0.627396042221993,
+        "unserved_energy_mwh": 1.651709856725627,
+        "requests_completed": 0.2777777777777778,
+        "episode_reward": -4403.932787631268
+      },
+      "mappo_2M": {
+        "patient_deaths": 44.65333333333333,
+        "unmet_patient_hours": 278.96388888888885,
+        "mean_hospital_functional_level": 0.6437972298762928,
+        "unserved_energy_mwh": 51.13839665142946,
+        "requests_completed": 4.206666666666667,
+        "episode_reward": -4455.72394578874
+      },
+      "mappo_300k": {
+        "patient_deaths": 45.54666666666667,
+        "unmet_patient_hours": 287.0761111111111,
+        "mean_hospital_functional_level": 0.645326720469606,
+        "unserved_energy_mwh": 39.97506960902983,
+        "requests_completed": 7.140000000000001,
+        "episode_reward": -4603.3435548459765
+      }
+    },
+    "R9_high": {
+      "do_nothing": {
+        "patient_deaths": 101.73333333333332,
+        "unmet_patient_hours": 468.37777777777774,
+        "mean_hospital_functional_level": 0.4507745089014989,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -6921.413332542438
+      },
+      "rule_based": {
+        "patient_deaths": 39.233333333333334,
+        "unmet_patient_hours": 258.0388888888889,
+        "mean_hospital_functional_level": 0.7142918663064715,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4116.5778804886395
+      },
+      "ppo_2M": {
+        "patient_deaths": 46.22222222222222,
+        "unmet_patient_hours": 273.4962962962963,
+        "mean_hospital_functional_level": 0.6516891909786595,
+        "unserved_energy_mwh": 1.5526549233329479,
+        "requests_completed": 0.3,
+        "episode_reward": -4125.535454054135
+      },
+      "mappo_2M": {
+        "patient_deaths": 41.14666666666667,
+        "unmet_patient_hours": 262.2788888888889,
+        "mean_hospital_functional_level": 0.6678567103560582,
+        "unserved_energy_mwh": 50.87232666493617,
+        "requests_completed": 4.44,
+        "episode_reward": -4231.569361266807
+      },
+      "mappo_300k": {
+        "patient_deaths": 41.553333333333335,
+        "unmet_patient_hours": 270.78611111111115,
+        "mean_hospital_functional_level": 0.6682173906060038,
+        "unserved_energy_mwh": 39.568518943598434,
+        "requests_completed": 7.4399999999999995,
+        "episode_reward": -4346.152338614557
+      }
+    },
+    "R10_low": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 67.56666666666666,
+        "unmet_patient_hours": 370.2972222222222,
+        "mean_hospital_functional_level": 0.6110024770064032,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -5509.540510697053
+      },
+      "ppo_2M": {
+        "patient_deaths": 60.633333333333326,
+        "unmet_patient_hours": 333.79629629629625,
+        "mean_hospital_functional_level": 0.6208510709363914,
+        "unserved_energy_mwh": 1.6504686603455636,
+        "requests_completed": 0.3,
+        "episode_reward": -4866.853746546003
+      },
+      "mappo_2M": {
+        "patient_deaths": 55.480000000000004,
+        "unmet_patient_hours": 325.83611111111105,
+        "mean_hospital_functional_level": 0.640198789153098,
+        "unserved_energy_mwh": 56.633432320518764,
+        "requests_completed": 5.08,
+        "episode_reward": -5022.04324276266
+      },
+      "mappo_300k": {
+        "patient_deaths": 58.160000000000004,
+        "unmet_patient_hours": 344.81722222222214,
+        "mean_hospital_functional_level": 0.6225864740035223,
+        "unserved_energy_mwh": 43.37207444568732,
+        "requests_completed": 8.046666666666667,
+        "episode_reward": -5247.799252399203
+      }
+    },
+    "R10_high": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 22.666666666666664,
+        "unmet_patient_hours": 199.3527777777778,
+        "mean_hospital_functional_level": 0.7768339369866359,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -3270.5915482183973
+      },
+      "ppo_2M": {
+        "patient_deaths": 39.53333333333333,
+        "unmet_patient_hours": 234.51481481481483,
+        "mean_hospital_functional_level": 0.685033391516693,
+        "unserved_energy_mwh": 1.4045825361371327,
+        "requests_completed": 0.3,
+        "episode_reward": -3771.1510012404565
+      },
+      "mappo_2M": {
+        "patient_deaths": 32.459999999999994,
+        "unmet_patient_hours": 227.7266666666667,
+        "mean_hospital_functional_level": 0.6924815009418346,
+        "unserved_energy_mwh": 49.55629479690027,
+        "requests_completed": 4.166666666666667,
+        "episode_reward": -3773.359572050306
+      },
+      "mappo_300k": {
+        "patient_deaths": 33.339999999999996,
+        "unmet_patient_hours": 229.27944444444447,
+        "mean_hospital_functional_level": 0.6878428599505655,
+        "unserved_energy_mwh": 37.63976372581756,
+        "requests_completed": 6.933333333333333,
+        "episode_reward": -3894.7530876748206
+      }
+    },
+    "R11_low": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 32.33333333333333,
+        "unmet_patient_hours": 225.5138888888889,
+        "mean_hospital_functional_level": 0.7308958653905101,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 9.2,
+        "episode_reward": -3742.2659418972116
+      },
+      "ppo_2M": {
+        "patient_deaths": 42.355555555555554,
+        "unmet_patient_hours": 252.79537037037034,
+        "mean_hospital_functional_level": 0.6597095587202222,
+        "unserved_energy_mwh": 1.126976864751354,
+        "requests_completed": 0.3,
+        "episode_reward": -3920.8933591688083
+      },
+      "mappo_2M": {
+        "patient_deaths": 36.82,
+        "unmet_patient_hours": 246.9072222222222,
+        "mean_hospital_functional_level": 0.6767612491550866,
+        "unserved_energy_mwh": 36.896162359756204,
+        "requests_completed": 4.486666666666667,
+        "episode_reward": -3951.378938551904
+      },
+      "mappo_300k": {
+        "patient_deaths": 38.553333333333335,
+        "unmet_patient_hours": 256.81111111111113,
+        "mean_hospital_functional_level": 0.6751961588265738,
+        "unserved_energy_mwh": 28.63299102653405,
+        "requests_completed": 7.473333333333334,
+        "episode_reward": -4147.248621958169
+      }
+    },
+    "R11_high": {
+      "do_nothing": {
+        "patient_deaths": 122.46666666666667,
+        "unmet_patient_hours": 559.9722222222223,
+        "mean_hospital_functional_level": 0.35187682077497795,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -8364.846882355903
+      },
+      "rule_based": {
+        "patient_deaths": 54.83333333333333,
+        "unmet_patient_hours": 337.9361111111111,
+        "mean_hospital_functional_level": 0.6480091761466251,
+        "unserved_energy_mwh": 84.75910611956614,
+        "requests_completed": 9.2,
+        "episode_reward": -5674.116461753794
+      },
+      "ppo_2M": {
+        "patient_deaths": 60.94444444444446,
+        "unmet_patient_hours": 337.77129629629627,
+        "mean_hospital_functional_level": 0.581304407422896,
+        "unserved_energy_mwh": 2.243930804408316,
+        "requests_completed": 0.3555555555555555,
+        "episode_reward": -5264.545706735704
+      },
+      "mappo_2M": {
+        "patient_deaths": 50.019999999999996,
+        "unmet_patient_hours": 303.8783333333333,
+        "mean_hospital_functional_level": 0.6217143363380945,
+        "unserved_energy_mwh": 74.70933461593002,
+        "requests_completed": 4.553333333333333,
+        "episode_reward": -5000.008327935293
+      },
+      "mappo_300k": {
+        "patient_deaths": 51.35333333333334,
+        "unmet_patient_hours": 316.92833333333334,
+        "mean_hospital_functional_level": 0.6144068758031043,
+        "unserved_energy_mwh": 58.2871399285663,
+        "requests_completed": 7.8,
+        "episode_reward": -5255.167412886169
+      }
+    },
+    "R13": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.5223377374963538,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.41337954407
+      },
+      "rule_based": {
+        "patient_deaths": 40.2,
+        "unmet_patient_hours": 258.4000000000001,
+        "mean_hospital_functional_level": 0.7368625586805739,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4158.659681206807
+      },
+      "ppo_2M": {
+        "patient_deaths": 47.9,
+        "unmet_patient_hours": 277.61203703703706,
+        "mean_hospital_functional_level": 0.6731196567314577,
+        "unserved_energy_mwh": 1.4536306213013468,
+        "requests_completed": 0.3,
+        "episode_reward": -4208.82171548623
+      },
+      "mappo_2M": {
+        "patient_deaths": 41.29333333333334,
+        "unmet_patient_hours": 264.43888888888887,
+        "mean_hospital_functional_level": 0.6875162012162364,
+        "unserved_energy_mwh": 51.25462691839817,
+        "requests_completed": 4.406666666666666,
+        "episode_reward": -4240.971583242242
+      },
+      "mappo_300k": {
+        "patient_deaths": 42.13333333333334,
+        "unmet_patient_hours": 275.8683333333333,
+        "mean_hospital_functional_level": 0.6874307583315473,
+        "unserved_energy_mwh": 39.74621208903949,
+        "requests_completed": 7.4799999999999995,
+        "episode_reward": -4385.621006004835
+      }
+    },
+    "R14": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 43.56666666666666,
+        "unmet_patient_hours": 273.2277777777778,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4332.227820278414
+      },
+      "ppo_2M": {
+        "patient_deaths": 49.83333333333333,
+        "unmet_patient_hours": 285.8416666666667,
+        "mean_hospital_functional_level": 0.6404339456028785,
+        "unserved_energy_mwh": 1.5695393668723572,
+        "requests_completed": 0.3,
+        "episode_reward": -4308.939140904882
+      },
+      "mappo_2M": {
+        "patient_deaths": 43.42,
+        "unmet_patient_hours": 271.62999999999994,
+        "mean_hospital_functional_level": 0.6565558029940741,
+        "unserved_energy_mwh": 50.83976192983365,
+        "requests_completed": 4.446666666666667,
+        "episode_reward": -4351.251626322734
+      },
+      "mappo_300k": {
+        "patient_deaths": 43.34666666666666,
+        "unmet_patient_hours": 278.2527777777778,
+        "mean_hospital_functional_level": 0.6574310192756804,
+        "unserved_energy_mwh": 39.77451177270111,
+        "requests_completed": 7.446666666666667,
+        "episode_reward": -4446.57071030539
+      }
+    },
+    "R7_low": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 43.46666666666666,
+        "unmet_patient_hours": 272.36666666666656,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.099999999999998,
+        "episode_reward": -4342.921381108133
+      }
+    },
+    "R7_high": {
+      "do_nothing": {
+        "patient_deaths": 104.86666666666667,
+        "unmet_patient_hours": 479.25277777777774,
+        "mean_hospital_functional_level": 0.4422394497905019,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -7080.413379544072
+      },
+      "rule_based": {
+        "patient_deaths": 43.6,
+        "unmet_patient_hours": 272.6333333333334,
+        "mean_hospital_functional_level": 0.7029427609777062,
+        "unserved_energy_mwh": 2.658652949369708,
+        "requests_completed": 9.2,
+        "episode_reward": -4332.413829339641
+      }
+    },
+    "R12": {
+      "do_nothing": {
+        "patient_deaths": 78.7,
+        "unmet_patient_hours": 365.3027777777778,
+        "mean_hospital_functional_level": 0.5341772374974093,
+        "unserved_energy_mwh": 0.0,
+        "requests_completed": 0.0,
+        "episode_reward": -5411.394782893256
+      },
+      "rule_based": {
+        "patient_deaths": 67.36666666666665,
+        "unmet_patient_hours": 354.43055555555554,
+        "mean_hospital_functional_level": 0.6040007651808852,
+        "unserved_energy_mwh": 5.317305898739422,
+        "requests_completed": 9.2,
+        "episode_reward": -5177.572770468835
+      }
+    }
+  }
+}
