@@ -1,0 +1,23 @@
+{
+  "output": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/dependency_graph_v3.json",
+  "generated_at": "2026-09-28T19:17:28.015734+00:00",
+  "inputs": {
+    "dependency_graph_v2": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/dependency_graph.json",
+      "sha256": "126a5e3dd74a94b69c1b93478a376c1b0bb8477810f3d74bbdacadd13515fff5"
+    },
+    "roads": {
+      "path": "/Users/adityadd/Desktop/Aditya/IIT BOMBAY/Semester 3/MTP/mtp-udt/data/processed/roads_full.graphml",
+      "sha256": "8d69d625f4ea97890e9552344b83cde8046b4cf51326158c6c340e247c47bc8c"
+    }
+  },
+  "row_count": 247,
+  "extra": {
+    "n_assets": 247,
+    "n_edges": 343,
+    "hospital": 3,
+    "substation": 3,
+    "water": 3,
+    "road": 238
+  }
+}
