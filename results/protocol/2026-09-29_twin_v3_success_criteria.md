@@ -207,3 +207,24 @@ space. No lever that does nothing stays in the action space.
 
 Environment semantics (job slots, slack-based priority, defer-not-cancel, no automatic
 rerouting, execution order) are fixed in dev doc §3.9, "Twin-v3 environment specification".
+
+## Addendum 2026-09-29 (3): T1 replaced by a route-based T1′ (written before the suite and any gate)
+
+**Finding:** the registered T1 ("a hospital *not* expected to fail has every access road blocked
+within 6 h") occurred in **0 of 400** random twin-v3 scenarios, across all severity bands. Access
+roads are those within 100 m of a hospital, so they flood together with it: whenever a hospital's
+access closes, its own peak failure probability exceeds 0.5. The feature describes a situation
+this twin cannot produce, and oversampling cannot create it.
+
+**Replacement, T1′ (route-based alternative-destination trade-off):**
+- some hospital (the "source") has peak failure probability > 0.5; **and**
+- at some check within 6 h of onset (every 30 min), the road route from the source to the
+  alternative hospital that is nearer under no flooding is unreachable or slower than the route
+  to the farther alternative, and the farther one is reachable.
+
+It is computed from the flood field, the fragility curves and the road network only, never from
+any policy. Its natural rate is 26% (mild 0%, moderate 19%, severe 56%; 200 random scenarios).
+This is the "near hospital cut off / far hospital open" trade-off that Gate B tests.
+
+The ≥ 25%-of-train requirement and the physical oversampling rule (§3) apply to T1′, T2 and T3.
+The original T1 is still computed and reported in the manifest.
