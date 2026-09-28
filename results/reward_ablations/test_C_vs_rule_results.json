@@ -1,0 +1,174 @@
+{
+  "meta": {
+    "suite_version": "flood_suite_v2",
+    "split": "test",
+    "env_version": "udt_multi_env_v2",
+    "baseline": "results/experiment_a_flood_suite_v2/episodes.json",
+    "ppo_models": [],
+    "mappo_models": [
+      "runs/reward_ablation_models/C_seed0.pt",
+      "runs/reward_ablation_models/C_seed1.pt",
+      "runs/reward_ablation_models/C_seed2.pt",
+      "runs/reward_ablation_models/C_seed3.pt",
+      "runs/reward_ablation_models/C_seed4.pt"
+    ],
+    "eval_seeds_per_scenario": 3
+  },
+  "results": {
+    "mappo": {
+      "patient_deaths": {
+        "n_scenarios": 10,
+        "policy_mean": 47.06666666666666,
+        "policy_ci95": [
+          30.419833333333333,
+          65.74033333333333
+        ],
+        "rule_based_mean": 43.56666666666666,
+        "diff_mean_policy_minus_rule": 3.5,
+        "diff_ci95": [
+          -7.7399999999999975,
+          18.353833333333323
+        ],
+        "wilcoxon_p": 0.625,
+        "significant_at_0.05": false,
+        "policy_better": false
+      },
+      "unmet_patient_hours": {
+        "n_scenarios": 10,
+        "policy_mean": 294.97444444444443,
+        "policy_ci95": [
+          215.3644861111111,
+          372.1445694444444
+        ],
+        "rule_based_mean": 272.7916666666667,
+        "diff_mean_policy_minus_rule": 22.182777777777762,
+        "diff_ci95": [
+          -22.156375000000004,
+          75.58609722222218
+        ],
+        "wilcoxon_p": 0.845703125,
+        "significant_at_0.05": false,
+        "policy_better": false
+      },
+      "cascading_failure_count": {
+        "n_scenarios": 10,
+        "policy_mean": 3.1,
+        "policy_ci95": [
+          2.0,
+          4.0
+        ],
+        "rule_based_mean": 3.3,
+        "diff_mean_policy_minus_rule": -0.2,
+        "diff_ci95": [
+          -0.5,
+          0.0
+        ],
+        "wilcoxon_p": 0.5,
+        "significant_at_0.05": false,
+        "policy_better": true
+      },
+      "mean_hospital_functional_level": {
+        "n_scenarios": 10,
+        "policy_mean": 0.6584863205816847,
+        "policy_ci95": [
+          0.6068616429278161,
+          0.7215841286825584
+        ],
+        "rule_based_mean": 0.7029427609777062,
+        "diff_mean_policy_minus_rule": -0.044456440396021604,
+        "diff_ci95": [
+          -0.08397570496385895,
+          -0.005161052047602905
+        ],
+        "wilcoxon_p": 0.10546875,
+        "significant_at_0.05": false,
+        "policy_better": false
+      },
+      "mean_critical_functional_level": {
+        "n_scenarios": 10,
+        "policy_mean": 0.5480655721668466,
+        "policy_ci95": [
+          0.4431401797888971,
+          0.6731698876299713
+        ],
+        "rule_based_mean": 0.5904617962729398,
+        "diff_mean_policy_minus_rule": -0.04239622410609327,
+        "diff_ci95": [
+          -0.07707563961003609,
+          -0.009312827603491128
+        ],
+        "wilcoxon_p": 0.048828125,
+        "significant_at_0.05": true,
+        "policy_better": false
+      },
+      "unserved_energy_mwh": {
+        "n_scenarios": 10,
+        "policy_mean": 69.99262575938421,
+        "policy_ci95": [
+          60.570303078793934,
+          78.51600412534877
+        ],
+        "rule_based_mean": 2.658652949369708,
+        "diff_mean_policy_minus_rule": 67.3339728100145,
+        "diff_ci95": [
+          58.14523112983228,
+          76.44239503121615
+        ],
+        "wilcoxon_p": 0.001953125,
+        "significant_at_0.05": true,
+        "policy_better": false
+      },
+      "mean_ambulance_response_delay_hours": {
+        "n_scenarios": 10,
+        "policy_mean": 5.995494105505703,
+        "policy_ci95": [
+          4.4573181741768,
+          7.459295417443892
+        ],
+        "rule_based_mean": 4.300203894735086,
+        "diff_mean_policy_minus_rule": 1.6952902107706156,
+        "diff_ci95": [
+          0.7271305085661792,
+          2.645039449889983
+        ],
+        "wilcoxon_p": 0.013671875,
+        "significant_at_0.05": true,
+        "policy_better": false
+      },
+      "requests_completed": {
+        "n_scenarios": 10,
+        "policy_mean": 6.166666666666667,
+        "policy_ci95": [
+          4.226666666666667,
+          8.173333333333336
+        ],
+        "rule_based_mean": 9.2,
+        "diff_mean_policy_minus_rule": -3.033333333333333,
+        "diff_ci95": [
+          -3.9534999999999996,
+          -2.2
+        ],
+        "wilcoxon_p": 0.001953125,
+        "significant_at_0.05": true,
+        "policy_better": false
+      },
+      "episode_reward": {
+        "n_scenarios": 10,
+        "policy_mean": -4701.2032840766515,
+        "policy_ci95": [
+          -5881.612667427411,
+          -3424.811281021663
+        ],
+        "rule_based_mean": -4331.980777605449,
+        "diff_mean_policy_minus_rule": -369.2225064712027,
+        "diff_ci95": [
+          -1021.7809227396795,
+          146.96591772423687
+        ],
+        "wilcoxon_p": 0.556640625,
+        "significant_at_0.05": false,
+        "policy_better": false
+      }
+    }
+  }
+}

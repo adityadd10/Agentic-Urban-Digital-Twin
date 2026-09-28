@@ -61,3 +61,7 @@ is the third reward-design issue that learned policies respond to.
 costs unanswered calls (e.g. waiting time accrues for pending requests, or an expiry that counts
 toward the death proxy), with the prediction that dispatch recovers and the decision rule fixed in
 advance. The robustness study (pre-registered 2026-09-28) runs as planned regardless.
+
+**Addendum 2026-09-28 (after the pre-registered test):** the §4 hypothesis was tested as reward
+ablation C and **not supported**: making unanswered calls cost reduced dispatch further. See
+`results/reward_ablations/OUTCOME.md`.

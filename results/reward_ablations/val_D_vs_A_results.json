@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "label": "D",
+    "mechanism": "restoration",
+    "split": "val",
+    "a": [
+      "results/baseline-300k/models/mappo_seed0.pt",
+      "results/baseline-300k/models/mappo_seed1.pt",
+      "results/baseline-300k/models/mappo_seed2.pt",
+      "results/baseline-300k/models/mappo_seed3.pt",
+      "results/baseline-300k/models/mappo_seed4.pt"
+    ],
+    "x": [
+      "runs/reward_ablation_models/D_seed0.pt",
+      "runs/reward_ablation_models/D_seed1.pt",
+      "runs/reward_ablation_models/D_seed2.pt",
+      "runs/reward_ablation_models/D_seed3.pt",
+      "runs/reward_ablation_models/D_seed4.pt"
+    ]
+  },
+  "results": {
+    "patient_deaths": {
+      "n_scenarios": 10,
+      "A_mean": 61.459999999999994,
+      "X_mean": 64.03999999999999,
+      "diff_X_minus_A": 2.5799999999999987,
+      "diff_ci95": [
+        -0.6466666666666675,
+        6.793499999999996
+      ],
+      "wilcoxon_p": 0.5703125,
+      "rule_based_mean": 57.033333333333324
+    },
+    "unmet_patient_hours": {
+      "n_scenarios": 10,
+      "A_mean": 328.60111111111115,
+      "X_mean": 330.5427777777778,
+      "diff_X_minus_A": 1.9416666666666829,
+      "diff_ci95": [
+        -9.401361111111086,
+        15.274680555555559
+      ],
+      "wilcoxon_p": 1.0,
+      "rule_based_mean": 310.26388888888897
+    },
+    "requests_completed": {
+      "n_scenarios": 10,
+      "A_mean": 8.586666666666666,
+      "X_mean": 7.046666666666665,
+      "diff_X_minus_A": -1.5400000000000005,
+      "diff_ci95": [
+        -2.1735000000000007,
+        -0.9466666666666669
+      ],
+      "wilcoxon_p": 0.00390625,
+      "rule_based_mean": 13.733333333333334
+    },
+    "requests_pending_at_end": {
+      "n_scenarios": 10,
+      "A_mean": 17.639999999999997,
+      "X_mean": 18.886666666666667,
+      "diff_X_minus_A": 1.2466666666666675,
+      "diff_ci95": [
+        0.41333333333333544,
+        2.106833333333332
+      ],
+      "wilcoxon_p": 0.0234375,
+      "rule_based_mean": 15.0
+    },
+    "restoration": {
+      "n_scenarios": 8,
+      "A_mean": 0.3541666666666667,
+      "X_mean": 0.4125,
+      "diff_X_minus_A": 0.058333333333333307,
+      "diff_ci95": [
+        -0.03333333333333336,
+        0.15416666666666662
+      ],
+      "wilcoxon_p": 0.4375
+    },
+    "mean_hospital_functional_level": {
+      "n_scenarios": 10,
+      "A_mean": 0.667151085533747,
+      "X_mean": 0.6584580392746358,
+      "diff_X_minus_A": -0.008693046259111225,
+      "diff_ci95": [
+        -0.017082668526843012,
+        -0.0019812592336132155
+      ],
+      "wilcoxon_p": 0.0390625,
+      "rule_based_mean": 0.6668974859575878
+    },
+    "unserved_energy_mwh": {
+      "n_scenarios": 10,
+      "A_mean": 39.42995788982144,
+      "X_mean": 37.578032052196214,
+      "diff_X_minus_A": -1.8519258376252261,
+      "diff_ci95": [
+        -11.6822447634275,
+        8.190927086059938
+      ],
+      "wilcoxon_p": 0.734375,
+      "rule_based_mean": 1.6673161772234952
+    },
+    "cascading_failure_count": {
+      "n_scenarios": 10,
+      "A_mean": 1.8800000000000001,
+      "X_mean": 1.92,
+      "diff_X_minus_A": 0.040000000000000015,
+      "diff_ci95": [
+        0.0,
+        0.12000000000000004
+      ],
+      "wilcoxon_p": 1.0,
+      "rule_based_mean": 2.5
+    },
+    "episode_reward": {
+      "n_scenarios": 10,
+      "A_mean": -4775.475578170661,
+      "X_mean": -4839.799746410465,
+      "diff_X_minus_A": -64.32416823980478,
+      "diff_ci95": [
+        -265.3835154281272,
+        111.91432822476732
+      ],
+      "wilcoxon_p": 0.91015625,
+      "rule_based_mean": -4718.974808458447
+    }
+  },
+  "decision": {
+    "(a) restoration: higher than A with p < 0.05": false,
+    "(b) non-inferior (upper CI of X-A <= +10% of A)": {
+      "patient_deaths": false,
+      "unmet_patient_hours": true
+    },
+    "verdict": "REJECT D"
+  }
+}
