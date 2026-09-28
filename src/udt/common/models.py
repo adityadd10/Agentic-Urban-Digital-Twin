@@ -182,6 +182,11 @@ class AgentAction(BaseModel):
     idle ambulances should be assigned; `Simulator.step` enacting this is
     what actually commits the routing decision (`twin/ambulances.py`'s
     `dispatch_ambulance`)."""
+    ambulance_destination: dict[str, str] | None = None
+    """Twin-v3 (dev doc §3.9, mechanic 1): {ambulance_asset_id: hospital_id},
+    the hospital a casualty collected by that ambulance is taken to. A missing
+    entry (or None) means the ambulance's home hospital, which is exactly
+    twin-v2 behaviour."""
     patient_transfer: tuple[str, str, int] | None = None
     """(from_hospital_id, to_hospital_id, count) — dev doc §5.3's "per
     hospital-pair transfer decision", §5.6's "transfer patients out of

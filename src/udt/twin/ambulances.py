@@ -41,6 +41,12 @@ dispatch action, module M4).
   hospital queues) is removed and counted as a death. **Off by default**:
   twin-v2 behaviour, and every v2 result, stays bit-identical; twin-v3
   turns it on.
+- **Destination choice (2026-09-29, dev doc §3.9 mechanic 1).**
+  `dispatch_ambulance` takes an optional destination hospital. With none, or
+  the home hospital, nothing changes from twin-v2 (pickup -> home, deliver
+  there). Otherwise the trip has three legs: home -> pickup, pickup ->
+  destination (deliver there), destination -> home (empty). All three are
+  routed when dispatched and must be reachable then, like v2's two legs.
 """
 
 from __future__ import annotations
@@ -137,26 +143,43 @@ def dispatch_ambulance(
     road_network: RoadNetwork,
     ambulance_id: str,
     request: dict[str, Any],
+    destination_hospital_id: str | None = None,
 ) -> bool:
-    """Commits an idle ambulance to a request: computes both legs'
-    real travel times up front (pickup, then return) via `road_network`
-    (assumes `road_network.update_for_tick` was already called for the
-    current tick — same requirement as the deciding agent's own query),
-    and sets the ambulance to `enroute`. Returns `False` (no state change)
-    if no route currently exists to or from the pickup point — a flood
-    can genuinely cut a request off, and that's a real outcome, not an
-    error to hide."""
+    """Commits an idle ambulance to a request: computes every leg's real
+    travel time up front via `road_network` (assumes `road_network.
+    update_for_tick` was already called for the current tick, the same
+    requirement as the deciding agent's own query) and sets the ambulance
+    to `enroute`. Legs: home -> pickup, then pickup -> the destination
+    hospital (default: home), then, if the destination is not home, an
+    empty leg back home. Returns `False` (no state change) if any leg has no
+    route right now: a flood can genuinely cut a request off, and that's a
+    real outcome, not an error to hide."""
     ambulance: Asset = graph.nodes[ambulance_id]["asset"]
     home_node = ambulance.attributes["home_node"]
+    home_hospital_id = ambulance.attributes["home_hospital_id"]
     pickup_node = road_network.nearest_node(*request["location"])
     to_pickup = road_network.travel_time_minutes(home_node, pickup_node)
-    to_home = road_network.travel_time_minutes(pickup_node, home_node)
-    if to_pickup is None or to_home is None:
+    back_home: float | None = 0.0
+    if destination_hospital_id is None or destination_hospital_id == home_hospital_id:
+        destination_hospital_id = None
+        to_destination = road_network.travel_time_minutes(pickup_node, home_node)
+    else:
+        destination: Asset = graph.nodes[destination_hospital_id]["asset"]
+        if destination.asset_type != AssetType.HOSPITAL:
+            raise ValueError(f"{destination_hospital_id!r} is not a hospital")
+        lon, lat = destination.geometry["coordinates"][0], destination.geometry["coordinates"][1]
+        destination_node = road_network.nearest_node(lon, lat)
+        to_destination = road_network.travel_time_minutes(pickup_node, destination_node)
+        back_home = road_network.travel_time_minutes(destination_node, home_node)
+    if to_pickup is None or to_destination is None or back_home is None:
         return False
     ambulance.attributes["status"] = "enroute"
     ambulance.attributes["assigned_request_id"] = request["request_id"]
     ambulance.attributes["remaining_travel_min"] = to_pickup
-    ambulance.attributes["return_travel_min"] = to_home
+    ambulance.attributes["return_travel_min"] = to_destination
+    if destination_hospital_id is not None:  # only set off-home, so v2 state is untouched
+        ambulance.attributes["delivery_hospital_id"] = destination_hospital_id
+        ambulance.attributes["final_return_min"] = back_home
     return True
 
 
@@ -201,10 +224,15 @@ def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> 
                 attrs["carrying_patient"] = True
             attrs["status"] = "returning"
             attrs["remaining_travel_min"] = float(attrs.get("return_travel_min", 0.0))
-        else:  # "returning" leg just completed -> back home, idle again
+        else:  # "returning" leg just completed: at the destination, or back home
             if attrs.get("carrying_patient"):
-                _deliver_casualty(graph, str(attrs["home_hospital_id"]), tick)
+                destination = attrs.pop("delivery_hospital_id", None) or attrs["home_hospital_id"]
+                _deliver_casualty(graph, str(destination), tick)
                 attrs["carrying_patient"] = False
+                back_home = float(attrs.pop("final_return_min", 0.0))
+                if back_home > 0:  # delivered away from home: drive back empty
+                    attrs["remaining_travel_min"] = back_home
+                    continue
             attrs["status"] = "idle"
             attrs["assigned_request_id"] = None
             attrs["remaining_travel_min"] = 0.0

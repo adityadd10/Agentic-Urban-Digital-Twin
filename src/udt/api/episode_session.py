@@ -285,6 +285,9 @@ class EpisodeSession:
                 ambulance_assignment=(
                     self._current_action.ambulance_assignment if is_decision_tick else None
                 ),
+                ambulance_destination=(
+                    self._current_action.ambulance_destination if is_decision_tick else None
+                ),
                 patient_transfer=(
                     self._current_action.patient_transfer if is_decision_tick else None
                 ),

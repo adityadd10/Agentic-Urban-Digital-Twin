@@ -253,3 +253,96 @@ def test_rule_v2_dispatches_every_idle_ambulance_and_skips_unreachable_calls() -
     assignment = RuleBasedAgentV2().act(graph, tick=3, road_network=rn).ambulance_assignment
     assert assignment is not None
     assert sorted(assignment.values()) == ["A", "B"]
+
+
+# --- Destination choice (dev doc §3.9 mechanic 1) -----------------------------
+
+
+def _two_hospital_graph() -> nx.DiGraph:
+    """H1 at node "0", H2 at node "3" of a 3-edge chain."""
+    h1 = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.88, 19.07]},
+        attributes={},
+    )
+    h2 = Asset(
+        asset_id="H2",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.883, 19.07]},
+        attributes={},
+    )
+    return build_networkx_graph(DependencyGraph(assets=[h1, h2], edges=[]))
+
+
+def _complete_leg(graph: nx.DiGraph, amb_id: str, tick: int) -> list[float]:
+    graph.nodes[amb_id]["asset"].attributes["remaining_travel_min"] = 1.0
+    return advance_ambulances(graph, tick=tick, dt_minutes=5.0)
+
+
+@pytest.mark.phase4
+def test_destination_home_is_identical_to_no_destination() -> None:
+    rn = _road_network_chain(3)
+    states = []
+    for destination in (None, "H1"):
+        graph = _two_hospital_graph()
+        spawn_ambulances(graph, rn, n_per_hospital=1)
+        request = {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+        assert dispatch_ambulance(graph, rn, "AMB_H1_0", request, destination)
+        states.append(dict(graph.nodes["AMB_H1_0"]["asset"].attributes))
+    assert states[0] == states[1]
+    assert "delivery_hospital_id" not in states[0]
+
+
+@pytest.mark.phase4
+def test_casualty_is_delivered_to_the_chosen_hospital_then_ambulance_returns_home() -> None:
+    graph = _two_hospital_graph()
+    rn = _road_network_chain(3)
+    spawn_ambulances(graph, rn, n_per_hospital=1)
+    amb = "AMB_H1_0"
+    request = {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+    graph.graph["pending_requests"] = [request]
+    assert dispatch_ambulance(graph, rn, amb, request, "H2")
+    attrs = graph.nodes[amb]["asset"].attributes
+    assert attrs["delivery_hospital_id"] == "H2" and attrs["final_return_min"] > 0
+
+    _complete_leg(graph, amb, tick=1)  # pickup
+    assert attrs["carrying_patient"] is True
+    _complete_leg(graph, amb, tick=2)  # arrive at H2, deliver
+    assert graph.nodes["H2"]["asset"].attributes["queue_arrivals"] == [2]
+    assert "queue_arrivals" not in graph.nodes["H1"]["asset"].attributes
+    assert attrs["status"] == "returning" and not attrs["carrying_patient"]
+    _complete_leg(graph, amb, tick=3)  # empty leg back home
+    assert attrs["status"] == "idle"
+    assert "delivery_hospital_id" not in attrs and "final_return_min" not in attrs
+
+
+@pytest.mark.phase4
+def test_destination_must_be_a_hospital() -> None:
+    graph = _two_hospital_graph()
+    rn = _road_network_chain(3)
+    spawn_ambulances(graph, rn, n_per_hospital=1)
+    request = {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+    with pytest.raises(ValueError):
+        dispatch_ambulance(graph, rn, "AMB_H1_0", request, "AMB_H2_0")
+
+
+@pytest.mark.phase4
+def test_simulator_passes_the_destination_through() -> None:
+    h1 = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.88, 19.07]},
+        attributes={},
+    )
+    h2 = h1.model_copy(
+        update={"asset_id": "H2", "geometry": {"type": "Point", "coordinates": [72.883, 19.07]}}
+    )
+    rn = _road_network_chain(3)
+    sim = Simulator(DependencyGraph(assets=[h1, h2], edges=[]), road_network=rn)
+    spawn_ambulances(sim.graph, rn, n_per_hospital=1)
+    request = {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+    sim.graph.graph["pending_requests"] = [request]
+    sim.step(ambulance_assignment={"AMB_H1_0": "R"}, ambulance_destination={"AMB_H1_0": "H2"})
+    attrs = sim.graph.nodes["AMB_H1_0"]["asset"].attributes
+    assert attrs["delivery_hospital_id"] == "H2"

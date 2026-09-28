@@ -336,6 +336,9 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
                 ambulance_assignment=(
                     agent_action.ambulance_assignment if tick_in_interval == 0 else None
                 ),
+                ambulance_destination=(
+                    agent_action.ambulance_destination if tick_in_interval == 0 else None
+                ),
                 patient_transfer=agent_action.patient_transfer if tick_in_interval == 0 else None,
                 shed_tier=agent_action.shed_tier if tick_in_interval == 0 else None,
             )

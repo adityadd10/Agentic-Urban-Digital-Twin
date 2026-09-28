@@ -237,6 +237,7 @@ class Simulator:
         repair_target: str | None = None,
         repair_rate: float = DEFAULT_REPAIR_RATE_PER_TICK,
         ambulance_assignment: dict[str, str] | None = None,
+        ambulance_destination: dict[str, str] | None = None,
         patient_transfer: tuple[str, str, int] | None = None,
         shed_tier: dict[str, int] | None = None,
     ) -> TwinState:
@@ -314,7 +315,13 @@ class Simulator:
                         continue  # stale/invalid decision — already busy, ignore
                     request = next((r for r in pending if r["request_id"] == request_id), None)
                     if request is not None:
-                        dispatch_ambulance(self.graph, self.road_network, ambulance_id, request)
+                        dispatch_ambulance(
+                            self.graph,
+                            self.road_network,
+                            ambulance_id,
+                            request,
+                            (ambulance_destination or {}).get(ambulance_id),
+                        )
             response_times_this_tick = advance_ambulances(self.graph, self.tick, self.dt_minutes)
             if _ambulances.COUNT_UNCOLLECTED_CASUALTY_DEATHS:
                 expired = expire_uncollected_requests(self.graph, self.tick, self.dt_hours)

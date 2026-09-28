@@ -103,6 +103,7 @@ def _run_one_rollout(
             # every other harness in this codebase uses for `AgentAction`.
             repair_target=action.repair_target if tick_in_rollout == 0 else None,
             ambulance_assignment=action.ambulance_assignment if tick_in_rollout == 0 else None,
+            ambulance_destination=action.ambulance_destination if tick_in_rollout == 0 else None,
             patient_transfer=action.patient_transfer if tick_in_rollout == 0 else None,
             shed_tier=action.shed_tier if tick_in_rollout == 0 else None,
         )

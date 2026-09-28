@@ -179,6 +179,7 @@ def run_episode(
             degradation_fn=degradation_fn,
             repair_target=action.repair_target if is_decision_tick else None,
             ambulance_assignment=action.ambulance_assignment if is_decision_tick else None,
+            ambulance_destination=action.ambulance_destination if is_decision_tick else None,
             patient_transfer=action.patient_transfer if is_decision_tick else None,
             shed_tier=action.shed_tier if is_decision_tick else None,
         )
