@@ -8,8 +8,9 @@ Like `generate_scenarios.py` (v2), with twin-v3 strata and trade-off features:
   scenarios in seed order;
 - trade-off features T1'' (condition-based destination trade-off, addendum 5),
   T2 (multi-facility threat) and T3 (high call volume) come from the flood
-  physics only (`udt.scenarios.tradeoffs`). On train each must reach `tradeoff_min_share_train` (deterministic quota swaps within
-  a cell; see `sample_split`). No policy is ever run. T3's median is the train
+  physics only (`udt.scenarios.tradeoffs`). On train each must reach
+  `tradeoff_min_share_train` (deterministic quota swaps within a cell; see
+  `sample_split`). No policy is ever run. T3's median is the train
   split's median of expected calls; T1 (as registered, unattainable) is reported;
 - the same leakage checks as v2; every file is written read-only and its SHA-256
   recorded. The manifest records the generating commit (the relevant code must be
