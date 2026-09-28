@@ -20,6 +20,12 @@ features never selects scenarios by how a policy performs.
   the route from it to the alternative hospital that is nearer without
   flooding is unreachable or slower than the route to the farther one, which
   is reachable. Needs a `RoadNetwork` (`route_tradeoff`).
+- T1'' (condition-based destination trade-off, protocol addendum 5; the
+  suite's destination trade-off): a hospital is threatened if peak failure
+  probability > 0.5 for it or any facility in its supply chain (power
+  substation, water pump, the pump's substation). T1'' holds if some
+  threatened hospital's nearer alternative (dry-road travel time) is also
+  threatened while the farther one is not (`destination_tradeoff`).
 - T3 (high call volume): expected emergency calls above the suite median; the
   expected count is `rate x severity x 24 h`, and the median is taken over the
   split in the generator.
@@ -143,5 +149,64 @@ def route_tradeoff(
         t_near = road_network.travel_time_minutes(src, node[near])
         t_far = road_network.travel_time_minutes(src, node[far])
         if t_far is not None and (t_near is None or t_far < t_near):
+            return True
+    return False
+
+
+def supply_chains(graph: DependencyGraph) -> dict[str, set[str]]:
+    """Each hospital plus its power and water suppliers and the pumps' power suppliers."""
+    chains: dict[str, set[str]] = {}
+    for h in (a.asset_id for a in graph.assets if a.asset_type == AssetType.HOSPITAL):
+        chain = {h}
+        for e in graph.edges:
+            if e.consumer == h and e.kind in ("power", "water"):
+                chain.add(e.supplier)
+                chain |= {
+                    e2.supplier
+                    for e2 in graph.edges
+                    if e2.consumer == e.supplier and e2.kind == "power"
+                }
+        chains[h] = chain
+    return chains
+
+
+def dry_travel_minutes(
+    graph: DependencyGraph, road_network: RoadNetwork
+) -> dict[tuple[str, str], float]:
+    """Hospital-to-hospital travel times with no flooding."""
+    from udt.common.models import Incident
+
+    dry = Incident(
+        incident_id="__dry_roads__",
+        type="flood",
+        location={"type": "Point", "coordinates": [0.0, 0.0]},
+        onset_tick=0,
+        severity=0.0,
+        directly_affected_assets=[],
+    )
+    road_network.update_for_tick(dry, 0, 5.0)
+    hospitals = [a for a in graph.assets if a.asset_type == AssetType.HOSPITAL]
+    nodes = {h.asset_id: road_network.nearest_node(*_lon_lat(h)) for h in hospitals}
+    out: dict[tuple[str, str], float] = {}
+    for a in nodes:
+        for b in nodes:
+            if a != b:
+                t = road_network.travel_time_minutes(nodes[a], nodes[b])
+                out[(a, b)] = t if t is not None else float("inf")
+    return out
+
+
+def destination_tradeoff(
+    chains: dict[str, set[str]],
+    dry_minutes: dict[tuple[str, str], float],
+    p_fail: dict[str, float],
+) -> bool:
+    """T1'' (see module docstring)."""
+    threatened = {h: max(p_fail[x] for x in chain) > 0.5 for h, chain in chains.items()}
+    for src, is_threatened in threatened.items():
+        if not is_threatened:
+            continue
+        others = sorted((o for o in chains if o != src), key=lambda o: dry_minutes[(src, o)])
+        if len(others) >= 2 and threatened[others[0]] and not threatened[others[-1]]:
             return True
     return False

@@ -243,3 +243,23 @@ itself and every earlier result are unaffected.
 **Consequence:** neither road-based definition (T1: 0/400; T1′: 3/400) can meet the ≥ 25%
 requirement. No suite has been generated; generation stopped on this check. A replacement
 definition is pending the user's decision (addendum 5).
+
+## Addendum 2026-09-29 (5): T1″, a condition-based destination trade-off (written before the suite and any gate)
+
+Approved by the user after addendum 4. It replaces T1/T1′ as the destination trade-off that §3
+requires in ≥ 25% of train scenarios.
+
+**T1″ (near-but-threatened vs far-but-safe):**
+- A hospital is **threatened** if the peak failure probability (fragility curve at peak depth)
+  exceeds 0.5 for the hospital itself or any facility in its supply chain: its power
+  substation, its water pump, or the pump's substation.
+- T1″ holds if some threatened hospital's **nearer** alternative (by travel time with no
+  flooding) is also threatened while the **farther** alternative is not.
+
+It is computed from the flood field, the fragility curves, the dependency graph and dry-road
+travel times only, never from any policy. Its measured rate is 39% (155/400, unique ids),
+present in 8 of the 9 sector × severity cells.
+
+The oversampling rule is unchanged (deterministic within-cell swaps). T1 and T1′ are still
+computed and reported in the manifest. Gate B is unchanged: it tests whether destination choice
+changes outcomes, now on a suite that is guaranteed to contain the situation where it should.

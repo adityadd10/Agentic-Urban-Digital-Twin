@@ -6,8 +6,8 @@ Like `generate_scenarios.py` (v2), with twin-v3 strata and trade-off features:
 - strata = flood-centre sector (nearest hospital) x severity band (3 x 3 cells);
   each cell gets floor(n / 9) scenarios, the n mod 9 extra slots go to the next
   scenarios in seed order;
-- trade-off features T1' (route-based), T2 (multi-facility threat) and T3 (high
-  call volume) come from the flood physics only (`udt.scenarios.tradeoffs`). On
+- trade-off features T1'' (condition-based destination trade-off, addendum 5),
+  T2 (multi-facility threat) and T3 (high call volume) come from the flood physics only (`udt.scenarios.tradeoffs`). On
   train each must reach `tradeoff_min_share_train` (deterministic quota swaps within
   a cell; see `sample_split`). No policy is ever run. T3's median is the train
   split's median of expected calls; T1 (as registered, unattainable) is reported;
@@ -53,7 +53,10 @@ from udt.scenarios.suite import (  # noqa: E402
 )
 from udt.scenarios.tradeoffs import (  # noqa: E402
     SEVERITY_BANDS,
+    destination_tradeoff,
+    dry_travel_minutes,
     route_tradeoff,
+    supply_chains,
     tradeoff_features,
 )
 from udt.twin.road_network import RoadNetwork  # noqa: E402
@@ -80,9 +83,14 @@ def _git(*args: str) -> str:
     ).stdout.strip()
 
 
-def _features(sc: Scenario, graph: DependencyGraph, raster: Any, rn: RoadNetwork) -> dict[str, Any]:
+def _features(
+    sc: Scenario, graph: DependencyGraph, raster: Any, rn: RoadNetwork, context: dict[str, Any]
+) -> dict[str, Any]:
     f = tradeoff_features(sc, graph, raster)
     f["T1p_route_tradeoff"] = route_tradeoff(sc, graph, rn, f["p_fail"])
+    f["T1pp_destination_tradeoff"] = destination_tradeoff(
+        context["chains"], context["dry_minutes"], f["p_fail"]
+    )
     return f
 
 
@@ -100,6 +108,7 @@ def sample_split(
     hospitals: list[str],
     quotas: dict[str, int],
     suite_version: str,
+    context: dict[str, Any],
 ) -> tuple[list[Scenario], list[dict[str, Any]]]:
     """Two stages, deterministic, physics only:
     1. Scan seeds upward, keeping per-cell candidate pools in seed order. Picks =
@@ -119,7 +128,7 @@ def sample_split(
             ward_boundary_geojson=ward_geojson,
             seed=seed,
         )
-        f = _features(sc, graph, raster, rn)
+        f = _features(sc, graph, raster, rn, context)
         f["seed"] = seed
         cell = (f["sector"], f["severity_band"])
         if len(pools[cell]) < per_cell + POOL_EXTRA_PER_CELL:
@@ -207,9 +216,10 @@ def main() -> None:
     features: dict[str, list[dict[str, Any]]] = {}
     with SusceptibilityRaster(processed / "flood_susceptibility.tif") as raster:
         rn = RoadNetwork.load(processed / "roads_full.graphml", raster)
+        context = {"chains": supply_chains(graph), "dry_minutes": dry_travel_minutes(graph, rn)}
         for name, spec in cfg["splits"].items():
             k = math.ceil(cfg["tradeoff_min_share_train"] * spec["n"]) if name == "train" else 0
-            quotas = {"T1p_route_tradeoff": k, "T2_multi_facility_threat": k} if k else {}
+            quotas = {"T1pp_destination_tradeoff": k, "T2_multi_facility_threat": k} if k else {}
             splits[name], features[name] = sample_split(
                 name,
                 spec["n"],
@@ -221,6 +231,7 @@ def main() -> None:
                 hospitals,
                 quotas,
                 cfg["suite_version"],
+                context,
             )
 
     median_calls = float(np.median([f["expected_calls"] for f in features["train"]]))
@@ -233,6 +244,7 @@ def main() -> None:
             for k in (
                 "T1_alt_access_closure",
                 "T1p_route_tradeoff",
+                "T1pp_destination_tradeoff",
                 "T2_multi_facility_threat",
                 "T3_high_call_volume",
             )
@@ -267,7 +279,7 @@ def main() -> None:
     need = cfg["tradeoff_min_share_train"]
     checks["train_tradeoff_shares_met"] = all(
         share["train"][k] >= need
-        for k in ("T1p_route_tradeoff", "T2_multi_facility_threat", "T3_high_call_volume")
+        for k in ("T1pp_destination_tradeoff", "T2_multi_facility_threat", "T3_high_call_volume")
     )
     must_pass = [
         "seeds_disjoint_across_splits",
