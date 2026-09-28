@@ -92,6 +92,7 @@ def compute_episode_metrics(
         uncollected_casualty_deaths=(
             trace[-1].uncollected_casualty_deaths_cumulative if trace else 0
         ),
+        transfers_completed=trace[-1].transfers_completed_cumulative if trace else 0,
         mean_ambulance_response_delay_hours=(
             float(np.mean(response_times_hours)) if response_times_hours else None
         ),

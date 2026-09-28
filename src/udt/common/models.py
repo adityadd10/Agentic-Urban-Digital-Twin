@@ -117,6 +117,8 @@ class TwinState(BaseModel):
     cascading_failure_count: int = 0
     patient_deaths_cumulative: int = 0
     uncollected_casualty_deaths_cumulative: int = 0
+    transfers_completed_cumulative: int = 0  # twin-v3 transfer jobs delivered
+    pending_transfers_count: int = 0  # twin-v3 transfer jobs not yet picked up
     """Part of `patient_deaths_cumulative`: calls never answered within the
     wait deadline (dev doc §3.9 item 2). Always 0 in twin-v2."""
     ambulance_response_times_this_tick: list[float] = Field(default_factory=list)
@@ -187,6 +189,10 @@ class AgentAction(BaseModel):
     the hospital a casualty collected by that ambulance is taken to. A missing
     entry (or None) means the ambulance's home hospital, which is exactly
     twin-v2 behaviour."""
+    transfer_requests: list[tuple[str, int, str]] | None = None
+    """Twin-v3 (dev doc §3.9 mechanic 3), health's action: `(from_hospital_id,
+    count, urgency)`; each patient becomes a transfer job that transport serves
+    with `ambulance_assignment` / `ambulance_destination`."""
     divert: dict[str, bool] | None = None
     """Twin-v3 (dev doc §3.9 mechanic 2): {hospital_id: diverting?}. Persistent
     until changed, like `shed_tier`; a diverting hospital redirects a share of new
@@ -228,6 +234,7 @@ class EpisodeMetrics(BaseModel):
     unmet_patient_hours: float  # sum over ticks of (total queued patients x dt_hours)
     patient_deaths: int  # dev doc §5.4's simplified mortality proxy
     uncollected_casualty_deaths: int = 0  # part of patient_deaths (dev doc §3.9); 0 in twin-v2
+    transfers_completed: int = 0  # twin-v3 transfer jobs delivered; 0 in twin-v2
     mean_ambulance_response_delay_hours: float | None = None  # None = no request completed
     requests_completed: int = 0
     requests_pending_at_end: int = 0

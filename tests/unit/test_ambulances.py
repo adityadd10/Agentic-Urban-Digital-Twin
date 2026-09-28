@@ -12,6 +12,7 @@ from shapely.geometry import Point, Polygon
 from udt.common.models import Asset, AssetType, DependencyGraph, Incident
 from udt.twin import ambulances
 from udt.twin.ambulances import (
+    add_transfer_requests,
     advance_ambulances,
     dispatch_ambulance,
     expire_uncollected_requests,
@@ -346,3 +347,104 @@ def test_simulator_passes_the_destination_through() -> None:
     sim.step(ambulance_assignment={"AMB_H1_0": "R"}, ambulance_destination={"AMB_H1_0": "H2"})
     attrs = sim.graph.nodes["AMB_H1_0"]["asset"].attributes
     assert attrs["delivery_hospital_id"] == "H2"
+
+
+# --- Transfer requests (dev doc §3.9 mechanic 3) -------------------------------
+
+
+def _transfer_setup(queue: list[int], beds_occupied: int = 5) -> tuple[nx.DiGraph, RoadNetwork]:
+    graph = _two_hospital_graph()
+    rn = _road_network_chain(3)
+    spawn_ambulances(graph, rn, n_per_hospital=1)
+    h1 = graph.nodes["H1"]["asset"].attributes
+    h1.update(
+        {"queue_arrivals": queue, "patient_queue": len(queue), "beds_occupied": beds_occupied}
+    )
+    return graph, rn
+
+
+@pytest.mark.phase4
+def test_transfer_requests_become_one_job_per_patient_at_the_source() -> None:
+    graph, _ = _transfer_setup([])
+    assert add_transfer_requests(graph, tick=4, requests=[("H1", 3, "urgent")]) == 3
+    jobs = graph.graph["transfer_requests"]
+    assert len(jobs) == 3 and len({j["request_id"] for j in jobs}) == 3
+    assert all(j["from_hospital_id"] == "H1" and j["urgency"] == "urgent" for j in jobs)
+    assert jobs[0]["location"] == (72.88, 19.07)
+    with pytest.raises(ValueError):
+        add_transfer_requests(graph, tick=4, requests=[("AMB_H1_0", 1, "routine")])
+
+
+@pytest.mark.phase4
+def test_transfer_moves_the_longest_waiting_patient_and_keeps_their_wait_start() -> None:
+    graph, rn = _transfer_setup(queue=[2, 5])
+    add_transfer_requests(graph, tick=6, requests=[("H1", 1, "urgent")])
+    job = graph.graph["transfer_requests"][0]
+    amb = "AMB_H2_0"  # stationed at H2, collects from H1, brings back to H2
+    assert dispatch_ambulance(graph, rn, amb, job, "H2")
+    assert _complete_leg(graph, amb, tick=7) == []  # pickup: no response time for transfers
+    h1 = graph.nodes["H1"]["asset"].attributes
+    assert h1["queue_arrivals"] == [5] and graph.graph["transfer_requests"] == []
+    _complete_leg(graph, amb, tick=8)  # delivered at H2 (home)
+    assert graph.nodes["H2"]["asset"].attributes["queue_arrivals"] == [2]  # original wait start
+    assert graph.graph["transfers_completed"] == 1
+
+
+@pytest.mark.phase4
+def test_transfer_takes_an_admitted_patient_when_nobody_is_queued() -> None:
+    graph, rn = _transfer_setup(queue=[], beds_occupied=5)
+    add_transfer_requests(graph, tick=6, requests=[("H1", 1, "routine")])
+    job = graph.graph["transfer_requests"][0]
+    assert dispatch_ambulance(graph, rn, "AMB_H2_0", job, "H2")
+    _complete_leg(graph, "AMB_H2_0", tick=7)
+    assert graph.nodes["H1"]["asset"].attributes["beds_occupied"] == 4
+    _complete_leg(graph, "AMB_H2_0", tick=8)
+    assert graph.nodes["H2"]["asset"].attributes["queue_arrivals"] == [8]  # delivery tick
+
+
+@pytest.mark.phase4
+def test_simulator_creates_and_serves_transfer_jobs() -> None:
+    h1 = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.88, 19.07]},
+        attributes={"beds_total": 10, "beds_occupied": 10, "queue_arrivals": [0]},
+    )
+    h2 = h1.model_copy(
+        update={
+            "asset_id": "H2",
+            "geometry": {"type": "Point", "coordinates": [72.883, 19.07]},
+            "attributes": {"beds_total": 10, "beds_occupied": 0, "queue_arrivals": []},
+        }
+    )
+    rn = _road_network_chain(3)
+    sim = Simulator(DependencyGraph(assets=[h1, h2], edges=[]), road_network=rn)
+    spawn_ambulances(sim.graph, rn, n_per_hospital=1)
+    state = sim.step(transfer_requests=[("H1", 1, "urgent")])
+    assert state.pending_transfers_count == 1
+    job_id = sim.graph.graph["transfer_requests"][0]["request_id"]
+    sim.step(ambulance_assignment={"AMB_H1_0": job_id}, ambulance_destination={"AMB_H1_0": "H2"})
+    assert sim.graph.nodes["AMB_H1_0"]["asset"].attributes["assigned_request_id"] == job_id
+
+
+@pytest.mark.phase4
+def test_route_safety_check_covers_transfer_jobs() -> None:
+    from udt.common.models import AgentAction
+    from udt.constraints.engine import check
+
+    graph, rn = _transfer_setup([])
+    rn.graph.add_node("island", x=99.0, y=99.0)
+    rn._node_ids.append("island")
+    rn._node_xy = np.vstack([rn._node_xy, [[99.0, 99.0]]])
+    graph.graph["transfer_requests"] = [
+        {
+            "request_id": "TR_X",
+            "kind": "transfer",
+            "from_hospital_id": "H1",
+            "location": (99.0, 99.0),
+            "requested_at_tick": 0,
+            "urgency": "urgent",
+        }
+    ]
+    report = check(graph, AgentAction(ambulance_assignment={"AMB_H1_0": "TR_X"}), road_network=rn)
+    assert report.repaired_action.ambulance_assignment is None  # dropped, not waved through

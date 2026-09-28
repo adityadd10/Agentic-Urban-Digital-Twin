@@ -343,6 +343,9 @@ class UDTSingleAgentEnv(gym.Env[npt.NDArray[np.float32], npt.NDArray[np.integer[
                 shed_tier=agent_action.shed_tier if tick_in_interval == 0 else None,
                 divert=agent_action.divert if tick_in_interval == 0 else None,
                 surge=agent_action.surge if tick_in_interval == 0 else None,
+                transfer_requests=(
+                    agent_action.transfer_requests if tick_in_interval == 0 else None
+                ),
             )
             snapshot.safety_violations_attempted_cumulative = self._safety_violations_attempted
             total_reward += self._tick_reward(

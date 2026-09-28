@@ -47,6 +47,15 @@ dispatch action, module M4).
   there). Otherwise the trip has three legs: home -> pickup, pickup ->
   destination (deliver there), destination -> home (empty). All three are
   routed when dispatched and must be reachable then, like v2's two legs.
+- **Transfer requests (2026-09-29, dev doc §3.9 mechanic 3).** The health
+  agent adds jobs to `graph.graph["transfer_requests"]` (one per patient,
+  located at the source hospital; see `add_transfer_requests`). Transport
+  serves them with the same dispatch action and fleet as street calls. At
+  pickup the ambulance takes the source hospital's longest-waiting *queued*
+  patient, who keeps their original wait start (the 4 h deadline keeps
+  running), or, if nobody is queued, an admitted patient. On delivery the
+  patient joins the destination's queue. No deaths in transit (disclosed).
+  Transfer jobs never expire and don't count toward response times.
 """
 
 from __future__ import annotations
@@ -138,6 +147,59 @@ def generate_requests(
         )
 
 
+def find_job(graph: nx.DiGraph[str], job_id: str) -> dict[str, Any] | None:
+    """A pending street call or transfer request by id, or None."""
+    for key in ("pending_requests", "transfer_requests"):
+        for job in graph.graph.get(key, []):
+            if job["request_id"] == job_id:
+                return job  # type: ignore[no-any-return]
+    return None
+
+
+def add_transfer_requests(
+    graph: nx.DiGraph[str], tick: int, requests: list[tuple[str, int, str]]
+) -> int:
+    """Health's action: `(from_hospital_id, count, urgency)` entries become
+    `count` transfer jobs located at that hospital. Returns jobs added."""
+    jobs: list[dict[str, Any]] = graph.graph.setdefault("transfer_requests", [])
+    added = 0
+    for from_id, count, urgency in requests:
+        hospital: Asset = graph.nodes[from_id]["asset"]
+        if hospital.asset_type != AssetType.HOSPITAL:
+            raise ValueError(f"{from_id!r} is not a hospital")
+        lon, lat = hospital.geometry["coordinates"][0], hospital.geometry["coordinates"][1]
+        for _ in range(max(0, int(count))):
+            seq = int(graph.graph.get("transfer_seq", 0))
+            graph.graph["transfer_seq"] = seq + 1
+            jobs.append(
+                {
+                    "request_id": f"TR_{tick}_{from_id}_{seq}",
+                    "kind": "transfer",
+                    "from_hospital_id": from_id,
+                    "location": (lon, lat),
+                    "requested_at_tick": tick,
+                    "urgency": urgency,
+                }
+            )
+            added += 1
+    return added
+
+
+def _take_patient_for_transfer(graph: nx.DiGraph[str], hospital_id: str) -> tuple[bool, int | None]:
+    """(anyone taken?, original wait-start tick or None for an admitted patient)."""
+    attrs = graph.nodes[hospital_id]["asset"].attributes
+    queue: list[int] = list(attrs.get("queue_arrivals", []))
+    if queue:
+        oldest = queue.pop(0)
+        attrs["queue_arrivals"] = queue
+        attrs["patient_queue"] = len(queue)
+        return True, oldest
+    if int(attrs.get("beds_occupied", 0)) > 0:
+        attrs["beds_occupied"] = int(attrs["beds_occupied"]) - 1
+        return True, None
+    return False, None
+
+
 def dispatch_ambulance(
     graph: nx.DiGraph[str],
     road_network: RoadNetwork,
@@ -183,12 +245,14 @@ def dispatch_ambulance(
     return True
 
 
-def _deliver_casualty(graph: nx.DiGraph[str], hospital_id: str, tick: int) -> None:
+def _deliver_casualty(
+    graph: nx.DiGraph[str], hospital_id: str, tick: int, wait_start_tick: int | None = None
+) -> None:
     """Casualty joins the hospital's queue; `consume_demand` admits it (or,
     past the deadline, counts it in the death proxy) like any walk-in."""
     attrs = graph.nodes[hospital_id]["asset"].attributes
     queue: list[int] = list(attrs.get("queue_arrivals", []))
-    queue.append(tick)
+    queue.append(tick if wait_start_tick is None else wait_start_tick)
     attrs["queue_arrivals"] = queue
     attrs["patient_queue"] = len(queue)
 
@@ -222,13 +286,28 @@ def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> 
                 response_times_hours.append((tick - request["requested_at_tick"]) * dt_hours)
                 pending.remove(request)
                 attrs["carrying_patient"] = True
+            else:  # twin-v3 transfer job?
+                transfers: list[dict[str, Any]] = graph.graph.get("transfer_requests", [])
+                job = next((r for r in transfers if r["request_id"] == request_id), None)
+                if job is not None:
+                    transfers.remove(job)
+                    taken, wait_start = _take_patient_for_transfer(graph, job["from_hospital_id"])
+                    if taken:
+                        attrs["carrying_patient"] = True
+                        attrs["carrying_transfer"] = True
+                        attrs["wait_start_tick"] = wait_start
             attrs["status"] = "returning"
             attrs["remaining_travel_min"] = float(attrs.get("return_travel_min", 0.0))
         else:  # "returning" leg just completed: at the destination, or back home
             if attrs.get("carrying_patient"):
                 destination = attrs.pop("delivery_hospital_id", None) or attrs["home_hospital_id"]
-                _deliver_casualty(graph, str(destination), tick)
+                wait_start = attrs.pop("wait_start_tick", None)
+                _deliver_casualty(graph, str(destination), tick, wait_start)
                 attrs["carrying_patient"] = False
+                if attrs.pop("carrying_transfer", False):
+                    graph.graph["transfers_completed"] = (
+                        int(graph.graph.get("transfers_completed", 0)) + 1
+                    )
                 back_home = float(attrs.pop("final_return_min", 0.0))
                 if back_home > 0:  # delivered away from home: drive back empty
                     attrs["remaining_travel_min"] = back_home

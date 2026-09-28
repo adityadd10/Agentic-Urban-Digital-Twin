@@ -184,6 +184,7 @@ def run_episode(
             shed_tier=action.shed_tier if is_decision_tick else None,
             divert=action.divert if is_decision_tick else None,
             surge=action.surge if is_decision_tick else None,
+            transfer_requests=action.transfer_requests if is_decision_tick else None,
         )
         snapshot.safety_violations_attempted_cumulative = safety_violations_attempted_total
         trace.append(snapshot)

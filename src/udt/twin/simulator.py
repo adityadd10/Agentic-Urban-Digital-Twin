@@ -87,9 +87,11 @@ import numpy as np
 from udt.common.models import Asset, AssetType, DependencyGraph, TwinState
 from udt.twin import ambulances as _ambulances
 from udt.twin.ambulances import (
+    add_transfer_requests,
     advance_ambulances,
     dispatch_ambulance,
     expire_uncollected_requests,
+    find_job,
 )
 from udt.twin.cascade import EdgeRuntimeState, resolve_functional_levels, update_buffers
 from udt.twin.demand import SURGE_MAX_HOURS, apply_patient_transfer, consume_demand
@@ -242,6 +244,7 @@ class Simulator:
         shed_tier: dict[str, int] | None = None,
         divert: dict[str, bool] | None = None,
         surge: dict[str, bool] | None = None,
+        transfer_requests: list[tuple[str, int, str]] | None = None,
     ) -> TwinState:
         """Advance one tick, dev doc §3.5:
         1. apply exogenous degradation (`degradation_fn`, if any is active),
@@ -315,13 +318,14 @@ class Simulator:
         response_times_this_tick: list[float] = []
         pending_requests_count = 0
         if self.road_network is not None:
+            if transfer_requests:  # twin-v3: health's requests become transport jobs
+                add_transfer_requests(self.graph, self.tick, transfer_requests)
             if ambulance_assignment:
-                pending = self.graph.graph.get("pending_requests", [])
                 for ambulance_id, request_id in ambulance_assignment.items():
                     ambulance = self.graph.nodes[ambulance_id]["asset"]
                     if ambulance.attributes.get("status") != "idle":
                         continue  # stale/invalid decision — already busy, ignore
-                    request = next((r for r in pending if r["request_id"] == request_id), None)
+                    request = find_job(self.graph, request_id)
                     if request is not None:
                         dispatch_ambulance(
                             self.graph,
@@ -343,6 +347,8 @@ class Simulator:
             cascading_failure_count=len(self._ever_cascaded),
             patient_deaths_cumulative=self._patient_deaths_total,
             uncollected_casualty_deaths_cumulative=self._uncollected_deaths_total,
+            transfers_completed_cumulative=int(self.graph.graph.get("transfers_completed", 0)),
+            pending_transfers_count=len(self.graph.graph.get("transfer_requests", [])),
             ambulance_response_times_this_tick=response_times_this_tick,
             pending_requests_count=pending_requests_count,
             patients_transferred_cumulative=self._patients_transferred_total,

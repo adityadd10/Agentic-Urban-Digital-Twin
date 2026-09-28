@@ -108,6 +108,7 @@ def _run_one_rollout(
             shed_tier=action.shed_tier if tick_in_rollout == 0 else None,
             divert=action.divert if tick_in_rollout == 0 else None,
             surge=action.surge if tick_in_rollout == 0 else None,
+            transfer_requests=action.transfer_requests if tick_in_rollout == 0 else None,
         )
         queued_this_tick = 0
         for asset in snapshot.assets:

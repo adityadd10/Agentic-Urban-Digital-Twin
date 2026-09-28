@@ -61,6 +61,7 @@ from collections.abc import Callable
 import networkx as nx
 
 from udt.common.models import AgentAction, ConstraintReport, ConstraintViolation
+from udt.twin.ambulances import find_job
 from udt.twin.demand import effective_free_beds
 from udt.twin.road_network import RoadNetwork
 
@@ -134,12 +135,11 @@ def _check_route_flood_safety(
     if not action.ambulance_assignment or road_network is None:
         return [], action
 
-    pending: list[dict[str, object]] = graph.graph.get("pending_requests", [])
     violations: list[ConstraintViolation] = []
     safe_assignment: dict[str, str] = {}
 
     for ambulance_id, request_id in action.ambulance_assignment.items():
-        request = next((r for r in pending if r["request_id"] == request_id), None)
+        request = find_job(graph, request_id)  # street call or twin-v3 transfer job
         if request is None:
             # Stale decision — the request is already gone by the time
             # this check runs. Not this rule's concern (see module
@@ -148,7 +148,7 @@ def _check_route_flood_safety(
             continue
 
         home_node = graph.nodes[ambulance_id]["asset"].attributes["home_node"]
-        pickup_node = road_network.nearest_node(*request["location"])  # type: ignore[misc]
+        pickup_node = road_network.nearest_node(*request["location"])
         max_depth = road_network.shortest_path_max_depth(home_node, pickup_node)
 
         if max_depth is not None and max_depth < ROUTE_FLOOD_SAFETY_MAX_DEPTH_M:
