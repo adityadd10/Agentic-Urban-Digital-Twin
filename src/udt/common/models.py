@@ -120,6 +120,7 @@ class TwinState(BaseModel):
     transfers_completed_cumulative: int = 0  # twin-v3 transfer jobs delivered
     pending_transfers_count: int = 0  # twin-v3 transfer jobs not yet picked up
     fleet_contention: bool = False  # twin-v3: calls + transfers waiting, idle < jobs
+    repair_crew: dict[str, Any] | None = None  # twin-v3 crew (status, target, node, travel left)
     casualty_outcome_hours_this_tick: list[float] = Field(default_factory=list)
     """Twin-v3 metric (per-tick delta, like `ambulance_response_times_this_tick`):
     hours from emergency call to bed for casualties admitted this tick, or to

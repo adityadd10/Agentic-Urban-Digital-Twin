@@ -86,6 +86,7 @@ import numpy as np
 
 from udt.common.models import Asset, AssetType, DependencyGraph, TwinState
 from udt.twin import ambulances as _ambulances
+from udt.twin import crew as _crew
 from udt.twin.ambulances import (
     add_transfer_requests,
     advance_ambulances,
@@ -275,7 +276,14 @@ class Simulator:
             for asset_id, reduction in degradation_fn(self.tick, self.graph).items():
                 self.apply_degradation(asset_id, reduction)
 
-        if repair_target is not None:
+        if _crew.REPAIR_CREW_TRAVEL and self.road_network is not None:
+            # twin-v3: repair_target sends the crew; it repairs only on site.
+            if repair_target is not None:
+                _crew.assign_crew(self.graph, self.road_network, repair_target)
+            crew_site = _crew.advance_crew(self.graph, self.dt_minutes)
+            if crew_site is not None:
+                self.apply_repair(crew_site, repair_rate / _crew.REPAIR_TICKS_PER_DECISION)
+        elif repair_target is not None:
             self.apply_repair(repair_target, repair_rate)
 
         if shed_tier:
@@ -360,6 +368,10 @@ class Simulator:
                 and n_idle < pending_requests_count + n_transfers
             )
 
+        crew = self.graph.graph.get(_crew.CREW_KEY)
+        crew_snapshot = (
+            {k: v for k, v in crew.items() if k != "target_node"} if crew is not None else None
+        )
         snapshot = TwinState(
             tick=self.tick,
             assets=[_snapshot_asset(self.asset(a)) for a in self.graph.nodes],
@@ -369,6 +381,7 @@ class Simulator:
             transfers_completed_cumulative=int(self.graph.graph.get("transfers_completed", 0)),
             pending_transfers_count=len(self.graph.graph.get("transfer_requests", [])),
             fleet_contention=fleet_contention,
+            repair_crew=crew_snapshot,
             casualty_outcome_hours_this_tick=self.graph.graph.pop(CASUALTY_OUTCOMES_KEY, []),
             ambulance_response_times_this_tick=response_times_this_tick,
             pending_requests_count=pending_requests_count,

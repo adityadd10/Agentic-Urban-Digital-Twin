@@ -104,6 +104,7 @@ it matters).
 | *Twin-v3 only:* Surge duration budget | 12 h per hospital per episode | `SURGE_MAX_HOURS` | **D** | Staff-endurance assumption | — |
 | *Twin-v3 only:* Diversion share | 50% of new walk-ins redirected to the nearest accepting hospital; walk-in travel time ignored | `DIVERT_SHARE` | **D** | Assumption: a public diversion notice reaches about half of arrivals | — |
 | *Twin-v3 only:* Ambulances | 2 per hospital (6 total, 3 hospitals) | `N_AMBULANCES_PER_HOSPITAL` | **E** | Same invented rate as twin-v2 | — |
+| *Twin-v3 only:* Repair crews | 1 crew, depot at S0's nearest road node, travels on the flooded road network (travel time fixed at assignment) | `twin/crew.py` (`CREW_DEPOT_ASSET_ID`) | **D** | Assumption: one utility crew based at the main receiving station | — |
 
 ## 6. Decision, reward and evaluation settings
 
