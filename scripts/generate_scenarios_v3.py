@@ -8,9 +8,8 @@ Like `generate_scenarios.py` (v2), with twin-v3 strata and trade-off features:
   scenarios in seed order;
 - trade-off features T1' (route-based), T2 (multi-facility threat) and T3 (high
   call volume) come from the flood physics only (`udt.scenarios.tradeoffs`). On
-  train each must reach `tradeoff_min_share_train`: scanning in seed order, a
-  scenario lacking a still-needed feature is skipped only when accepting it would
-  make that quota unreachable. No policy is ever run. T3's median is the train
+  train each must reach `tradeoff_min_share_train` (deterministic quota swaps within
+  a cell; see `sample_split`). No policy is ever run. T3's median is the train
   split's median of expected calls; T1 (as registered, unattainable) is reported;
 - the same leakage checks as v2; every file is written read-only and its SHA-256
   recorded. The manifest records the generating commit (the relevant code must be
@@ -87,6 +86,9 @@ def _features(sc: Scenario, graph: DependencyGraph, raster: Any, rn: RoadNetwork
     return f
 
 
+POOL_EXTRA_PER_CELL = 30  # candidates kept beyond each cell's quota, for quota swaps
+
+
 def sample_split(
     split: str,
     n: int,
@@ -99,40 +101,84 @@ def sample_split(
     quotas: dict[str, int],
     suite_version: str,
 ) -> tuple[list[Scenario], list[dict[str, Any]]]:
+    """Two stages, deterministic, physics only:
+    1. Scan seeds upward, keeping per-cell candidate pools in seed order. Picks =
+       each cell's first floor(n/9) candidates, plus the earliest-seed unpicked
+       candidates (any cell) for the n mod 9 free slots.
+    2. While a trade-off quota is short, swap the latest-seed pick lacking the
+       feature for the earliest-seed unpicked candidate of the *same cell* that
+       has it, provided no other quota drops below target. Fails loudly if no
+       such swap exists."""
     cells = [(h, b) for h in hospitals for b in SEVERITY_BANDS]
     per_cell = n // len(cells)
-    counts = dict.fromkeys(cells, 0)
-    free_slots = n - per_cell * len(cells)
-    have = dict.fromkeys(quotas, 0)
-    chosen: list[Scenario] = []
-    feats: list[dict[str, Any]] = []
+    pools: dict[tuple[str, str], list[tuple[Scenario, dict[str, Any]]]] = {c: [] for c in cells}
+    order: list[tuple[Scenario, dict[str, Any]]] = []
     for seed in range(seed_start, seed_start + MAX_SEEDS_SCANNED):
         sc = generate_flood_scenario(
-            scenario_id=f"flood_v3_{split}_{len(chosen):02d}",
+            scenario_id=f"flood_v3_{split}_seed{seed}",
             ward_boundary_geojson=ward_geojson,
             seed=seed,
         )
         f = _features(sc, graph, raster, rn)
+        f["seed"] = seed
         cell = (f["sector"], f["severity_band"])
-        uses_free = counts[cell] >= per_cell
-        if uses_free and free_slots == 0:
-            continue
-        slots_left_after = n - len(chosen) - 1
-        feasible = all(
-            max(0, quotas[k] - have[k] - int(bool(f[k]))) <= slots_left_after for k in quotas
-        )
-        if not feasible:
-            continue
-        counts[cell] += 1
-        free_slots -= int(uses_free)
-        for k in quotas:
-            have[k] += int(bool(f[k]))
+        if len(pools[cell]) < per_cell + POOL_EXTRA_PER_CELL:
+            pools[cell].append((sc, f))
+            order.append((sc, f))
+        if all(len(v) >= per_cell + POOL_EXTRA_PER_CELL for v in pools.values()):
+            break
+    else:
+        raise SystemExit(f"{split}: candidate pools not filled within {MAX_SEEDS_SCANNED} seeds")
+
+    picked: list[tuple[Scenario, dict[str, Any]]] = [x for c in cells for x in pools[c][:per_cell]]
+    picked_seeds = {f["seed"] for _, f in picked}
+    for x in order:
+        if len(picked) == n:
+            break
+        if x[1]["seed"] not in picked_seeds:
+            picked.append(x)
+            picked_seeds.add(x[1]["seed"])
+
+    def count(k: str) -> int:
+        return sum(bool(f[k]) for _, f in picked)
+
+    for k, target in quotas.items():
+        while count(k) < target:
+            swap = None
+            for i in sorted(range(len(picked)), key=lambda j: -picked[j][1]["seed"]):
+                out = picked[i][1]
+                if out[k]:
+                    continue
+                cell = (out["sector"], out["severity_band"])
+                for cand in pools[cell]:
+                    cf = cand[1]
+                    if cf["seed"] in picked_seeds or not cf[k]:
+                        continue
+                    ok = all(
+                        count(q) - int(bool(out[q])) + int(bool(cf[q])) >= min(quotas[q], count(q))
+                        for q in quotas
+                        if q != k
+                    )
+                    if ok:
+                        swap = (i, cand)
+                        break
+                if swap is not None:
+                    break
+            if swap is None:
+                raise SystemExit(f"{split}: no physics-only swap can meet the {k} quota")
+            i, cand = swap
+            picked_seeds.discard(picked[i][1]["seed"])
+            picked[i] = cand
+            picked_seeds.add(cand[1]["seed"])
+
+    picked.sort(key=lambda x: x[1]["seed"])
+    chosen, feats = [], []
+    for idx, (sc, f) in enumerate(picked):
+        sc.scenario_id = f"flood_v3_{split}_{idx:02d}"
         sc.suite_version = suite_version
         chosen.append(sc)
-        feats.append({"scenario_id": sc.scenario_id, "seed": seed, **f})
-        if len(chosen) == n:
-            return chosen, feats
-    raise SystemExit(f"{split}: not filled within {MAX_SEEDS_SCANNED} seeds")
+        feats.append({"scenario_id": sc.scenario_id, **f})
+    return chosen, feats
 
 
 def main() -> None:

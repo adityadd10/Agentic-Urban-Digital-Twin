@@ -16,9 +16,10 @@ splits:
 # generator's range). 9 cells: each gets floor(n / 9) scenarios; the remaining n mod 9 slots go
 # to the next scenarios in seed order, whatever their cell.
 
-# Trade-off features (physical only). On train, each must occur in >= this share. The physical
-# oversampling rule: while scanning seeds in order, a scenario lacking a feature is skipped only
-# if accepting it would make the quota unreachable with the slots left.
+# Trade-off features (physical only). On train, each must occur in >= this share. Physical
+# oversampling rule: picks start as each cell's earliest seeds; while a quota is short, the
+# latest-seed pick lacking the feature is swapped for the earliest-seed candidate of the SAME
+# cell that has it (strata unchanged, no policy involved).
 tradeoff_min_share_train: 0.25
 
 leakage_min_distance: 0.05
