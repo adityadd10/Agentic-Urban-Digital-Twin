@@ -182,6 +182,8 @@ def run_episode(
             ambulance_destination=action.ambulance_destination if is_decision_tick else None,
             patient_transfer=action.patient_transfer if is_decision_tick else None,
             shed_tier=action.shed_tier if is_decision_tick else None,
+            divert=action.divert if is_decision_tick else None,
+            surge=action.surge if is_decision_tick else None,
         )
         snapshot.safety_violations_attempted_cumulative = safety_violations_attempted_total
         trace.append(snapshot)

@@ -100,6 +100,10 @@ it matters).
 | Repair rate | 0.05 per applied repair; applied once per 15-min decision (0 → 1 in about 5 h; the earlier "100 min" was wrong, corrected 2026-09-29) | `DEFAULT_REPAIR_RATE_PER_TICK` | **E** | Invented; deterministic (dev doc repair noise not implemented) | **R10** |
 | Load surge | up to +50% × severity × envelope | `LOAD_SURGE_FACTOR` | E | Invented coupling | **R11** |
 | Overload threshold / damage | 95% / 0.05 per tick | `twin/power.py` | D / E | Threshold from dev doc §5.6; damage rate invented | — |
+| *Twin-v3 only:* Surge capacity | +20% of nominal beds (× functional level) | `SURGE_BED_FRACTION` (`twin/demand.py`) | **D** | Engineering assumption (dev doc §3.9 mechanic 2) | — |
+| *Twin-v3 only:* Surge duration budget | 12 h per hospital per episode | `SURGE_MAX_HOURS` | **D** | Staff-endurance assumption | — |
+| *Twin-v3 only:* Diversion share | 50% of new walk-ins redirected to the nearest accepting hospital; walk-in travel time ignored | `DIVERT_SHARE` | **D** | Assumption: a public diversion notice reaches about half of arrivals | — |
+| *Twin-v3 only:* Ambulances | 2 per hospital (6 total, 3 hospitals) | `N_AMBULANCES_PER_HOSPITAL` | **E** | Same invented rate as twin-v2 | — |
 
 ## 6. Decision, reward and evaluation settings
 

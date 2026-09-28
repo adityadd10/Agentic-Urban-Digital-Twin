@@ -92,7 +92,7 @@ from udt.twin.ambulances import (
     expire_uncollected_requests,
 )
 from udt.twin.cascade import EdgeRuntimeState, resolve_functional_levels, update_buffers
-from udt.twin.demand import apply_patient_transfer, consume_demand
+from udt.twin.demand import SURGE_MAX_HOURS, apply_patient_transfer, consume_demand
 from udt.twin.graph import build_networkx_graph, get_asset
 from udt.twin.power import apply_overload_damage
 from udt.twin.road_network import RoadNetwork
@@ -240,6 +240,8 @@ class Simulator:
         ambulance_destination: dict[str, str] | None = None,
         patient_transfer: tuple[str, str, int] | None = None,
         shed_tier: dict[str, int] | None = None,
+        divert: dict[str, bool] | None = None,
+        surge: dict[str, bool] | None = None,
     ) -> TwinState:
         """Advance one tick, dev doc §3.5:
         1. apply exogenous degradation (`degradation_fn`, if any is active),
@@ -271,6 +273,12 @@ class Simulator:
         if shed_tier:
             for substation_id, tier in shed_tier.items():
                 self.asset(substation_id).attributes["shed_tier"] = tier
+        for hospital_id, on in (divert or {}).items():  # twin-v3 hospital status
+            self.asset(hospital_id).attributes["divert"] = bool(on)
+        for hospital_id, on in (surge or {}).items():
+            attrs = self.asset(hospital_id).attributes
+            used = float(attrs.get("surge_hours_used", 0.0))
+            attrs["surge"] = bool(on) and used < SURGE_MAX_HOURS  # no budget left: stays off
         for substation_id, reduction in apply_overload_damage(self.graph).items():
             self.apply_degradation(substation_id, reduction)
 

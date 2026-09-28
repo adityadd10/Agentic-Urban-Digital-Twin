@@ -292,6 +292,8 @@ class EpisodeSession:
                     self._current_action.patient_transfer if is_decision_tick else None
                 ),
                 shed_tier=self._current_action.shed_tier if is_decision_tick else None,
+                divert=self._current_action.divert if is_decision_tick else None,
+                surge=self._current_action.surge if is_decision_tick else None,
             )
             self.trace.append(snapshot)
             new_snapshots.append(snapshot)

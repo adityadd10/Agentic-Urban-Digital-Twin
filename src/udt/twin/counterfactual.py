@@ -106,6 +106,8 @@ def _run_one_rollout(
             ambulance_destination=action.ambulance_destination if tick_in_rollout == 0 else None,
             patient_transfer=action.patient_transfer if tick_in_rollout == 0 else None,
             shed_tier=action.shed_tier if tick_in_rollout == 0 else None,
+            divert=action.divert if tick_in_rollout == 0 else None,
+            surge=action.surge if tick_in_rollout == 0 else None,
         )
         queued_this_tick = 0
         for asset in snapshot.assets:

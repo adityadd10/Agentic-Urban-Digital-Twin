@@ -63,6 +63,8 @@ the dev doc's schema exactly.
 
 from __future__ import annotations
 
+from typing import Any
+
 import networkx as nx
 import numpy as np
 
@@ -75,12 +77,47 @@ DIURNAL_PEAK_HOUR = 10.0
 MEAN_LENGTH_OF_STAY_HOURS = 48.0
 PATIENT_WAIT_DEADLINE_HOURS = 4.0
 
+# Twin-v3 hospital status (dev doc §3.9 mechanic 2). Engineering assumptions
+# (provenance category D), not sourced; both levers default off, so twin-v2
+# behaviour and its random-number stream are unchanged.
+SURGE_BED_FRACTION = 0.2  # surge adds 20% of nominal beds (still scaled by functional level)
+SURGE_MAX_HOURS = 12.0  # staff can sustain surge this long per episode, then it ends
+DIVERT_SHARE = 0.5  # share of new walk-in arrivals a diversion notice redirects
+
 
 def diurnal_multiplier(hour_of_day: float) -> float:
     """1 +/- `DIURNAL_AMPLITUDE`, peaking at `DIURNAL_PEAK_HOUR` — shape
     only, disclosed in the module docstring as not fitted to real data."""
     phase = 2.0 * np.pi * (hour_of_day - DIURNAL_PEAK_HOUR) / 24.0
     return float(1.0 + DIURNAL_AMPLITUDE * np.cos(phase))
+
+
+def _nominal_bed_capacity(attrs: dict[str, Any]) -> float:
+    """`beds_total`, plus `SURGE_BED_FRACTION` of it while surge is on. Without
+    surge this is the plain int, so twin-v2's arithmetic is unchanged."""
+    beds_total = int(attrs.get("beds_total", 0))
+    if attrs.get("surge"):
+        return beds_total * (1.0 + SURGE_BED_FRACTION)
+    return beds_total
+
+
+def _nearest_accepting_hospital(graph: nx.DiGraph[str], hospital_id: str) -> str | None:
+    """Closest other hospital (straight line) that is not diverting."""
+    here = graph.nodes[hospital_id]["asset"].geometry["coordinates"]
+    best_id, best_d = None, float("inf")
+    for asset_id in graph.nodes:
+        a = graph.nodes[asset_id]["asset"]
+        if (
+            asset_id == hospital_id
+            or a.asset_type != AssetType.HOSPITAL
+            or a.attributes.get("divert")
+        ):
+            continue
+        x, y = a.geometry["coordinates"][:2]
+        d = (x - here[0]) ** 2 + (y - here[1]) ** 2
+        if d < best_d:
+            best_id, best_d = asset_id, d
+    return best_id
 
 
 def effective_free_beds(asset: Asset) -> int:
@@ -98,9 +135,8 @@ def effective_free_beds(asset: Asset) -> int:
     means) — NOT by `consume_demand`, which inlines the same formula
     against its own in-progress local `beds_occupied` value rather than
     the asset's not-yet-written-back attribute."""
-    beds_total = int(asset.attributes.get("beds_total", 0))
     beds_occupied = int(asset.attributes.get("beds_occupied", 0))
-    effective_beds_total = round(beds_total * asset.functional_level)
+    effective_beds_total = round(_nominal_bed_capacity(asset.attributes) * asset.functional_level)
     return max(0, effective_beds_total - beds_occupied)
 
 
@@ -126,6 +162,7 @@ def consume_demand(
     """
     hour_of_day = (onset_hour_of_day + tick * dt_hours) % 24.0
     deaths: dict[str, int] = {}
+    redirected: dict[str, int] = {}  # twin-v3 diversion: patients arriving elsewhere this tick
 
     for asset_id in graph.nodes:
         asset = graph.nodes[asset_id]["asset"]
@@ -142,7 +179,11 @@ def consume_demand(
         # `effective_free_beds` helper, which reads the asset's
         # attributes directly — this function's `beds_occupied` is a
         # local, still-being-updated value, not yet written back).
-        effective_beds_total = round(beds_total * asset.functional_level)
+        effective_beds_total = round(_nominal_bed_capacity(attrs) * asset.functional_level)
+        if attrs.get("surge"):  # twin-v3: surge uses up its staff-hours budget
+            attrs["surge_hours_used"] = float(attrs.get("surge_hours_used", 0.0)) + dt_hours
+            if attrs["surge_hours_used"] >= SURGE_MAX_HOURS:
+                attrs["surge"] = False  # takes effect from the next tick
 
         # 1. discharges
         p_discharge = min(1.0, dt_hours / MEAN_LENGTH_OF_STAY_HOURS)
@@ -167,6 +208,15 @@ def consume_demand(
             BASELINE_ARRIVAL_RATE_PER_BED_PER_HOUR * beds_total * diurnal_multiplier(hour_of_day)
         )
         n_arrivals = int(rng.poisson(max(0.0, rate_per_hour * dt_hours)))
+        if attrs.get("divert") and n_arrivals > 0:  # twin-v3; never drawn in twin-v2
+            target = _nearest_accepting_hospital(graph, asset_id)
+            if target is not None:
+                n_redirect = int(rng.binomial(n_arrivals, DIVERT_SHARE))
+                n_arrivals -= n_redirect
+                redirected[target] = redirected.get(target, 0) + n_redirect
+                attrs["patients_diverted_out"] = (
+                    int(attrs.get("patients_diverted_out", 0)) + n_redirect
+                )
         n_admit_now = min(n_arrivals, max(0, free_beds))
         beds_occupied += n_admit_now
         queue.extend([tick] * (n_arrivals - n_admit_now))
@@ -180,6 +230,16 @@ def consume_demand(
         attrs["patient_queue"] = len(still_waiting)
         attrs["queue_arrivals"] = still_waiting
         deaths[asset_id] = n_deaths
+
+    # Redirected walk-ins join the receiving hospital's queue now (travel time
+    # between hospitals is ignored for walk-ins, a disclosed simplification)
+    # and are admitted from the queue from the next tick.
+    for target, n in redirected.items():
+        if n > 0:
+            t_attrs = graph.nodes[target]["asset"].attributes
+            t_queue = list(t_attrs.get("queue_arrivals", [])) + [tick] * n
+            t_attrs["queue_arrivals"] = t_queue
+            t_attrs["patient_queue"] = len(t_queue)
 
     return deaths
 

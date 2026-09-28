@@ -201,3 +201,93 @@ def test_apply_patient_transfer_respects_destination_functional_level() -> None:
     moved = apply_patient_transfer(graph, "H1", "H2", 10)
     assert moved == 3  # capped by H2's *effective* capacity, not its nominal 10
     assert graph.nodes["H2"]["asset"].attributes["beds_occupied"] == 3
+
+
+# --- Twin-v3 hospital status: surge and diversion (dev doc §3.9 mechanic 2) ---
+
+
+def _hospitals(*specs: tuple[str, float, dict[str, object]]) -> object:
+    """(id, lon, extra attributes) per hospital, all at lat 19.07, empty queues."""
+    assets = [
+        Asset(
+            asset_id=hid,
+            asset_type=AssetType.HOSPITAL,
+            geometry={"type": "Point", "coordinates": [lon, 19.07]},
+            attributes={"beds_total": 100, "beds_occupied": 100, "queue_arrivals": [], **extra},
+        )
+        for hid, lon, extra in specs
+    ]
+    return build_networkx_graph(DependencyGraph(assets=assets, edges=[]))
+
+
+@pytest.mark.phase4
+def test_surge_adds_beds_and_no_surge_is_unchanged() -> None:
+    from udt.twin.demand import SURGE_BED_FRACTION
+
+    graph = _hospitals(("H1", 72.88, {"beds_occupied": 50}))
+    h1 = graph.nodes["H1"]["asset"]
+    assert effective_free_beds(h1) == 50
+    h1.attributes["surge"] = True
+    assert effective_free_beds(h1) == round(100 * (1 + SURGE_BED_FRACTION)) - 50
+
+
+@pytest.mark.phase4
+def test_surge_ends_when_its_staff_hours_budget_is_used() -> None:
+    from udt.twin.demand import SURGE_MAX_HOURS
+
+    graph = _hospitals(("H1", 72.88, {"surge": True}))
+    rng = np.random.default_rng(0)
+    dt = 5.0 / 60.0
+    ticks = int(round(SURGE_MAX_HOURS / dt))
+    for tick in range(ticks - 1):
+        consume_demand(graph, tick=tick, dt_hours=dt, rng=rng)
+    assert graph.nodes["H1"]["asset"].attributes["surge"] is True
+    consume_demand(graph, tick=ticks, dt_hours=dt, rng=rng)
+    assert graph.nodes["H1"]["asset"].attributes["surge"] is False
+
+
+@pytest.mark.phase4
+def test_diversion_sends_walk_ins_to_the_nearest_accepting_hospital() -> None:
+    graph = _hospitals(
+        ("H1", 72.880, {"divert": True, "beds_total": 5000, "beds_occupied": 5000}),
+        ("H2", 72.881, {"divert": True}),  # nearest, but also diverting
+        ("H3", 72.890, {}),  # nearest accepting
+    )
+    rng = np.random.default_rng(0)
+    consume_demand(graph, tick=1, dt_hours=1.0, rng=rng)  # big H1 -> many arrivals
+    out = graph.nodes["H1"]["asset"].attributes["patients_diverted_out"]
+    assert out > 0
+    h3_queue = graph.nodes["H3"]["asset"].attributes["queue_arrivals"]
+    assert h3_queue.count(1) >= out  # H3's own arrivals are queued too (it is full)
+
+
+@pytest.mark.phase4
+def test_no_diversion_draws_no_extra_random_numbers() -> None:
+    """Twin-v2 reproducibility: without divert set, the RNG stream is untouched."""
+    plain = _hospitals(("H1", 72.880, {}), ("H2", 72.890, {}))
+    flagged_off = _hospitals(("H1", 72.880, {"divert": False}), ("H2", 72.890, {}))
+    rng_a, rng_b = np.random.default_rng(7), np.random.default_rng(7)
+    consume_demand(plain, tick=1, dt_hours=1.0, rng=rng_a)
+    consume_demand(flagged_off, tick=1, dt_hours=1.0, rng=rng_b)
+    assert rng_a.random() == rng_b.random()
+
+
+@pytest.mark.phase4
+def test_simulator_sets_status_and_refuses_surge_without_budget() -> None:
+    from udt.twin.demand import SURGE_MAX_HOURS
+    from udt.twin.simulator import Simulator
+
+    h = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry=POINT,
+        attributes={"beds_total": 10, "beds_occupied": 5, "queue_arrivals": []},
+    )
+    sim = Simulator(DependencyGraph(assets=[h], edges=[]))
+    sim.step(divert={"H1": True}, surge={"H1": True})
+    attrs = sim.asset("H1").attributes
+    assert attrs["divert"] is True and attrs["surge"] is True
+    attrs["surge_hours_used"] = SURGE_MAX_HOURS
+    attrs["surge"] = False
+    sim.step(surge={"H1": True})
+    assert attrs["surge"] is False

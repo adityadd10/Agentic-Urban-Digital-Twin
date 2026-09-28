@@ -187,6 +187,13 @@ class AgentAction(BaseModel):
     the hospital a casualty collected by that ambulance is taken to. A missing
     entry (or None) means the ambulance's home hospital, which is exactly
     twin-v2 behaviour."""
+    divert: dict[str, bool] | None = None
+    """Twin-v3 (dev doc §3.9 mechanic 2): {hospital_id: diverting?}. Persistent
+    until changed, like `shed_tier`; a diverting hospital redirects a share of new
+    walk-ins to the nearest accepting hospital (`twin/demand.py`)."""
+    surge: dict[str, bool] | None = None
+    """Twin-v3: {hospital_id: surge on?}. Adds beds until the hospital's surge
+    staff-hours budget runs out (`twin/demand.py` SURGE_*)."""
     patient_transfer: tuple[str, str, int] | None = None
     """(from_hospital_id, to_hospital_id, count) — dev doc §5.3's "per
     hospital-pair transfer decision", §5.6's "transfer patients out of
