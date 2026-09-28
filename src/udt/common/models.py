@@ -119,6 +119,11 @@ class TwinState(BaseModel):
     uncollected_casualty_deaths_cumulative: int = 0
     transfers_completed_cumulative: int = 0  # twin-v3 transfer jobs delivered
     pending_transfers_count: int = 0  # twin-v3 transfer jobs not yet picked up
+    fleet_contention: bool = False  # twin-v3: calls + transfers waiting, idle < jobs
+    casualty_outcome_hours_this_tick: list[float] = Field(default_factory=list)
+    """Twin-v3 metric (per-tick delta, like `ambulance_response_times_this_tick`):
+    hours from emergency call to bed for casualties admitted this tick, or to
+    death for casualties who died waiting (queue or uncollected)."""
     """Part of `patient_deaths_cumulative`: calls never answered within the
     wait deadline (dev doc §3.9 item 2). Always 0 in twin-v2."""
     ambulance_response_times_this_tick: list[float] = Field(default_factory=list)
@@ -235,6 +240,9 @@ class EpisodeMetrics(BaseModel):
     patient_deaths: int  # dev doc §5.4's simplified mortality proxy
     uncollected_casualty_deaths: int = 0  # part of patient_deaths (dev doc §3.9); 0 in twin-v2
     transfers_completed: int = 0  # twin-v3 transfer jobs delivered; 0 in twin-v2
+    jobs_completed: int = 0  # requests_completed + transfers_completed
+    mean_casualty_time_to_admission_hours: float | None = None  # call -> bed (deaths censored)
+    fleet_contention_fraction: float = 0.0  # share of ticks with calls/transfers contention
     mean_ambulance_response_delay_hours: float | None = None  # None = no request completed
     requests_completed: int = 0
     requests_pending_at_end: int = 0

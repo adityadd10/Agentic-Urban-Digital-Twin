@@ -448,3 +448,95 @@ def test_route_safety_check_covers_transfer_jobs() -> None:
     ]
     report = check(graph, AgentAction(ambulance_assignment={"AMB_H1_0": "TR_X"}), road_network=rn)
     assert report.repaired_action.ambulance_assignment is None  # dropped, not waved through
+
+
+# --- Shared fleet metrics (dev doc §3.9 mechanic 4) ----------------------------
+
+
+@pytest.mark.phase4
+def test_casualty_time_to_admission_is_call_to_bed() -> None:
+    from udt.twin.demand import CASUALTY_OUTCOMES_KEY, consume_demand
+
+    graph = _two_hospital_graph()
+    rn = _road_network_chain(3)
+    spawn_ambulances(graph, rn, n_per_hospital=1)
+    graph.nodes["H1"]["asset"].attributes.update({"beds_total": 10, "beds_occupied": 0})
+    request = {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+    graph.graph["pending_requests"] = [request]
+    dispatch_ambulance(graph, rn, "AMB_H1_0", request)
+    _complete_leg(graph, "AMB_H1_0", tick=6)  # pickup
+    _complete_leg(graph, "AMB_H1_0", tick=12)  # delivered to H1's queue
+    assert graph.nodes["H1"]["asset"].attributes["queue_call_ticks"] == [0]
+    consume_demand(graph, tick=13, dt_hours=5.0 / 60.0, rng=np.random.default_rng(0))
+    assert graph.graph[CASUALTY_OUTCOMES_KEY] == [pytest.approx(13 * 5.0 / 60.0)]
+
+
+@pytest.mark.phase4
+def test_casualty_who_dies_waiting_is_recorded_at_death_and_walk_ins_are_not() -> None:
+    from udt.twin.demand import CASUALTY_OUTCOMES_KEY, consume_demand
+
+    graph = _two_hospital_graph()
+    h1 = graph.nodes["H1"]["asset"].attributes
+    # full hospital: one casualty (call at tick 2) and one walk-in, both past the deadline
+    h1.update(
+        {
+            "beds_total": 1,
+            "beds_occupied": 1,
+            "queue_arrivals": [3, 3],
+            "queue_call_ticks": [2, None],
+        }
+    )
+    consume_demand(graph, tick=60, dt_hours=5.0 / 60.0, rng=np.random.default_rng(1))
+    assert graph.graph[CASUALTY_OUTCOMES_KEY] == [pytest.approx(58 * 5.0 / 60.0)]
+
+
+@pytest.mark.phase4
+def test_uncollected_casualty_is_recorded_at_expiry() -> None:
+    from udt.twin.demand import CASUALTY_OUTCOMES_KEY
+
+    graph = _hospital_graph()
+    graph.graph["pending_requests"] = [
+        {"request_id": "OLD", "location": (72.882, 19.07), "requested_at_tick": 0}
+    ]
+    expire_uncollected_requests(graph, tick=49, dt_hours=DT_HOURS)
+    assert graph.graph[CASUALTY_OUTCOMES_KEY] == [pytest.approx(49 * DT_HOURS)]
+
+
+@pytest.mark.phase4
+def test_fleet_contention_needs_calls_transfers_and_too_few_idle_ambulances() -> None:
+    h1 = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry={"type": "Point", "coordinates": [72.88, 19.07]},
+        attributes={"beds_total": 10, "beds_occupied": 10, "queue_arrivals": [0, 0]},
+    )
+    rn = _road_network_chain(3)
+    sim = Simulator(DependencyGraph(assets=[h1], edges=[]), road_network=rn)
+    spawn_ambulances(sim.graph, rn, n_per_hospital=1)  # one idle ambulance
+    sim.graph.graph["pending_requests"] = [
+        {"request_id": "R", "location": (72.882, 19.07), "requested_at_tick": 0}
+    ]
+    assert sim.step().fleet_contention is False  # a call, no transfer
+    state = sim.step(transfer_requests=[("H1", 1, "urgent")])
+    assert state.fleet_contention is True  # 1 idle ambulance, 2 jobs of both kinds
+
+
+@pytest.mark.phase4
+def test_episode_metrics_aggregate_the_new_fleet_metrics() -> None:
+    from udt.common.models import TwinState
+    from udt.logging.metrics import compute_episode_metrics
+
+    trace = [
+        TwinState(tick=0, assets=[], fleet_contention=True, casualty_outcome_hours_this_tick=[1.0]),
+        TwinState(
+            tick=1,
+            assets=[],
+            ambulance_response_times_this_tick=[0.5],
+            transfers_completed_cumulative=2,
+            casualty_outcome_hours_this_tick=[3.0],
+        ),
+    ]
+    m = compute_episode_metrics("s", "a", trace)
+    assert m.mean_casualty_time_to_admission_hours == pytest.approx(2.0)
+    assert m.fleet_contention_fraction == pytest.approx(0.5)
+    assert m.jobs_completed == 3

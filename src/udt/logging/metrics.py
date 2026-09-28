@@ -77,6 +77,7 @@ def compute_episode_metrics(
         unmet_patient_hours += queued_this_tick * dt_hours
         response_times_hours.extend(state.ambulance_response_times_this_tick)
 
+    casualty_outcomes = [h for snap in trace for h in snap.casualty_outcome_hours_this_tick]
     return EpisodeMetrics(
         scenario_id=scenario_id,
         agent_name=agent_name,
@@ -93,6 +94,14 @@ def compute_episode_metrics(
             trace[-1].uncollected_casualty_deaths_cumulative if trace else 0
         ),
         transfers_completed=trace[-1].transfers_completed_cumulative if trace else 0,
+        jobs_completed=len(response_times_hours)
+        + (trace[-1].transfers_completed_cumulative if trace else 0),
+        mean_casualty_time_to_admission_hours=(
+            float(np.mean(casualty_outcomes)) if casualty_outcomes else None
+        ),
+        fleet_contention_fraction=(
+            sum(s.fleet_contention for s in trace) / len(trace) if trace else 0.0
+        ),
         mean_ambulance_response_delay_hours=(
             float(np.mean(response_times_hours)) if response_times_hours else None
         ),

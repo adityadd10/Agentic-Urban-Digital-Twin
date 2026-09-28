@@ -94,7 +94,12 @@ from udt.twin.ambulances import (
     find_job,
 )
 from udt.twin.cascade import EdgeRuntimeState, resolve_functional_levels, update_buffers
-from udt.twin.demand import SURGE_MAX_HOURS, apply_patient_transfer, consume_demand
+from udt.twin.demand import (
+    CASUALTY_OUTCOMES_KEY,
+    SURGE_MAX_HOURS,
+    apply_patient_transfer,
+    consume_demand,
+)
 from udt.twin.graph import build_networkx_graph, get_asset
 from udt.twin.power import apply_overload_damage
 from udt.twin.road_network import RoadNetwork
@@ -317,6 +322,7 @@ class Simulator:
 
         response_times_this_tick: list[float] = []
         pending_requests_count = 0
+        fleet_contention = False
         if self.road_network is not None:
             if transfer_requests:  # twin-v3: health's requests become transport jobs
                 add_transfer_requests(self.graph, self.tick, transfer_requests)
@@ -340,6 +346,19 @@ class Simulator:
                 self._uncollected_deaths_total += expired
                 self._patient_deaths_total += expired
             pending_requests_count = len(self.graph.graph.get("pending_requests", []))
+            # Twin-v3 metric: calls and transfers both waiting, fewer idle ambulances than jobs.
+            n_transfers = len(self.graph.graph.get("transfer_requests", []))
+            n_idle = sum(
+                1
+                for a in self.graph.nodes
+                if self.graph.nodes[a]["asset"].asset_type == AssetType.AMBULANCE
+                and self.graph.nodes[a]["asset"].attributes.get("status") == "idle"
+            )
+            fleet_contention = (
+                pending_requests_count > 0
+                and n_transfers > 0
+                and n_idle < pending_requests_count + n_transfers
+            )
 
         snapshot = TwinState(
             tick=self.tick,
@@ -349,6 +368,8 @@ class Simulator:
             uncollected_casualty_deaths_cumulative=self._uncollected_deaths_total,
             transfers_completed_cumulative=int(self.graph.graph.get("transfers_completed", 0)),
             pending_transfers_count=len(self.graph.graph.get("transfer_requests", [])),
+            fleet_contention=fleet_contention,
+            casualty_outcome_hours_this_tick=self.graph.graph.pop(CASUALTY_OUTCOMES_KEY, []),
             ambulance_response_times_this_tick=response_times_this_tick,
             pending_requests_count=pending_requests_count,
             patients_transferred_cumulative=self._patients_transferred_total,

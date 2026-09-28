@@ -92,6 +92,28 @@ def diurnal_multiplier(hour_of_day: float) -> float:
     return float(1.0 + DIURNAL_AMPLITUDE * np.cos(phase))
 
 
+# Twin-v3 metric (dev doc §3.9, protocol 2026-09-29 §5): casualty call -> bed
+# time. Each queued patient has a matching entry in `queue_call_ticks` (the
+# tick of the emergency call for a casualty, None for walk-ins and transferred
+# inpatients). Outcomes are appended to `graph.graph[CASUALTY_OUTCOMES_KEY]`
+# (hours) and drained into each `TwinState` by `Simulator.step`: admitted =
+# call -> bed; died in a queue or uncollected = call -> death (censored there).
+# Bookkeeping only: no random numbers are drawn.
+CASUALTY_OUTCOMES_KEY = "casualty_outcome_hours"
+
+
+def queue_call_ticks(attrs: dict[str, Any]) -> list[int | None]:
+    """The call ticks aligned with `queue_arrivals` (all None if absent or out
+    of step, e.g. a queue written directly by a test)."""
+    n = len(attrs.get("queue_arrivals", []))
+    calls = list(attrs.get("queue_call_ticks", []))
+    return calls if len(calls) == n else [None] * n
+
+
+def record_casualty_outcome(graph: nx.DiGraph[str], hours: float) -> None:
+    graph.graph.setdefault(CASUALTY_OUTCOMES_KEY, []).append(hours)
+
+
 def _nominal_bed_capacity(attrs: dict[str, Any]) -> float:
     """`beds_total`, plus `SURGE_BED_FRACTION` of it while surge is on. Without
     surge this is the plain int, so twin-v2's arithmetic is unchanged."""
@@ -172,6 +194,7 @@ def consume_demand(
         beds_total = int(attrs.get("beds_total", 0))
         beds_occupied = int(attrs.get("beds_occupied", 0))
         queue: list[int] = list(attrs.get("queue_arrivals", []))
+        calls = queue_call_ticks(attrs)
 
         # M8: a power/water/access-starved hospital can't safely staff
         # every nominal bed — see module docstring's "functional-level
@@ -194,7 +217,11 @@ def consume_demand(
         free_beds = effective_beds_total - beds_occupied
         n_admit_from_queue = min(len(queue), max(0, free_beds))
         if n_admit_from_queue > 0:
+            for call_tick in calls[:n_admit_from_queue]:
+                if call_tick is not None:
+                    record_casualty_outcome(graph, (tick - call_tick) * dt_hours)
             queue = queue[n_admit_from_queue:]
+            calls = calls[n_admit_from_queue:]
             beds_occupied += n_admit_from_queue
             free_beds -= n_admit_from_queue
 
@@ -220,15 +247,21 @@ def consume_demand(
         n_admit_now = min(n_arrivals, max(0, free_beds))
         beds_occupied += n_admit_now
         queue.extend([tick] * (n_arrivals - n_admit_now))
+        calls.extend([None] * (n_arrivals - n_admit_now))
 
         # 4. deadline check — dev doc §5.4 patient_deaths' proxy
         deadline_ticks = PATIENT_WAIT_DEADLINE_HOURS / dt_hours
-        still_waiting = [t for t in queue if (tick - t) <= deadline_ticks]
+        kept = [(t, c) for t, c in zip(queue, calls, strict=True) if (tick - t) <= deadline_ticks]
+        for t, c in zip(queue, calls, strict=True):
+            if (tick - t) > deadline_ticks and c is not None:
+                record_casualty_outcome(graph, (tick - c) * dt_hours)
+        still_waiting = [t for t, _ in kept]
         n_deaths = len(queue) - len(still_waiting)
 
         attrs["beds_occupied"] = beds_occupied
         attrs["patient_queue"] = len(still_waiting)
         attrs["queue_arrivals"] = still_waiting
+        attrs["queue_call_ticks"] = [c for _, c in kept]
         deaths[asset_id] = n_deaths
 
     # Redirected walk-ins join the receiving hospital's queue now (travel time
@@ -237,8 +270,10 @@ def consume_demand(
     for target, n in redirected.items():
         if n > 0:
             t_attrs = graph.nodes[target]["asset"].attributes
+            t_calls = queue_call_ticks(t_attrs) + [None] * n
             t_queue = list(t_attrs.get("queue_arrivals", [])) + [tick] * n
             t_attrs["queue_arrivals"] = t_queue
+            t_attrs["queue_call_ticks"] = t_calls
             t_attrs["patient_queue"] = len(t_queue)
 
     return deaths

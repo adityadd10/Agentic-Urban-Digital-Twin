@@ -170,3 +170,20 @@ first gate run. Their definitions here are binding.
 For every gate: both conditions' means, the paired difference with its CI, margins, pass/fail,
 and results per stratum (flood-centre sector × severity band). For the suite: T1–T3 frequencies
 per split.
+
+## Addendum 2026-09-29: metric definitions (written before any gate run)
+
+§5 names "casualty time-to-admission (call → bed)" but does not say how casualties who never
+reach a bed are counted. To stop a policy from looking faster by letting slow casualties die,
+the metric is defined as follows (`EpisodeMetrics.mean_casualty_time_to_admission_hours`):
+
+- **Admitted casualty:** hours from the emergency call to the bed.
+- **Casualty who dies in a hospital queue, or is never collected** (metric-v2): hours from the
+  call to the death (censored there).
+- **Walk-ins and transferred inpatients** are not casualties and are excluded.
+- **Casualties still unresolved when the episode ends** (at most the final 4 h) are excluded.
+  This is disclosed.
+
+"Jobs completed" = street calls picked up + transfers delivered (`jobs_completed`).
+"Fleet contention" (§8, Gate C) = the share of ticks on which calls and transfers are both
+waiting and there are fewer idle ambulances than jobs (`fleet_contention_fraction`).

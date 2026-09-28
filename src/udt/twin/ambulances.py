@@ -185,19 +185,26 @@ def add_transfer_requests(
     return added
 
 
-def _take_patient_for_transfer(graph: nx.DiGraph[str], hospital_id: str) -> tuple[bool, int | None]:
-    """(anyone taken?, original wait-start tick or None for an admitted patient)."""
+def _take_patient_for_transfer(
+    graph: nx.DiGraph[str], hospital_id: str
+) -> tuple[bool, int | None, int | None]:
+    """(anyone taken?, original wait-start tick or None for an admitted patient,
+    the patient's emergency-call tick if they are a casualty)."""
+    from udt.twin.demand import queue_call_ticks
+
     attrs = graph.nodes[hospital_id]["asset"].attributes
     queue: list[int] = list(attrs.get("queue_arrivals", []))
     if queue:
-        oldest = queue.pop(0)
+        calls = queue_call_ticks(attrs)
+        oldest, call_tick = queue.pop(0), calls.pop(0)
         attrs["queue_arrivals"] = queue
+        attrs["queue_call_ticks"] = calls
         attrs["patient_queue"] = len(queue)
-        return True, oldest
+        return True, oldest, call_tick
     if int(attrs.get("beds_occupied", 0)) > 0:
         attrs["beds_occupied"] = int(attrs["beds_occupied"]) - 1
-        return True, None
-    return False, None
+        return True, None, None
+    return False, None, None
 
 
 def dispatch_ambulance(
@@ -246,14 +253,22 @@ def dispatch_ambulance(
 
 
 def _deliver_casualty(
-    graph: nx.DiGraph[str], hospital_id: str, tick: int, wait_start_tick: int | None = None
+    graph: nx.DiGraph[str],
+    hospital_id: str,
+    tick: int,
+    wait_start_tick: int | None = None,
+    call_tick: int | None = None,
 ) -> None:
     """Casualty joins the hospital's queue; `consume_demand` admits it (or,
     past the deadline, counts it in the death proxy) like any walk-in."""
+    from udt.twin.demand import queue_call_ticks
+
     attrs = graph.nodes[hospital_id]["asset"].attributes
+    calls = queue_call_ticks(attrs) + [call_tick]
     queue: list[int] = list(attrs.get("queue_arrivals", []))
     queue.append(tick if wait_start_tick is None else wait_start_tick)
     attrs["queue_arrivals"] = queue
+    attrs["queue_call_ticks"] = calls
     attrs["patient_queue"] = len(queue)
 
 
@@ -286,23 +301,28 @@ def advance_ambulances(graph: nx.DiGraph[str], tick: int, dt_minutes: float) -> 
                 response_times_hours.append((tick - request["requested_at_tick"]) * dt_hours)
                 pending.remove(request)
                 attrs["carrying_patient"] = True
+                attrs["carried_call_tick"] = request["requested_at_tick"]
             else:  # twin-v3 transfer job?
                 transfers: list[dict[str, Any]] = graph.graph.get("transfer_requests", [])
                 job = next((r for r in transfers if r["request_id"] == request_id), None)
                 if job is not None:
                     transfers.remove(job)
-                    taken, wait_start = _take_patient_for_transfer(graph, job["from_hospital_id"])
+                    taken, wait_start, call_tick = _take_patient_for_transfer(
+                        graph, job["from_hospital_id"]
+                    )
                     if taken:
                         attrs["carrying_patient"] = True
                         attrs["carrying_transfer"] = True
                         attrs["wait_start_tick"] = wait_start
+                        attrs["carried_call_tick"] = call_tick
             attrs["status"] = "returning"
             attrs["remaining_travel_min"] = float(attrs.get("return_travel_min", 0.0))
         else:  # "returning" leg just completed: at the destination, or back home
             if attrs.get("carrying_patient"):
                 destination = attrs.pop("delivery_hospital_id", None) or attrs["home_hospital_id"]
                 wait_start = attrs.pop("wait_start_tick", None)
-                _deliver_casualty(graph, str(destination), tick, wait_start)
+                call_tick = attrs.pop("carried_call_tick", None)
+                _deliver_casualty(graph, str(destination), tick, wait_start, call_tick)
                 attrs["carrying_patient"] = False
                 if attrs.pop("carrying_transfer", False):
                     graph.graph["transfers_completed"] = (
@@ -334,5 +354,8 @@ def expire_uncollected_requests(graph: nx.DiGraph[str], tick: int, dt_hours: flo
     deadline_ticks = demand.PATIENT_WAIT_DEADLINE_HOURS / dt_hours
     pending: list[dict[str, Any]] = graph.graph.get("pending_requests", [])
     still_pending = [r for r in pending if (tick - r["requested_at_tick"]) <= deadline_ticks]
+    for r in pending:
+        if (tick - r["requested_at_tick"]) > deadline_ticks:
+            demand.record_casualty_outcome(graph, (tick - r["requested_at_tick"]) * dt_hours)
     graph.graph["pending_requests"] = still_pending
     return len(pending) - len(still_pending)
