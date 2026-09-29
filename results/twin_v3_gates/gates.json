@@ -1,0 +1,379 @@
+{
+  "results": {
+    "A-health": {
+      "mechanism": {
+        "metric": "unmet_patient_hours",
+        "n": 20,
+        "mean_improvement_X_over_Y": 199.84027777777763,
+        "ci95": [
+          153.43986111111101,
+          248.7170833333332
+        ],
+        "margin": 37.37840277777766,
+        "passes": true,
+        "better": "X"
+      },
+      "outcomes": [
+        {
+          "metric": "patient_deaths",
+          "n": 20,
+          "mean_improvement_of_better": 53.16666666666667,
+          "ci95": [
+            39.13291666666665,
+            67.63333333333334
+          ],
+          "wilcoxon_p": 0.0001318338889828333,
+          "holm_p": 0.0001318338889828333,
+          "passes": true
+        }
+      ],
+      "passes": true,
+      "conditions": {
+        "X": "rbs",
+        "Y": "a_health_fixed"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 355.45833333333337,
+        "H_peripheral_0|moderate": 242.49999999999966,
+        "H_peripheral_0|severe": 207.6388888888888,
+        "H_polyclinic_0|mild": 63.347222222222214,
+        "H_polyclinic_0|moderate": 47.04166666666664,
+        "H_polyclinic_0|severe": 183.04166666666646,
+        "H_synth_0|mild": 149.1944444444443,
+        "H_synth_0|moderate": 306.51388888888874,
+        "H_synth_0|severe": 201.16666666666652
+      }
+    },
+    "A-power": {
+      "mechanism": {
+        "metric": "mean_critical_functional_level",
+        "n": 20,
+        "mean_improvement_X_over_Y": 0.10646303748071415,
+        "ci95": [
+          0.0725170317001501,
+          0.14135363866738035
+        ],
+        "margin": 0.02,
+        "passes": true,
+        "better": "X"
+      },
+      "outcomes": [
+        {
+          "metric": "patient_deaths",
+          "n": 20,
+          "mean_improvement_of_better": 39.68333333333334,
+          "ci95": [
+            19.583333333333336,
+            61.383749999999985
+          ],
+          "wilcoxon_p": 0.0028734139278525223,
+          "holm_p": 0.003742865820494063,
+          "passes": true
+        },
+        {
+          "metric": "unmet_patient_hours",
+          "n": 20,
+          "mean_improvement_of_better": 133.83333333333331,
+          "ci95": [
+            68.76472222222219,
+            204.0677430555555
+          ],
+          "wilcoxon_p": 0.0018714329102470315,
+          "holm_p": 0.003742865820494063,
+          "passes": true
+        }
+      ],
+      "passes": true,
+      "conditions": {
+        "X": "rbs",
+        "Y": "a_power_fixed"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 0.05737375114681462,
+        "H_peripheral_0|moderate": 0.08980155921919396,
+        "H_peripheral_0|severe": 0.1297359653053888,
+        "H_polyclinic_0|mild": 0.0,
+        "H_polyclinic_0|moderate": 0.0,
+        "H_polyclinic_0|severe": 0.12880557235415566,
+        "H_synth_0|mild": 0.1509738376351027,
+        "H_synth_0|moderate": 0.203699301298848,
+        "H_synth_0|severe": 0.21443882862844407
+      }
+    },
+    "A-transport": {
+      "mechanism": {
+        "metric": "mean_casualty_time_to_admission_hours",
+        "n": 20,
+        "mean_improvement_X_over_Y": 0.1933247365158135,
+        "ci95": [
+          0.10132526907658643,
+          0.29095934335404733
+        ],
+        "margin": 0.347109929855464,
+        "passes": false,
+        "better": "X"
+      },
+      "outcomes": [
+        {
+          "metric": "patient_deaths",
+          "n": 20,
+          "mean_improvement_of_better": 3.4500000000000015,
+          "ci95": [
+            1.4495833333333343,
+            5.8
+          ],
+          "wilcoxon_p": 0.003073490117829518,
+          "holm_p": 0.003073490117829518,
+          "passes": true
+        },
+        {
+          "metric": "unmet_patient_hours",
+          "n": 20,
+          "mean_improvement_of_better": 11.679166666666612,
+          "ci95": [
+            5.420624999999845,
+            17.45565972222211
+          ],
+          "wilcoxon_p": 0.00147716619523738,
+          "holm_p": 0.00295433239047476,
+          "passes": true
+        }
+      ],
+      "passes": false,
+      "conditions": {
+        "X": "rbs",
+        "Y": "a_transport_fixed"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 0.21790663040663016,
+        "H_peripheral_0|moderate": 0.18415058283161567,
+        "H_peripheral_0|severe": 0.2589063640212138,
+        "H_polyclinic_0|mild": 0.049113363991081405,
+        "H_polyclinic_0|moderate": 0.03300119311689187,
+        "H_polyclinic_0|severe": 0.5584925762386806,
+        "H_synth_0|mild": 0.018501311675653942,
+        "H_synth_0|moderate": 0.18600919180187492,
+        "H_synth_0|severe": 0.24301556824287696
+      }
+    },
+    "B-destination": {
+      "mechanism": {
+        "metric": "mean_casualty_time_to_admission_hours",
+        "n": 20,
+        "mean_improvement_X_over_Y": 0.0360127674488049,
+        "ci95": [
+          -0.020698765637821342,
+          0.09012838285219069
+        ],
+        "margin": 0.347109929855464,
+        "passes": false,
+        "better": null
+      },
+      "outcomes": [
+        {
+          "metric": "patient_deaths",
+          "n": 20,
+          "mean_improvement_of_better": 1.0666666666666664,
+          "ci95": [
+            0.18333333333333374,
+            2.1999999999999993
+          ],
+          "wilcoxon_p": 0.03373246148745889,
+          "holm_p": 0.03373246148745889,
+          "passes": false
+        }
+      ],
+      "passes": false,
+      "conditions": {
+        "X": "rbs",
+        "Y": "b_nearest_functioning"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 0.24155982905982898,
+        "H_peripheral_0|moderate": 0.037530384126289895,
+        "H_peripheral_0|severe": 0.15836826388896275,
+        "H_polyclinic_0|mild": 0.049113363991081405,
+        "H_polyclinic_0|moderate": 0.03300119311689187,
+        "H_polyclinic_0|severe": -0.007861800291790844,
+        "H_synth_0|mild": -0.15295041317519387,
+        "H_synth_0|moderate": -0.020060225268557996,
+        "H_synth_0|severe": -0.016103305085753084
+      }
+    },
+    "C-fleet": {
+      "mechanism": {
+        "metric": "jobs_completed",
+        "n": 20,
+        "mean_improvement_X_over_Y": -0.26666666666666644,
+        "ci95": [
+          -1.2,
+          0.6500000000000007
+        ],
+        "margin": 3.5008333333333335,
+        "passes": false,
+        "better": null
+      },
+      "outcomes": [
+        {
+          "metric": "patient_deaths",
+          "n": 20,
+          "mean_improvement_of_better": 0.03333333333333268,
+          "ci95": [
+            -0.6000000000000008,
+            0.6166666666666665
+          ],
+          "wilcoxon_p": 0.5699840677206465,
+          "holm_p": 0.5699840677206465,
+          "passes": false
+        },
+        {
+          "metric": "unmet_patient_hours",
+          "n": 20,
+          "mean_improvement_of_better": -10.441666666666652,
+          "ci95": [
+            -17.991770833333305,
+            -4.965208333333311
+          ],
+          "wilcoxon_p": 0.00043777719457466344,
+          "holm_p": 0.0008755543891493269,
+          "passes": false
+        }
+      ],
+      "passes": false,
+      "conditions": {
+        "X": "c_calls_first",
+        "Y": "c_transfers_first"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 1.5,
+        "H_peripheral_0|moderate": -0.7499999999999982,
+        "H_peripheral_0|severe": -1.1666666666666714,
+        "H_polyclinic_0|mild": 0.0,
+        "H_polyclinic_0|moderate": 0.0,
+        "H_polyclinic_0|severe": -1.6666666666666714,
+        "H_synth_0|mild": 1.0000000000000036,
+        "H_synth_0|moderate": -1.3333333333333286,
+        "H_synth_0|severe": 0.5
+      }
+    },
+    "D-repair-order": {
+      "mechanism": {
+        "metric": "mean_critical_functional_level",
+        "n": 20,
+        "mean_improvement_X_over_Y": 0.009468788645376936,
+        "ci95": [
+          0.0027544129444775885,
+          0.01793319187068713
+        ],
+        "margin": 0.02,
+        "passes": false,
+        "better": null
+      },
+      "outcomes": [
+        {
+          "metric": "unmet_patient_hours",
+          "n": 20,
+          "mean_improvement_of_better": 5.76666666666665,
+          "ci95": [
+            -7.212500000000011,
+            20.909722222222207
+          ],
+          "wilcoxon_p": 0.6001794871405538,
+          "holm_p": 0.6001794871405538,
+          "passes": false
+        }
+      ],
+      "passes": false,
+      "conditions": {
+        "X": "rbs",
+        "Y": "d_nearest_reachable"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 0.021564840043870326,
+        "H_peripheral_0|moderate": 0.0022060273176352924,
+        "H_peripheral_0|severe": 0.013996596007784648,
+        "H_polyclinic_0|mild": 0.0,
+        "H_polyclinic_0|moderate": 0.0,
+        "H_polyclinic_0|severe": 0.03632619302058321,
+        "H_synth_0|mild": 0.0,
+        "H_synth_0|moderate": 0.015556747221048273,
+        "H_synth_0|severe": 0.0028314555252123286
+      }
+    },
+    "E-coordination": {
+      "mechanism": {
+        "metric": "patient_deaths",
+        "n": 20,
+        "mean_improvement_X_over_Y": 3.4166666666666687,
+        "ci95": [
+          1.3166666666666687,
+          5.866666666666669
+        ],
+        "margin": 7.266666666666663,
+        "passes": false,
+        "better": "X"
+      },
+      "outcomes": [
+        {
+          "metric": "unmet_patient_hours",
+          "n": 20,
+          "mean_improvement_of_better": 12.802777777777726,
+          "ci95": [
+            7.069374999999928,
+            18.247256944444448
+          ],
+          "wilcoxon_p": 0.0011156286211977205,
+          "holm_p": 0.002231257242395441,
+          "passes": true
+        },
+        {
+          "metric": "mean_critical_functional_level",
+          "n": 20,
+          "mean_improvement_of_better": -0.0008708718226890011,
+          "ci95": [
+            -0.0029851147804119877,
+            0.0003493164517863384
+          ],
+          "wilcoxon_p": 1.0,
+          "holm_p": 1.0,
+          "passes": false
+        }
+      ],
+      "passes": false,
+      "conditions": {
+        "X": "e_coordinated",
+        "Y": "a_transport_fixed"
+      },
+      "per_stratum_mean_improvement_X_over_Y": {
+        "H_peripheral_0|mild": 6.833333333333338,
+        "H_peripheral_0|moderate": 1.0833333333333357,
+        "H_peripheral_0|severe": 4.666666666666666,
+        "H_polyclinic_0|mild": 0.0,
+        "H_polyclinic_0|moderate": -0.16666666666666652,
+        "H_polyclinic_0|severe": 8.500000000000005,
+        "H_synth_0|mild": 9.666666666666666,
+        "H_synth_0|moderate": 0.6666666666666714,
+        "H_synth_0|severe": 1.8333333333333357
+      }
+    },
+    "F-headroom": {
+      "rbs_mean_deaths": 65.41666666666667,
+      "mean_improvement": -0.4000000000000017,
+      "improvement_share": -0.006114649681528687,
+      "ci95": [
+        -1.3666666666666678,
+        0.48333333333333056
+      ],
+      "threshold_share": 0.15,
+      "passes": false
+    }
+  },
+  "all_pass": false,
+  "margins": {
+    "patient_deaths": 7.266666666666663,
+    "unmet_patient_hours": 37.37840277777766,
+    "mean_casualty_time_to_admission_hours": 0.347109929855464,
+    "jobs_completed": 3.5008333333333335,
+    "mean_critical_functional_level": 0.02
+  }
+}
