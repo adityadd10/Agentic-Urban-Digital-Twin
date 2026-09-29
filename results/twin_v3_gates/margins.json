@@ -1,0 +1,61 @@
+{
+  "margins": {
+    "patient_deaths": 7.266666666666663,
+    "unmet_patient_hours": 37.37840277777766,
+    "mean_casualty_time_to_admission_hours": 0.347109929855464,
+    "jobs_completed": 3.5008333333333335,
+    "mean_critical_functional_level": 0.02
+  },
+  "detail": {
+    "patient_deaths": {
+      "rbs_mean_g1": 65.41666666666667,
+      "noise": 3.6333333333333315,
+      "two_noise": 7.266666666666663,
+      "practical_min": [
+        "share",
+        0.05
+      ],
+      "margin": 7.266666666666663
+    },
+    "unmet_patient_hours": {
+      "rbs_mean_g1": 375.41805555555555,
+      "noise": 18.68920138888883,
+      "two_noise": 37.37840277777766,
+      "practical_min": [
+        "share",
+        0.05
+      ],
+      "margin": 37.37840277777766
+    },
+    "mean_casualty_time_to_admission_hours": {
+      "rbs_mean_g1": 2.2505639141022042,
+      "noise": 0.173554964927732,
+      "two_noise": 0.347109929855464,
+      "practical_min": [
+        "share",
+        0.05
+      ],
+      "margin": 0.347109929855464
+    },
+    "jobs_completed": {
+      "rbs_mean_g1": 70.01666666666667,
+      "noise": 1.4499999999999982,
+      "two_noise": 2.8999999999999964,
+      "practical_min": [
+        "share",
+        0.05
+      ],
+      "margin": 3.5008333333333335
+    },
+    "mean_critical_functional_level": {
+      "rbs_mean_g1": 0.6437563951877028,
+      "noise": 0.0,
+      "two_noise": 0.0,
+      "practical_min": [
+        "abs",
+        0.02
+      ],
+      "margin": 0.02
+    }
+  }
+}
