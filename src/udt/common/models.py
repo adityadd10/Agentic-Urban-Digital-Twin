@@ -336,6 +336,7 @@ class RolloutOutcome(BaseModel):
     min_critical_functional_level: float  # hospitals + substations + water
     unmet_patient_hours: float
     new_cascading_failures: int
+    new_patient_deaths: int = 0  # deaths during this rollout (twin-v3 ceiling, addendum 7)
 
 
 class SimulationResult(BaseModel):

@@ -87,6 +87,7 @@ def _run_one_rollout(
     # access (both live in `twin/`), not reaching across a module
     # boundary.
     starting_cascade_count = len(clone._ever_cascaded)
+    starting_deaths = clone._patient_deaths_total
 
     min_hospital_level = 1.0
     min_critical_level = 1.0
@@ -126,6 +127,7 @@ def _run_one_rollout(
         min_critical_functional_level=min_critical_level,
         unmet_patient_hours=unmet_patient_hours,
         new_cascading_failures=new_cascading_failures,
+        new_patient_deaths=snapshot.patient_deaths_cumulative - starting_deaths,
     )
 
 

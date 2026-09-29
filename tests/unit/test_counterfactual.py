@@ -259,3 +259,20 @@ def test_simulate_respects_incident_driven_power_surge() -> None:
     # Both original simulators stay untouched either way.
     assert sim_with_incident.asset("S1").intrinsic_level == pytest.approx(1.0)
     assert sim_without_incident.asset("S1").intrinsic_level == pytest.approx(1.0)
+
+
+@pytest.mark.phase8
+def test_new_patient_deaths_counts_only_this_rollouts_deaths() -> None:
+    """Twin-v3 ceiling score input (protocol addendum 7)."""
+    h = Asset(
+        asset_id="H1",
+        asset_type=AssetType.HOSPITAL,
+        geometry=POINT,
+        attributes={"beds_total": 1, "beds_occupied": 1, "queue_arrivals": [0, 0, 0]},
+    )
+    sim = Simulator(DependencyGraph(assets=[h], edges=[]))
+    sim._patient_deaths_total = 7  # deaths before the rollout must not be counted
+    sim.tick = 49  # the 3 queued patients pass the 4 h deadline on the first rollout tick
+    result = simulate(sim, AgentAction(), degradation_fn=None, horizon_ticks=2, n_rollouts=2)
+    assert all(r.new_patient_deaths >= 3 for r in result.rollouts)
+    assert all(r.new_patient_deaths < 7 + 3 for r in result.rollouts)
