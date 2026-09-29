@@ -313,3 +313,76 @@ ambulance assignment, destination options, 15-min cadence and full 24 h horizon 
   patient-hours, then grid order.
 - All 36 results are saved. The winner goes to `configs/rbs_v3.yaml` and is frozen as git tag
   `rbs-v3`, which is never retuned or edited after any validation or test use.
+
+## Addendum 2026-09-29 (7): gate conditions defined for the frozen v3 interface (written before any gate implementation or run)
+
+The frozen v3 interface (dev doc §3.9, tag `twin-v3`) has:
+- transport choosing a destination *per job*, before the ambulance (and its home) is known;
+- job slots served in the env's fixed order;
+- no shed head.
+
+Some §6 wording therefore needs an exact v3 meaning. These are clarifications, fixed before
+anything is implemented or run. Every condition is the frozen RB-S (`rbs-v3`) with only the
+named sector replaced.
+
+**Gate A fixed defaults.**
+- **Health fixed:** no transfer requests, never divert, never surge.
+- **Power fixed:** the crew is never assigned (no repair). The shed head no longer exists.
+- **Transport fixed:** every visible job slot is selected. The destination is the nearest
+  reachable hospital by pickup → hospital travel time, ignoring beds and divert status; a transfer
+  goes to the nearest reachable hospital other than its source.
+  - This replaces "casualty to home hospital", which cannot be expressed per job in v3.
+  - "FIFO / oldest first" is replaced by the env's fixed slot order, which binds every policy
+    equally.
+
+**Gate B** alternative: "nearest functioning hospital" = the nearest reachable hospital with
+functional level ≥ 0.5, ignoring beds and divert status, never a transfer's own source; if none
+qualifies, the nearest reachable.
+
+**Gate C** alternatives. Every visible slot gets RB-S's destination, then the selection is
+trimmed to the idle ambulances n:
+- **calls-first:** street-call slots (in slot order) up to n, then transfer slots with any
+  capacity left;
+- **transfers-first:** the reverse.
+
+**Gate D** alternative: "nearest-reachable-first". Keep the current target while it is damaged
+and the crew is busy; otherwise pick the damaged facility with the shortest crew travel time now.
+Crew movement is always on in v3.
+
+**Gate E.**
+- **Receiving hospital:** the hospital with the most inbound ambulances (carrying, or assigned
+  with it as the delivery destination); if tied or zero, none.
+- **Coordinated:** RB-S, plus:
+  - power first repairs the damaged, reachable facilities in the receiving hospital's supply
+    chain (its substation, pump and pump substation), in RB-S order among them;
+  - health surges the receiving hospital whenever its effective free beds ≤ its inbound
+    ambulances (budget permitting), in addition to RB-S's own surge rule.
+- **Uncoordinated:** RB-S with transport ignoring beds and divert status (the Gate A
+  transport-fixed destination rule). RB-S's health and power rules already use no cross-sector
+  information. Uncoordinated is therefore **the same policy as A-transport-fixed**; it is run
+  once and reported under both names.
+
+**Gate F ceiling.**
+- **Candidates at each decision:** the 7 conditions RB-S, B-alternative, C-calls-first,
+  C-transfers-first, D-alternative, E-coordinated, E-uncoordinated. Each candidate's action
+  arrays are decoded by the env's own decoders and checked by `constraints.check`.
+- **Scoring:** `twin.counterfactual.simulate` (5 rollouts, horizon 24 ticks = 2 h,
+  `base_seed` = the current tick, so all candidates get the same seeds). The score is the mean
+  over rollouts of (new deaths + unmet patient-hours), the literal sum registered in §6. The
+  lowest score wins, ties going to candidate order.
+- `simulate` gains a per-rollout `new_patient_deaths` field (additive; no existing behaviour
+  changes). Its documented scope applies: no new calls and the road state fixed within a
+  rollout.
+
+**Statistics details.**
+- **Missing values:** a scenario with no value for a metric under either condition (e.g. no
+  casualties, so no time-to-admission) is excluded from that comparison, and n is reported.
+- **Directions:** "better" is lower for deaths, unmet patient-hours and time-to-admission, and
+  higher for jobs completed and critical-facility function.
+- **A and E (directional):** the lower bound of the 95% CI of the improvement of RB-S (A) or
+  of coordinated (E) must exceed the margin.
+- **B, C and D (either direction):** the CI of the paired difference must lie entirely above
+  +margin or entirely below −margin. The better condition is whichever side it lies on.
+- **Outcome check:** the outcome metric must favour the same condition with its CI excluding 0
+  and Wilcoxon p < 0.05, Holm-adjusted across the two outcome metrics where there are two; one
+  passing is enough.
