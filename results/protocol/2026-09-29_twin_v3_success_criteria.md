@@ -263,3 +263,53 @@ present in 8 of the 9 sector × severity cells.
 The oversampling rule is unchanged (deterministic within-cell swaps). T1 and T1′ are still
 computed and reported in the manifest. Gate B is unchanged: it tests whether destination choice
 changes outcomes, now on a suite that is guaranteed to contain the situation where it should.
+
+## Addendum 2026-09-29 (6): RB-S exact definition and tuning procedure (written before RB-S is implemented or tuned)
+
+**Interface.** RB-S outputs the **v3 action arrays** (health / power / transport) and they are
+decoded by `UDTMultiAgentEnvV3` itself. RB-S is therefore bound by the same 6 job slots, automatic
+ambulance assignment, destination options, 15-min cadence and full 24 h horizon as MARL.
+- RB-S reads the full simulator state (an operator with full situational awareness); MARL sees
+  its observation vector. This is disclosed, and it makes the baseline stronger.
+- RB-S is built sector by sector (health / power / transport), so that Gate A can replace one
+  sector with its fixed default.
+- It is the only comparator for all v3 gates and comparisons. v2 results are historical
+  (truncation caveat, working notes §2.19).
+
+**Fixed rules (not tuned):**
+- **Destination:** "beds" means *effective* free beds (scaled by functional level). The choice,
+  by pickup → hospital travel time, falls back in order:
+  (a) the nearest reachable hospital that is accepting and has beds;
+  (b) the nearest reachable accepting hospital;
+  (c) the nearest reachable hospital;
+  (d) otherwise defer.
+  A transfer never goes to its own source, and there is no forecasting.
+- **Dispatch:** every visible slot is selected with its destination; the environment serves them
+  in its fixed slot order until idle ambulances run out. RB-S never defers by choice.
+- **Priority:** the environment's fixed slot order (slack, urgency, age). Not tuned.
+- **Repair:** keep the current crew target while it is damaged (intrinsic < 1) and reachable.
+  Otherwise, among damaged facilities, pick by most dependants, then most damaged, taking the
+  first one the crew can reach now.
+- **Shedding:** v1's rule, raising the tier above 95% post-shed load and lowering it below the
+  de-shed threshold.
+- **Transfer urgency:** "urgent" if the source's longest-waiting queued patient has < 1 h to the
+  deadline, else "routine". Count: routine → 2; urgent → 5 if the excess (queue − effective free
+  beds) ≥ 4, else 2.
+- **Duplicates:** a hospital with transfer jobs still pending requests none.
+
+**Tuned thresholds (train split only):**
+
+| Threshold | Rule | Grid |
+|---|---|---|
+| `transfer_buffer_h` | request a transfer when a hospital's power or water buffer is being drawn and has < this many hours left | {1, 2, 4} |
+| `transfer_queue_ratio` | …or when its queue > this × its effective beds (any queue if effective beds = 0) | {0.1, 0.25} |
+| `divert_queue` | divert when the queue ≥ this and another hospital is accepting with effective free beds; stop when the queue < half of it | {5, 10, 20} |
+| `surge_queue` | surge on while effective free beds = 0 and the queue ≥ this (budget permitting); otherwise off | {1, 5} |
+
+**Tuning.**
+- All 36 configurations run on the 20 train scenarios × evaluation seeds k = 0, 1, 2, through the
+  v3 env at full horizon, default goal weights, metric-v2 on.
+- **Objective (fixed now):** the lowest mean deaths (metric-v2), tie-break the lowest mean unmet
+  patient-hours, then grid order.
+- All 36 results are saved. The winner goes to `configs/rbs_v3.yaml` and is frozen as git tag
+  `rbs-v3`, which is never retuned or edited after any validation or test use.
