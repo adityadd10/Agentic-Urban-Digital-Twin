@@ -25,9 +25,11 @@ switches the twin-v3 mechanics on for its process (`udt.twin.modes`).
   served and deferred jobs are reported in `infos`.
 - **Health.** Per hospital: transfer request {none, 2 routine, 2 urgent,
   5 urgent} x divert {accept, divert} x surge {off, on}.
-- **Power.** Shed tier {0..3} per substation (only if `shedding_enabled`; the
-  pre-registered pre-check decides whether it stays) and the crew's target
-  {keep current, one of the facilities}.
+- **Power.** The crew's target {keep current, one of the facilities}. The shed
+  tier head was removed by the pre-registered pre-check (protocol addendum 2,
+  `results/twin_v3_gates/shedding_precheck.md`: no causal effect on patient
+  outcomes). `shedding_enabled=True` restores it for diagnostics only; it is
+  not part of the frozen twin-v3 action space.
 
 Episodes always run the full horizon unless `terminate_on_stabilization` is
 set (the v2 env's early stop made learned-policy evaluations shorter than the
@@ -154,7 +156,7 @@ class UDTMultiAgentEnvV3(
         scenario_split: str | None = None,
         n_ticks: int = MAX_TICKS,
         base_seed: int = 0,
-        shedding_enabled: bool = True,
+        shedding_enabled: bool = False,
         terminate_on_stabilization: bool = False,
     ) -> None:
         enable_twin_v3()

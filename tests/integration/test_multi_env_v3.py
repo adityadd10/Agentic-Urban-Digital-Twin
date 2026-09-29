@@ -30,7 +30,7 @@ REWARD = REPO_ROOT / "configs/reward.yaml"  # placeholder until v3 normalisers e
 @pytest.fixture(scope="module")
 def env() -> Iterator[UDTMultiAgentEnvV3]:
     saved = (ambulances.COUNT_UNCOLLECTED_CASUALTY_DEATHS, crew.REPAIR_CREW_TRAVEL)
-    e = UDTMultiAgentEnvV3(processed_dir=PROCESSED, reward_config=REWARD)
+    e = UDTMultiAgentEnvV3(processed_dir=PROCESSED, reward_config=REWARD, shedding_enabled=True)
     yield e
     e.close()
     # restore twin-v2 settings for the rest of the test session
@@ -180,14 +180,14 @@ def test_transfer_back_to_its_own_source_is_deferred_not_rerouted(env: UDTMultiA
 
 
 @pytest.mark.phase6
-def test_shedding_head_can_be_switched_off() -> None:
+def test_frozen_v3_action_space_has_no_shed_head() -> None:
+    """Removed by the pre-registered shedding pre-check (protocol addendum 2)."""
     saved = (ambulances.COUNT_UNCOLLECTED_CASUALTY_DEATHS, crew.REPAIR_CREW_TRAVEL)
-    e = UDTMultiAgentEnvV3(processed_dir=PROCESSED, reward_config=REWARD, shedding_enabled=False)
+    e = UDTMultiAgentEnvV3(processed_dir=PROCESSED, reward_config=REWARD)
     try:
         assert list(e.action_space(AGENT_POWER).nvec) == [10]
         e.reset(seed=6)
-        acts = _defer_all(e)
-        e.step(acts)
+        e.step(_defer_all(e))
         assert e.last_action is not None and e.last_action.shed_tier is None
     finally:
         e.close()

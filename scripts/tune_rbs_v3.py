@@ -77,6 +77,7 @@ def run(worker: int, n_workers: int) -> None:
         reward_config=REPO_ROOT / "configs/reward.yaml",  # reward unused: RB-S is scored on metrics
         suite_dir=SUITE,
         scenario_split="train",
+        shedding_enabled=True,  # as run (before the pre-check removed the shed head)
     )
     for i, cfg in enumerate(grid()):
         if i % n_workers != worker:

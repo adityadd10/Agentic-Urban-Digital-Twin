@@ -45,6 +45,7 @@ def run(cond: str) -> None:
         reward_config=REPO_ROOT / "configs/reward.yaml",
         suite_dir=SUITE,
         scenario_split="train",
+        shedding_enabled=True,  # as run (before the pre-check removed the shed head)
     )
     rbs = RuleBasedStrongV3.frozen()
     rows = []
