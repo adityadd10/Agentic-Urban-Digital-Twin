@@ -1,0 +1,31 @@
+{
+  "results": {
+    "patient_deaths": {
+      "on_mean": 65.41666666666667,
+      "off_mean": 65.41666666666667,
+      "diff_on_minus_off": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wilcoxon_p": 1.0,
+      "n_scenarios": 20,
+      "holm_p": 1.0,
+      "passes": false
+    },
+    "unmet_patient_hours": {
+      "on_mean": 375.41805555555555,
+      "off_mean": 375.41805555555555,
+      "diff_on_minus_off": 0.0,
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "wilcoxon_p": 1.0,
+      "n_scenarios": 20,
+      "holm_p": 1.0,
+      "passes": false
+    }
+  },
+  "decision": "REMOVE the shed head (no causal effect)"
+}
