@@ -1,0 +1,13 @@
+note: RB-S for twin-v3, tuned on flood_suite_v3 train only (protocol addendum 6).
+  Frozen as git tag rbs-v3; never retune.
+params:
+  transfer_buffer_h: 1.0
+  transfer_queue_ratio: 0.1
+  divert_queue: 5
+  surge_queue: 1
+tuning:
+  objective: min mean deaths, tie-break unmet patient-hours
+  mean_deaths: 65.41666666666667
+  mean_unmet_patient_hours: 375.41805555555567
+  code_commit: 7346ea2aba283d4548b8a7b4fa106e8e2dbbbb6e
+  selected_at: '2026-09-29T09:21:26.657023+00:00'

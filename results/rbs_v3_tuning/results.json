@@ -1,0 +1,545 @@
+{
+  "ranked": [
+    {
+      "index": 0,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 65.41666666666667,
+      "mean_unmet_patient_hours": 375.41805555555567,
+      "mean_uncollected_deaths": 7.05,
+      "mean_jobs_completed": 70.01666666666667,
+      "mean_transfers": 49.06666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 12,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 65.41666666666667,
+      "mean_unmet_patient_hours": 376.04722222222233,
+      "mean_uncollected_deaths": 7.133333333333334,
+      "mean_jobs_completed": 73.06666666666666,
+      "mean_transfers": 52.2,
+      "n_episodes": 60
+    },
+    {
+      "index": 24,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 65.66666666666667,
+      "mean_unmet_patient_hours": 377.0333333333334,
+      "mean_uncollected_deaths": 7.133333333333334,
+      "mean_jobs_completed": 77.21666666666667,
+      "mean_transfers": 56.63333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 1,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 66.66666666666667,
+      "mean_unmet_patient_hours": 394.02222222222224,
+      "mean_uncollected_deaths": 7.233333333333333,
+      "mean_jobs_completed": 70.2,
+      "mean_transfers": 49.21666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 13,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 66.66666666666667,
+      "mean_unmet_patient_hours": 394.0416666666667,
+      "mean_uncollected_deaths": 7.183333333333334,
+      "mean_jobs_completed": 72.86666666666666,
+      "mean_transfers": 51.88333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 25,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 66.68333333333334,
+      "mean_unmet_patient_hours": 394.09861111111115,
+      "mean_uncollected_deaths": 7.166666666666667,
+      "mean_jobs_completed": 77.11666666666666,
+      "mean_transfers": 56.38333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 3,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 66.93333333333334,
+      "mean_unmet_patient_hours": 401.59722222222234,
+      "mean_uncollected_deaths": 6.966666666666667,
+      "mean_jobs_completed": 70.45,
+      "mean_transfers": 49.56666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 15,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 67.11666666666666,
+      "mean_unmet_patient_hours": 402.1194444444446,
+      "mean_uncollected_deaths": 7.066666666666666,
+      "mean_jobs_completed": 73.46666666666667,
+      "mean_transfers": 52.916666666666664,
+      "n_episodes": 60
+    },
+    {
+      "index": 27,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 67.33333333333333,
+      "mean_unmet_patient_hours": 402.10555555555567,
+      "mean_uncollected_deaths": 7.1,
+      "mean_jobs_completed": 76.98333333333333,
+      "mean_transfers": 56.516666666666666,
+      "n_episodes": 60
+    },
+    {
+      "index": 19,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 67.76666666666667,
+      "mean_unmet_patient_hours": 394.39166666666654,
+      "mean_uncollected_deaths": 7.066666666666666,
+      "mean_jobs_completed": 71.18333333333334,
+      "mean_transfers": 49.78333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 31,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 67.8,
+      "mean_unmet_patient_hours": 393.1875,
+      "mean_uncollected_deaths": 6.866666666666666,
+      "mean_jobs_completed": 76.25,
+      "mean_transfers": 54.983333333333334,
+      "n_episodes": 60
+    },
+    {
+      "index": 7,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 5
+      },
+      "mean_deaths": 67.96666666666667,
+      "mean_unmet_patient_hours": 394.89583333333326,
+      "mean_uncollected_deaths": 6.966666666666667,
+      "mean_jobs_completed": 67.68333333333334,
+      "mean_transfers": 45.916666666666664,
+      "n_episodes": 60
+    },
+    {
+      "index": 30,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 68.1,
+      "mean_unmet_patient_hours": 383.10694444444454,
+      "mean_uncollected_deaths": 6.883333333333334,
+      "mean_jobs_completed": 75.68333333333334,
+      "mean_transfers": 54.5,
+      "n_episodes": 60
+    },
+    {
+      "index": 6,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 68.15,
+      "mean_unmet_patient_hours": 381.4222222222222,
+      "mean_uncollected_deaths": 6.9,
+      "mean_jobs_completed": 67.56666666666666,
+      "mean_transfers": 46.03333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 18,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 5,
+        "surge_queue": 1
+      },
+      "mean_deaths": 68.16666666666667,
+      "mean_unmet_patient_hours": 382.1291666666666,
+      "mean_uncollected_deaths": 7.0,
+      "mean_jobs_completed": 70.73333333333333,
+      "mean_transfers": 49.56666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 2,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 68.61666666666666,
+      "mean_unmet_patient_hours": 396.5736111111112,
+      "mean_uncollected_deaths": 7.266666666666667,
+      "mean_jobs_completed": 71.03333333333333,
+      "mean_transfers": 50.266666666666666,
+      "n_episodes": 60
+    },
+    {
+      "index": 14,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 68.83333333333333,
+      "mean_unmet_patient_hours": 397.2486111111112,
+      "mean_uncollected_deaths": 7.333333333333333,
+      "mean_jobs_completed": 73.4,
+      "mean_transfers": 52.766666666666666,
+      "n_episodes": 60
+    },
+    {
+      "index": 26,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 69.11666666666666,
+      "mean_unmet_patient_hours": 397.3111111111112,
+      "mean_uncollected_deaths": 7.516666666666667,
+      "mean_jobs_completed": 76.96666666666667,
+      "mean_transfers": 56.56666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 33,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 69.15,
+      "mean_unmet_patient_hours": 406.44444444444446,
+      "mean_uncollected_deaths": 6.833333333333333,
+      "mean_jobs_completed": 75.63333333333334,
+      "mean_transfers": 54.78333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 9,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 69.46666666666667,
+      "mean_unmet_patient_hours": 407.39166666666677,
+      "mean_uncollected_deaths": 6.95,
+      "mean_jobs_completed": 67.76666666666667,
+      "mean_transfers": 46.31666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 21,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 5
+      },
+      "mean_deaths": 69.6,
+      "mean_unmet_patient_hours": 408.2430555555556,
+      "mean_uncollected_deaths": 7.016666666666667,
+      "mean_jobs_completed": 71.18333333333334,
+      "mean_transfers": 50.3,
+      "n_episodes": 60
+    },
+    {
+      "index": 8,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 70.6,
+      "mean_unmet_patient_hours": 401.37500000000006,
+      "mean_uncollected_deaths": 6.983333333333333,
+      "mean_jobs_completed": 67.81666666666666,
+      "mean_transfers": 46.3,
+      "n_episodes": 60
+    },
+    {
+      "index": 20,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 70.96666666666667,
+      "mean_unmet_patient_hours": 401.7194444444445,
+      "mean_uncollected_deaths": 7.133333333333334,
+      "mean_jobs_completed": 70.95,
+      "mean_transfers": 49.93333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 4,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 71.26666666666667,
+      "mean_unmet_patient_hours": 429.55277777777786,
+      "mean_uncollected_deaths": 7.266666666666667,
+      "mean_jobs_completed": 72.4,
+      "mean_transfers": 52.03333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 32,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 10,
+        "surge_queue": 1
+      },
+      "mean_deaths": 71.3,
+      "mean_unmet_patient_hours": 401.4166666666668,
+      "mean_uncollected_deaths": 7.166666666666667,
+      "mean_jobs_completed": 75.5,
+      "mean_transfers": 54.56666666666667,
+      "n_episodes": 60
+    },
+    {
+      "index": 16,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 71.63333333333334,
+      "mean_unmet_patient_hours": 430.9777777777779,
+      "mean_uncollected_deaths": 7.283333333333333,
+      "mean_jobs_completed": 74.51666666666667,
+      "mean_transfers": 54.233333333333334,
+      "n_episodes": 60
+    },
+    {
+      "index": 28,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 71.8,
+      "mean_unmet_patient_hours": 431.45416666666677,
+      "mean_uncollected_deaths": 7.433333333333334,
+      "mean_jobs_completed": 77.6,
+      "mean_transfers": 57.55,
+      "n_episodes": 60
+    },
+    {
+      "index": 5,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 72.45,
+      "mean_unmet_patient_hours": 441.3708333333334,
+      "mean_uncollected_deaths": 7.25,
+      "mean_jobs_completed": 72.36666666666666,
+      "mean_transfers": 51.78333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 17,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 72.93333333333334,
+      "mean_unmet_patient_hours": 444.7902777777778,
+      "mean_uncollected_deaths": 7.2,
+      "mean_jobs_completed": 74.83333333333333,
+      "mean_transfers": 54.2,
+      "n_episodes": 60
+    },
+    {
+      "index": 29,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.1,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 73.21666666666667,
+      "mean_unmet_patient_hours": 445.3138888888889,
+      "mean_uncollected_deaths": 7.383333333333334,
+      "mean_jobs_completed": 78.05,
+      "mean_transfers": 57.78333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 10,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 73.73333333333333,
+      "mean_unmet_patient_hours": 432.6027777777778,
+      "mean_uncollected_deaths": 7.166666666666667,
+      "mean_jobs_completed": 69.18333333333334,
+      "mean_transfers": 48.3,
+      "n_episodes": 60
+    },
+    {
+      "index": 22,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 73.95,
+      "mean_unmet_patient_hours": 433.376388888889,
+      "mean_uncollected_deaths": 7.166666666666667,
+      "mean_jobs_completed": 72.11666666666666,
+      "mean_transfers": 51.55,
+      "n_episodes": 60
+    },
+    {
+      "index": 34,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 1
+      },
+      "mean_deaths": 74.21666666666667,
+      "mean_unmet_patient_hours": 434.9222222222223,
+      "mean_uncollected_deaths": 7.183333333333334,
+      "mean_jobs_completed": 76.25,
+      "mean_transfers": 55.88333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 11,
+      "params": {
+        "transfer_buffer_h": 1.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 74.95,
+      "mean_unmet_patient_hours": 443.94305555555565,
+      "mean_uncollected_deaths": 7.266666666666667,
+      "mean_jobs_completed": 69.2,
+      "mean_transfers": 48.13333333333333,
+      "n_episodes": 60
+    },
+    {
+      "index": 23,
+      "params": {
+        "transfer_buffer_h": 2.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 75.25,
+      "mean_unmet_patient_hours": 446.79166666666674,
+      "mean_uncollected_deaths": 7.25,
+      "mean_jobs_completed": 72.55,
+      "mean_transfers": 51.666666666666664,
+      "n_episodes": 60
+    },
+    {
+      "index": 35,
+      "params": {
+        "transfer_buffer_h": 4.0,
+        "transfer_queue_ratio": 0.25,
+        "divert_queue": 20,
+        "surge_queue": 5
+      },
+      "mean_deaths": 75.25,
+      "mean_unmet_patient_hours": 448.27083333333337,
+      "mean_uncollected_deaths": 7.116666666666666,
+      "mean_jobs_completed": 76.85,
+      "mean_transfers": 56.233333333333334,
+      "n_episodes": 60
+    }
+  ],
+  "code_commit": "7346ea2aba283d4548b8a7b4fa106e8e2dbbbb6e"
+}

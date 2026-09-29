@@ -38,6 +38,7 @@ from udt.twin.graph import dependency_edges_of
 from udt.twin.power import DESHED_THRESHOLD, MAX_SHED_TIER, OVERLOAD_THRESHOLD, post_shed_ratio
 
 URGENT_SLACK_HOURS = 1.0
+FROZEN_CONFIG = Path(__file__).resolve().parents[3] / "configs" / "rbs_v3.yaml"
 REPAIRABLE = (AssetType.HOSPITAL, AssetType.SUBSTATION, AssetType.WATER)
 Actions = dict[str, npt.NDArray[np.int64]]
 
@@ -69,6 +70,12 @@ class RuleBasedStrongV3:
 
     def __init__(self, params: RBSParams | None = None) -> None:
         self.params = params or RBSParams()
+
+    @classmethod
+    def frozen(cls) -> RuleBasedStrongV3:
+        """The tuned, frozen RB-S (`configs/rbs_v3.yaml`, git tag `rbs-v3`). Use this
+        for every gate and comparison; the defaults exist only for tuning and tests."""
+        return cls(RBSParams.load(FROZEN_CONFIG))
 
     # ------------------------------------------------------------------ act
     def act(self, env: UDTMultiAgentEnvV3) -> Actions:

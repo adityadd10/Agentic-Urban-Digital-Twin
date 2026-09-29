@@ -124,3 +124,11 @@ def test_params_round_trip(tmp_path: Path) -> None:
     f.write_text(yaml.safe_dump({"params": p.as_dict()}))
     assert RBSParams.load(f) == p
     assert np.isclose(p.transfer_buffer_h, 4.0)
+
+
+@pytest.mark.phase4
+def test_frozen_rbs_loads_the_tuned_thresholds() -> None:
+    p = RuleBasedStrongV3.frozen().params
+    assert p == RBSParams(
+        transfer_buffer_h=1.0, transfer_queue_ratio=0.1, divert_queue=5, surge_queue=1
+    )
