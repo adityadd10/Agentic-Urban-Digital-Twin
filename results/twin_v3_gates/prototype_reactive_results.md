@@ -28,3 +28,7 @@ Lever value (1 -> 2): +19.6% deaths. Headroom (2 -> 3): -1.5%.
 | flood_v3_train_12 | 109 | 117 | 117 |
 
 Oracle hourly picks [generator, pump] (0 = keep): (0, 0): 234, (0, 1): 3, (1, 2): 1, (2, 0): 1, (1, 0): 1
+
+**Status (2026-10-01): rejected and archived.** The levers cut deaths, but they create no headroom
+over a simple rule, so they will not be added to the twin. The script moved to
+`scripts/archive/prototype_reactive_levers.py`; it is kept so these numbers stay reproducible.
