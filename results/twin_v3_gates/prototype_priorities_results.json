@@ -1,0 +1,24 @@
+{
+  "O2_restore_infrastructure": {
+    "n": 10,
+    "J_rbs": 1.2587071321877745,
+    "J_oracle": 1.2516286713889806,
+    "share": 0.0056235963217994706,
+    "verdict": "no meaningful headroom (< 15%)",
+    "rbs_critF": 0.6763115452783172,
+    "oracle_critF": 0.6763340224021978,
+    "rbs_deaths": 56.5,
+    "oracle_deaths": 55.2
+  },
+  "O3_fast_response": {
+    "n": 10,
+    "J_rbs": 1.2816096599342266,
+    "J_oracle": 1.1654203906151017,
+    "share": 0.09065885889552971,
+    "verdict": "no meaningful headroom (< 15%)",
+    "rbs_critF": 0.6763115452783172,
+    "oracle_critF": 0.6763115452783172,
+    "rbs_deaths": 56.5,
+    "oracle_deaths": 57.7
+  }
+}

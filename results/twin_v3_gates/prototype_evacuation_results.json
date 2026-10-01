@@ -1,0 +1,14 @@
+{
+  "fixed_means": {
+    "E0_never": 73.2,
+    "E1_buffer_lt_2h": 74.0,
+    "E2_depth_ge_0.2": 80.6,
+    "E3_depth_ge_0.4": 70.6,
+    "E4_aggressive": 105.4
+  },
+  "best_fixed": "E3_depth_ge_0.4",
+  "fair": 71.8,
+  "oracle": 67.1,
+  "headroom_share": -0.01699716713881024,
+  "verdict": "no meaningful headroom (< 15%)"
+}
