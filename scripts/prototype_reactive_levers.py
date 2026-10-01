@@ -364,7 +364,8 @@ def report() -> None:
         "",
         "Plan: prototype_reactive_plan.md. 10 moderate/severe train scenarios, seed k = 0.",
         "",
-        f"Prototype with no resources reproduces RB-S exactly: {all(r['proto_reproduces_rbs'] for r in rows)}",
+        "Prototype with no resources reproduces RB-S exactly: "
+        f"{all(r['proto_reproduces_rbs'] for r in rows)}",
         "",
         "| Condition | Mean deaths | Mean unmet p-h |",
         "|---|---|---|",
